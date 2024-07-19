@@ -4,6 +4,7 @@ import router from './routes/testRoute.js';
 import mongoose from 'mongoose';
 import colors from 'colors';
 import dotenv from 'dotenv';
+import usersRouter from './routes/usersRouter.js';
 
 const app = express();
 dotenv.config();
@@ -23,6 +24,7 @@ const startServer = () => {
 
 const loadRoutes = () => {
   app.use('/api', router);
+  app.use('/api/users', usersRouter);
 };
 
 const connectingWithMongoDB = async () => {
