@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import router from './routes/testRoute.js';
 import mongoose from 'mongoose';
 import colors from 'colors';
 import dotenv from 'dotenv';
@@ -23,7 +22,6 @@ const startServer = () => {
 };
 
 const loadRoutes = () => {
-  app.use('/api', router);
   app.use('/api/users', usersRouter);
 };
 
