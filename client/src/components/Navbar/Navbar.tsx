@@ -4,15 +4,14 @@ import { TbEdit } from 'react-icons/tb';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 export const Navbar = () => {
-  const [user, setUser] = useState<boolean>(true);
+  const [user, setUser] = useState<boolean>(false);
   const path = useLocation();
-  console.log(path);
 
   return (
     <div className={styles.main_navbar_box}>
-      <Link className={styles.main_logo_box} to={'/blogs'}>
+      <Link className={styles.main_logo_box} to={'/'}>
         <TbEdit className={styles.pen_icon} />
-        <h3 className={styles.logo}>blog it</h3>
+        <h3 className={styles.logo}>blog_it</h3>
       </Link>
       <div className={styles.main_navbar_link_box}>
         {user ? (
@@ -50,7 +49,20 @@ export const Navbar = () => {
           </div>
         ) : (
           <div className={styles.inactive_user_link_box}>
-            <NavLink className={styles.link_box} to={'signup'}>
+            <NavLink
+              className={`${styles.link_box} ${
+                path.pathname === '/login' && styles.active_link
+              }`}
+              to={'login'}
+            >
+              <h3 className={styles.link_text}>login</h3>
+            </NavLink>
+            <NavLink
+              className={`${styles.link_box} ${
+                path.pathname === '/signup' && styles.active_link
+              }`}
+              to={'signup'}
+            >
               <h3 className={styles.link_text}>signup</h3>
             </NavLink>
           </div>
