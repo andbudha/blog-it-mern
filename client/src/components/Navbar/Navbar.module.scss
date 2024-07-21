@@ -14,6 +14,7 @@
     // border: 1px solid;
     padding: 6px;
     height: 40px;
+    text-decoration: none;
     @include flexBox(nowrap, row, center, center);
     .logo {
       color: $main_font_color;
@@ -36,19 +37,26 @@
         // border: 1px solid;
         height: 30px;
         margin: 0 10px;
+        text-decoration: none;
         box-shadow: $main_font_color 0px 0.4px 0px 0px;
         @include flexBox(nowrap, row, center, center);
         .link_text {
           color: $main_font_color;
         }
         &:hover {
-          box-shadow: $main_font_color 0px 3px 0px 0px;
+          box-shadow: $main_font_color 0px 4px 0px 0px;
 
           transition: 0.4s;
         }
         &:not(:hover) {
           transition: 0.5s;
         }
+      }
+      .active_link {
+        box-shadow: $main_font_color 0px 3px 0px 0px;
+      }
+      .logout_button {
+        cursor: pointer;
       }
     }
   }
