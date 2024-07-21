@@ -1,0 +1,7 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_myblogs_box {
+  height: 100%;
+  @include flexBox(nowrap, row, center, center);
+}

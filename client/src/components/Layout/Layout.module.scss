@@ -5,8 +5,8 @@
   height: 100%;
   .main_outlet_box {
     padding: 50px;
-    border: 1px solid;
-    height: fit-content;
+    // border: 1px solid;
+    height: 92%;
     width: 100%;
     @include flexBox(nowrap, row, center, center);
   }
