@@ -1,0 +1,55 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_navbar_box {
+  // border: 1px solid;
+  height: 100px;
+  width: 100%;
+  padding: 0 40px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 100;
+  letter-spacing: 1.2px;
+  @include flexBox(nowrap, row, space-between, center);
+  .main_logo_box {
+    // border: 1px solid;
+    padding: 6px;
+    height: 40px;
+    @include flexBox(nowrap, row, center, center);
+    .logo {
+      color: $main_font_color;
+    }
+    .pen_icon {
+      height: 26px;
+      width: 26px;
+      color: $main_font_color;
+    }
+  }
+  .main_navbar_link_box {
+    min-width: 150px;
+    @include flexBox(nowrap, row, center, center);
+    .active_user_link_box,
+    .inactive_user_link_box {
+      min-width: 150px;
+      height: 100%;
+      @include flexBox(nowrap, row, center, center);
+      .link_box {
+        // border: 1px solid;
+        height: 30px;
+        margin: 0 10px;
+        box-shadow: $main_font_color 0px 0.4px 0px 0px;
+        @include flexBox(nowrap, row, center, center);
+        .link_text {
+          color: $main_font_color;
+        }
+        &:hover {
+          box-shadow: $main_font_color 0px 3px 0px 0px;
+
+          transition: 0.4s;
+        }
+        &:not(:hover) {
+          transition: 0.5s;
+        }
+      }
+    }
+  }
+}
