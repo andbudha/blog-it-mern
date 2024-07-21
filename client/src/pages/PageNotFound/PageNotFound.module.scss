@@ -1,0 +1,13 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_page_not_found_box {
+  height: 100%;
+  width: 100%;
+  @include flexBox(nowrap, row, center, center);
+  .main_text {
+    color: $main_font_color;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+}
