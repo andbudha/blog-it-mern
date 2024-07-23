@@ -21,13 +21,21 @@
       .input_box {
         height: 70px;
         width: 100%;
-        padding: 6px;
-
+        padding: 4px;
         @include flexBox(nowrap, column, center, start);
+        .error_text_box {
+          padding: 0 4px;
+          .error_text {
+            letter-spacing: 1px;
+            font-weight: 500;
+            color: $input_error_color;
+          }
+        }
         .label {
           letter-spacing: 1px;
           font-weight: 400;
-          padding: 0 6px;
+          padding: 0 4px;
+          color: $secondary_font_color;
         }
         .input {
           border: 1px solid $main_font_color;
