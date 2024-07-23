@@ -12,9 +12,8 @@
   width: 100vw;
   background-color: $app_background;
   .app_box {
-    // border: 1px solid;
     height: 100%;
-    width: 1600px;
+    max-width: 1600px;
     margin: 0 auto;
     background-color: $app_main_box_background;
   }
