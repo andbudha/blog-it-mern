@@ -13,11 +13,24 @@ import { MyFavorites } from './pages/MyFavorites/MyFavorites';
 import { Profile } from './pages/Profile/Profile';
 import { PageNotFound } from './pages/PageNotFound/PageNotFound';
 import { Login } from './pages/Login/Login';
+import { AuthProvider } from './contexts/AuthContext';
+import { DataProvider } from './contexts/DataContext';
+import { PaginationProvider } from './contexts/PaginationContext';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route element={<Layout />}>
+      <Route
+        element={
+          <AuthProvider>
+            <DataProvider>
+              <PaginationProvider>
+                <Layout />
+              </PaginationProvider>
+            </DataProvider>
+          </AuthProvider>
+        }
+      >
         <Route index element={<Blogs />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
