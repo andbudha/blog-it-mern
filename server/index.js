@@ -22,7 +22,7 @@ const startServer = () => {
 };
 
 const loadRoutes = () => {
-  app.use('/api/users', usersRouter);
+  app.use('/blogit/users', usersRouter);
 };
 
 const connectingWithMongoDB = async () => {
