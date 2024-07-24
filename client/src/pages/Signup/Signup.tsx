@@ -3,6 +3,7 @@ import styles from './Signup.module.scss';
 import { ChangeEvent, useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CommonSignupValues } from '../../types/common_types';
+import { MainLoader } from '../../components/Loaders/MainLoader/MainLoader';
 
 export const Signup = () => {
   const [signupEmailInputError, setSignupEmailInputError] =
@@ -18,6 +19,7 @@ export const Signup = () => {
     signupFirstNameValue,
     signupSecondNameValue,
     signupPasswordValue,
+    mainLoaderStatus,
     setSignupEmailValue,
     setSignupFirstNameValue,
     setSignupSecondNameValue,
@@ -132,6 +134,7 @@ export const Signup = () => {
   return (
     <div className={styles.main_signup_box}>
       <div className={styles.signup_box}>
+        {mainLoaderStatus === 'registering' && <MainLoader />}
         <form className={styles.main_form_box}>
           <div className={styles.input_box}>
             {signupEmailInputError && validation.email ? (
@@ -181,7 +184,7 @@ export const Signup = () => {
               value={signupSecondNameValue}
               type="text"
               className={styles.input}
-              placeholder="your second-name"
+              placeholder="your second-name..."
               onChange={catchSignupSecondNameValueHandler}
             />
           </div>
