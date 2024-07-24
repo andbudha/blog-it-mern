@@ -16,6 +16,7 @@ import { Login } from './pages/Login/Login';
 import { AuthProvider } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
 import { PaginationProvider } from './contexts/PaginationContext';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const router = createBrowserRouter(
@@ -43,6 +44,7 @@ function App() {
   );
   return (
     <div className={styles.main_app_box}>
+      <Toaster />
       <div className={styles.app_box}>
         <RouterProvider router={router} />
       </div>
