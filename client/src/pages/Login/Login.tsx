@@ -3,7 +3,7 @@ import styles from './Login.module.scss';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CommonLoginValues } from '../../types/common_types';
 import { MainLoader } from '../../components/Loaders/MainLoader/MainLoader';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 
 export const Login = () => {
   const [loginEmailInputError, setLoginEmailInputError] =
@@ -12,6 +12,7 @@ export const Login = () => {
     useState<boolean>(false);
 
   const {
+    user,
     loginEmailValue,
     loginPasswordValue,
     mainLoaderStatus,
@@ -74,6 +75,10 @@ export const Login = () => {
       setLoginPasswordInputError(false);
     }
   };
+
+  if (user) {
+    return <Navigate to={'/'} />;
+  }
   return (
     <div className={styles.main_login_box}>
       <div className={styles.login_box}>
@@ -89,7 +94,7 @@ export const Login = () => {
             )}
             <input
               value={loginEmailValue}
-              type="text"
+              type="email"
               className={styles.input}
               placeholder="your email..."
               onChange={catchSignupEmailValueHandler}
