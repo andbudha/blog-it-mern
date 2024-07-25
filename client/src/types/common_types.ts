@@ -1,3 +1,10 @@
+export type LoggedinUserResponseType = {
+  userID: string;
+  email: string;
+  firstName: string;
+  secondName: string;
+  profileImage: string;
+};
 export type CommonSignupValues = {
   email: string;
   firstName: string;
@@ -5,6 +12,10 @@ export type CommonSignupValues = {
   password: string;
 };
 
+export type CommonLoginValues = {
+  email: string;
+  password: string;
+};
 export type MainLoaderStatus =
   | 'idle'
   | 'registering'
