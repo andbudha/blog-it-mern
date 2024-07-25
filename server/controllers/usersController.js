@@ -41,6 +41,30 @@ const registerNewUser = async (req, res) => {
   }
 };
 
+const loginUser = async (req, res) => {
+  try {
+    const existingUser = await UserModel.findOne({ email: req.body.email });
+    if (!existingUser) {
+      res.status(401).json({
+        errorMessage:
+          'Either the user does not exist or the entered credentials are invalid!',
+      });
+    } else {
+      res.status(200).json({
+        message: 'You have successfully logged in!',
+        user: {
+          userID: existingUser._id,
+          email: existingUser.email,
+          firstName: existingUser.firstName,
+          secondName: existingUser.secondName,
+          profileImage: '',
+        },
+      });
+    }
+  } catch (error) {
+    res.status(401).json({ errorMessage: 'Server error. User login failed!' });
+  }
+};
 const getAllUsers = async (req, res) => {
   try {
     const allUsers = await UserModel.find({});
@@ -51,4 +75,4 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-export { getAllUsers, registerNewUser };
+export { getAllUsers, registerNewUser, loginUser };
