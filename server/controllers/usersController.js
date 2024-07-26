@@ -1,7 +1,7 @@
 import { UserModel } from '../models/userModel.js';
+import { encryptPassword } from '../utils/passwordServices.js';
 
 const registerNewUser = async (req, res) => {
-  console.log(req.body);
   try {
     const existingEmail = await UserModel.findOne({ email: req.body.email });
 
@@ -25,13 +25,25 @@ const registerNewUser = async (req, res) => {
       });
       return;
     }
-    if (!existingEmail) {
-      const newUser = await UserModel.create(req.body);
-      res.status(200).json({
-        message:
-          'User successfully registered. You may proceed to logging in now!',
-        newUser: { email: newUser.email },
-      });
+    if (!existingEmail && !existingFirstName && !existingSecondName) {
+      try {
+        const encryptedPassword = await encryptPassword(req.body.password);
+        if (encryptPassword) {
+          const newUser = await UserModel.create({
+            ...req.body,
+            profileImage: '',
+            password: encryptedPassword,
+          });
+          res.status(200).json({
+            message:
+              'User successfully registered. You may proceed to logging in now!',
+            newUser: { email: newUser.email, password: newUser.password },
+          });
+        }
+      } catch (error) {
+        console.log('Passowrd encrypting error::::'), error;
+        return;
+      }
     }
   } catch (error) {
     res.status(500).json({
