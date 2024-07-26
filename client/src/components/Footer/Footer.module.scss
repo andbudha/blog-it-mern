@@ -1,0 +1,9 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_footer_box {
+  border: 1px solid;
+  height: 80px;
+  width: 100%;
+  @include flexBox(nowrap, column, center, center);
+}
