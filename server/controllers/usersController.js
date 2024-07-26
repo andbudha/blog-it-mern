@@ -1,5 +1,6 @@
 import { UserModel } from '../models/userModel.js';
-import { encryptPassword } from '../utils/passwordServices.js';
+import { encryptPassword, verifyPassword } from '../utils/passwordServices.js';
+import { generateToken } from '../utils/tokenServices.js';
 
 const registerNewUser = async (req, res) => {
   try {
@@ -61,7 +62,15 @@ const loginUser = async (req, res) => {
         errorMessage:
           'Either the user does not exist or the entered credentials are invalid!',
       });
-    } else {
+    }
+    const token = generateToken(existingUser._id);
+    if (!token) {
+      console.log('Token geretation error"');
+      res.status(401).json({
+        message: 'Token generation failed. Try again later, please!',
+      });
+    }
+    if (token) {
       res.status(200).json({
         message: 'You have successfully logged in!',
         user: {
@@ -71,10 +80,11 @@ const loginUser = async (req, res) => {
           secondName: existingUser.secondName,
           profileImage: '',
         },
+        token,
       });
     }
   } catch (error) {
-    res.status(401).json({ errorMessage: 'Server error. User login failed!' });
+    res.status(404).json({ errorMessage: 'Server error. User login failed!' });
   }
 };
 const getAllUsers = async (req, res) => {

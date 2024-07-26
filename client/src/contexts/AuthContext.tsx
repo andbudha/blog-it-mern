@@ -9,6 +9,7 @@ import { successfulToast } from '../assets/toasts/successfulToast';
 import axios, { AxiosError } from 'axios';
 import { failureToast } from '../assets/toasts/failureToast';
 import { baseUrl } from '../assets/base_url';
+import { removeToken } from '../assets/utils/tokenServices';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
@@ -82,7 +83,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setSignupPasswordValue('');
       }
     } catch (error) {
-      console.log(error);
       if (error instanceof AxiosError)
         failureToast(`${error.response?.data.errorMessage}`);
     } finally {
@@ -94,6 +94,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setMainLoaderStatus('logging-in');
     try {
       const response = await axios.post(`${baseUrl}/users/login`, loginValues);
+      console.log(response.data.token);
+      if (response.data.token) {
+        localStorage.setItem('blog-it-token', response.data.token);
+      }
       if (response) {
         setMainLoaderStatus('idle');
         successfulToast(response.data.message);
@@ -101,10 +105,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoginEmailValue('');
         setLoginPasswordValue('');
       }
-    } catch (error) {
-      console.log(error);
-      if (error instanceof AxiosError)
-        failureToast(`${error.response?.data.errorMessage}`);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.log(error.message);
+        failureToast(
+          `Status 404. The server cannot find the requested resource.`
+        );
+      }
     } finally {
       setMainLoaderStatus('idle');
     }
@@ -112,7 +119,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logUserOut = async () => {
     try {
+      removeToken();
       setUser(null);
+      successfulToast('You have successfully logged out!');
     } catch (error) {}
   };
   return (
