@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
-import UserModel from '../models/userModel.js';
 import 'dotenv/config';
+import { UserModel } from '../models/userModel.js';
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -13,7 +13,6 @@ const passportStrategy = new JwtStrategy(jwtOptions, async function (
   try {
     const user = await UserModel.findOne({ _id: jwt_payload.sub });
     if (user) {
-      console.log('User:::', user);
       return done(null, user);
     }
     if (!user) {

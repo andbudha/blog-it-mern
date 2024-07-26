@@ -87,6 +87,19 @@ const loginUser = async (req, res) => {
     res.status(404).json({ errorMessage: 'Server error. User login failed!' });
   }
 };
+
+const getUserProfile = async (req, res) => {
+  try {
+    if (req.user) {
+      res.status(200).json({
+        message: 'User profile succeccfully received!',
+        user: req.user,
+      });
+    }
+  } catch (error) {
+    res.status(500).json('Getting user profile failed!');
+  }
+};
 const getAllUsers = async (req, res) => {
   try {
     const allUsers = await UserModel.find({});
@@ -97,4 +110,4 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-export { getAllUsers, registerNewUser, loginUser };
+export { getAllUsers, registerNewUser, loginUser, getUserProfile };
