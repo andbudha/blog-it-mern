@@ -1,7 +1,7 @@
 const getToken = () => {
-  return localStorage.getItem('blog-it-token') ? true : false;
+  const token = localStorage.getItem('blog-it-token');
+  return token ? token : null;
 };
-
 const removeToken = () => {
   localStorage.removeItem('blog-it-token');
 };

@@ -9,7 +9,7 @@ import { successfulToast } from '../assets/toasts/successfulToast';
 import axios, { AxiosError } from 'axios';
 import { failureToast } from '../assets/toasts/failureToast';
 import { baseUrl } from '../assets/base_url';
-import { removeToken } from '../assets/utils/tokenServices';
+import { getToken, removeToken } from '../assets/utils/tokenServices';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
@@ -29,6 +29,7 @@ type AuthContextType = {
   registerUser: (signupValues: CommonSignupValues) => Promise<void>;
   logUserIn: (loginValues: CommonLoginValues) => Promise<void>;
   logUserOut: () => void;
+  getUserProfile: () => Promise<void>;
 };
 const initialAuthContextState = {
   user: null,
@@ -48,6 +49,7 @@ const initialAuthContextState = {
   registerUser: () => Promise.resolve(),
   logUserIn: () => Promise.resolve(),
   logUserOut: () => Promise.resolve(),
+  getUserProfile: () => Promise.resolve(),
 } as AuthContextType;
 export const AuthContext = createContext(initialAuthContextState);
 
@@ -94,7 +96,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setMainLoaderStatus('logging-in');
     try {
       const response = await axios.post(`${baseUrl}/users/login`, loginValues);
-      console.log(response.data.token);
       if (response.data.token) {
         localStorage.setItem('blog-it-token', response.data.token);
       }
@@ -114,6 +115,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     } finally {
       setMainLoaderStatus('idle');
+    }
+  };
+
+  const getUserProfile = async () => {
+    const token = getToken();
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${token}`);
+      const requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+      };
+      try {
+        let response = await fetch(`${baseUrl}/users/profile`, requestOptions);
+        const data = await response.json();
+        if (data) {
+          setUser(data.user);
+        }
+        console.log(data.user);
+      } catch (error) {
+        console.log('Get user profile error:::', error);
+      }
     }
   };
 
@@ -144,6 +167,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         registerUser,
         logUserIn,
         logUserOut,
+        getUserProfile,
       }}
     >
       {children}
