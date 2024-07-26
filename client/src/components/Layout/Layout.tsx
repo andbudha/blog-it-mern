@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router';
 import { Navbar } from '../Navbar/Navbar';
 import styles from './Layout.module.scss';
+import { Footer } from '../Footer/Footer';
 export const Layout = () => {
   return (
     <div className={styles.main_layout_box}>
@@ -9,6 +10,7 @@ export const Layout = () => {
         {' '}
         <Outlet />
       </div>
+      <Footer />
     </div>
   );
 };

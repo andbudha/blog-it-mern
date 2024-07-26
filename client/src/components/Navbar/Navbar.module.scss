@@ -2,60 +2,74 @@
 @import '../../assets/sass/variables.scss';
 
 .main_navbar_box {
-  height: 100px;
+  height: 150px;
   width: 100%;
   padding: 0 50px;
   font-family: 'Poppins', sans-serif;
   font-weight: 100;
   letter-spacing: 1.2px;
-  @include flexBox(nowrap, row, space-between, center);
-  .main_logo_box {
-    // border: 1px solid;
-    padding: 6px;
-    height: 40px;
-    text-decoration: none;
-    @include flexBox(nowrap, row, center, center);
-    .logo {
-      color: $main_font_color;
+  @include flexBox(nowrap, column, center, center);
+  .main_navbar_link_box {
+    width: 100%;
+    @include flexBox(nowrap, row, space-between, center);
+    .main_logo_box {
+      padding: 6px;
+      height: 40px;
+      text-decoration: none;
+      @include flexBox(nowrap, row, center, center);
+      .logo {
+        color: $main_font_color;
+      }
+      .pen_icon {
+        height: 26px;
+        width: 26px;
+        color: $main_font_color;
+      }
     }
-    .pen_icon {
-      height: 26px;
-      width: 26px;
-      color: $main_font_color;
+    .navbar_link_box {
+      min-width: 150px;
+      @include flexBox(nowrap, row, center, center);
+      .active_user_link_box,
+      .inactive_user_link_box {
+        min-width: 150px;
+        height: 100%;
+        @include flexBox(nowrap, row, center, center);
+        .link_box {
+          height: 30px;
+          margin: 0 10px;
+          text-decoration: none;
+          box-shadow: $main_font_color 0px 0.4px 0px 0px;
+          @include flexBox(nowrap, row, center, center);
+          .link_text {
+            color: $main_font_color;
+          }
+          &:hover {
+            box-shadow: $main_font_color 0px 4px 0px 0px;
+            transition: 0.4s;
+          }
+          &:not(:hover) {
+            transition: 0.5s;
+          }
+        }
+        .active_link {
+          box-shadow: $main_font_color 0px 3px 0px 0px;
+        }
+        .logout_button {
+          cursor: pointer;
+        }
+      }
     }
   }
-  .main_navbar_link_box {
-    min-width: 150px;
-    @include flexBox(nowrap, row, center, center);
-    .active_user_link_box,
-    .inactive_user_link_box {
-      min-width: 150px;
-      height: 100%;
-      @include flexBox(nowrap, row, center, center);
-      .link_box {
-        // border: 1px solid;
-        height: 30px;
-        margin: 0 10px;
-        text-decoration: none;
-        box-shadow: $main_font_color 0px 0.4px 0px 0px;
-        @include flexBox(nowrap, row, center, center);
-        .link_text {
-          color: $main_font_color;
-        }
-        &:hover {
-          box-shadow: $main_font_color 0px 4px 0px 0px;
-          transition: 0.4s;
-        }
-        &:not(:hover) {
-          transition: 0.5s;
-        }
-      }
-      .active_link {
-        box-shadow: $main_font_color 0px 3px 0px 0px;
-      }
-      .logout_button {
-        cursor: pointer;
-      }
-    }
+  .main_greeting_box {
+    height: 60px;
+    min-width: 100%;
+    font-size: 1rem;
+    letter-spacing: 1.2px;
+    padding-right: 6px;
+    font-weight: 500;
+    font-style: italic;
+    color: $secondary_font_color;
+    opacity: 0.8;
+    @include flexBox(nowrap, row, end, center);
   }
 }
