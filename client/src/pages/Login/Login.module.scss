@@ -2,10 +2,10 @@
 @import '../../assets/sass/variables.scss';
 
 .main_login_box {
+  width: 100%;
   height: 100%;
   @include flexBox(nowrap, row, center, center);
   .login_box {
-    // border: 1px solid;
     position: relative;
     min-height: 260px;
     width: 350px;

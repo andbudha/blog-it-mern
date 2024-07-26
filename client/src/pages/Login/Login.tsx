@@ -18,7 +18,7 @@ export const Login = () => {
     mainLoaderStatus,
     setLoginEmailValue,
     setLoginPasswordValue,
-    logInUser,
+    logUserIn,
   } = useContext(AuthContext);
 
   const loginValues: CommonLoginValues = {
@@ -70,7 +70,7 @@ export const Login = () => {
     } else if (validation.password) {
       setLoginPasswordInputError(true);
     } else if (!validation.email && !validation.password) {
-      logInUser(loginValues);
+      logUserIn(loginValues);
       setLoginEmailInputError(false);
       setLoginPasswordInputError(false);
     }

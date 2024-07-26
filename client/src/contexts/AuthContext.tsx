@@ -26,7 +26,8 @@ type AuthContextType = {
   setLoginEmailValue: (newValue: string) => void;
   setLoginPasswordValue: (newValue: string) => void;
   registerUser: (signupValues: CommonSignupValues) => Promise<void>;
-  logInUser: (loginValues: CommonLoginValues) => Promise<void>;
+  logUserIn: (loginValues: CommonLoginValues) => Promise<void>;
+  logUserOut: () => void;
 };
 const initialAuthContextState = {
   user: null,
@@ -44,7 +45,8 @@ const initialAuthContextState = {
   setLoginEmailValue: (newValue: string) => newValue,
   setLoginPasswordValue: (newValue: string) => newValue,
   registerUser: () => Promise.resolve(),
-  logInUser: () => Promise.resolve(),
+  logUserIn: () => Promise.resolve(),
+  logUserOut: () => Promise.resolve(),
 } as AuthContextType;
 export const AuthContext = createContext(initialAuthContextState);
 
@@ -88,7 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const logInUser = async (loginValues: CommonLoginValues) => {
+  const logUserIn = async (loginValues: CommonLoginValues) => {
     setMainLoaderStatus('logging-in');
     try {
       const response = await axios.post(`${baseUrl}/users/login`, loginValues);
@@ -106,6 +108,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } finally {
       setMainLoaderStatus('idle');
     }
+  };
+
+  const logUserOut = async () => {
+    try {
+      setUser(null);
+    } catch (error) {}
   };
   return (
     <AuthContext.Provider
@@ -125,7 +133,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoginEmailValue,
         setLoginPasswordValue,
         registerUser,
-        logInUser,
+        logUserIn,
+        logUserOut,
       }}
     >
       {children}
