@@ -1,13 +1,12 @@
 @import '../src/assets/sass/mixinns.scss';
 @import '../src/assets/sass/variables.scss';
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  letter-spacing: 1px;
 }
-
 .main_app_box {
   height: 100vh;
   width: 100vw;
