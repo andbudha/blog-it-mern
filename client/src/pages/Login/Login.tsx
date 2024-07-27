@@ -2,7 +2,7 @@ import { ChangeEvent, useContext, useState } from 'react';
 import styles from './Login.module.scss';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CommonLoginValues } from '../../types/common_types';
-import { MainLoader } from '../../components/Loaders/MainLoader/MainLoader';
+import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { Navigate, NavLink } from 'react-router-dom';
 
 export const Login = () => {
@@ -15,7 +15,7 @@ export const Login = () => {
     user,
     loginEmailValue,
     loginPasswordValue,
-    mainLoaderStatus,
+    authLoaderStatus,
     setLoginEmailValue,
     setLoginPasswordValue,
     logUserIn,
@@ -82,7 +82,7 @@ export const Login = () => {
   return (
     <div className={styles.main_login_box}>
       <div className={styles.login_box}>
-        {mainLoaderStatus === 'logging-in' && <MainLoader />}
+        {authLoaderStatus === 'logging-in' && <AuthLoader />}
         <form className={styles.main_form_box}>
           <div className={styles.input_box}>
             {loginEmailInputError && validation.email ? (

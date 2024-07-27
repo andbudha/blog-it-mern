@@ -19,7 +19,7 @@ type AuthContextType = {
   signupPasswordValue: string;
   loginEmailValue: string;
   loginPasswordValue: string;
-  mainLoaderStatus: string;
+  authLoaderStatus: string;
   setSignupEmailValue: (newValue: string) => void;
   setSignupFirstNameValue: (newValue: string) => void;
   setSignupSecondNameValue: (newValue: string) => void;
@@ -39,7 +39,7 @@ const initialAuthContextState = {
   signupPasswordValue: '',
   loginEmailValue: '',
   loginPasswordValue: '',
-  mainLoaderStatus: 'idle',
+  authLoaderStatus: 'idle',
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
   setSignupSecondNameValue: (newValue: string) => newValue,
@@ -57,7 +57,7 @@ type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<null | LoggedinUserResponseType>(null);
-  const [mainLoaderStatus, setMainLoaderStatus] =
+  const [authLoaderStatus, setAuthLoaderStatus] =
     useState<MainLoaderStatus>('idle');
   const [signupEmailValue, setSignupEmailValue] = useState<string>('');
   const [signupFirstNameValue, setSignupFirstNameValue] = useState<string>('');
@@ -70,14 +70,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   console.log(user);
 
   const registerUser = async (signupValues: CommonSignupValues) => {
-    setMainLoaderStatus('registering');
+    setAuthLoaderStatus('registering');
     try {
       const response = await axios.post(
         `${baseUrl}/users/register`,
         signupValues
       );
       if (response) {
-        setMainLoaderStatus('idle');
+        setAuthLoaderStatus('idle');
         successfulToast(response.data.message);
         setSignupEmailValue('');
         setSignupFirstNameValue('');
@@ -88,19 +88,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (error instanceof AxiosError)
         failureToast(`${error.response?.data.errorMessage}`);
     } finally {
-      setMainLoaderStatus('idle');
+      setAuthLoaderStatus('idle');
     }
   };
 
   const logUserIn = async (loginValues: CommonLoginValues) => {
-    setMainLoaderStatus('logging-in');
+    setAuthLoaderStatus('logging-in');
     try {
       const response = await axios.post(`${baseUrl}/users/login`, loginValues);
       if (response.data.token) {
         localStorage.setItem('blog-it-token', response.data.token);
       }
       if (response) {
-        setMainLoaderStatus('idle');
+        setAuthLoaderStatus('idle');
         successfulToast(response.data.message);
         setUser(response.data.user);
         setLoginEmailValue('');
@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         );
       }
     } finally {
-      setMainLoaderStatus('idle');
+      setAuthLoaderStatus('idle');
     }
   };
 
@@ -157,7 +157,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         signupPasswordValue,
         loginEmailValue,
         loginPasswordValue,
-        mainLoaderStatus,
+        authLoaderStatus,
         setSignupEmailValue,
         setSignupFirstNameValue,
         setSignupSecondNameValue,
