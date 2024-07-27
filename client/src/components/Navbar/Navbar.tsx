@@ -3,9 +3,12 @@ import styles from './Navbar.module.scss';
 import { TbEdit } from 'react-icons/tb';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
+import { SecondaryLoader } from '../Loaders/SecondaryLoader/SecondaryLoader';
+import { DataContext } from '../../contexts/DataContext';
 
 export const Navbar = () => {
   const { user, logUserOut } = useContext(AuthContext);
+  const { dataLoaderStatus } = useContext(DataContext);
   const path = useLocation();
   const time = new Date().getHours();
   const greeting = () => {
@@ -88,6 +91,11 @@ export const Navbar = () => {
         </div>
       </div>
       <div className={styles.main_greeting_box}>{user && greeting()}</div>
+      {dataLoaderStatus ? (
+        <SecondaryLoader />
+      ) : (
+        <div className={styles.secondary_loader_placeholder}></div>
+      )}
     </div>
   );
 };
