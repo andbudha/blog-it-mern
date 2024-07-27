@@ -2,7 +2,9 @@ export type LoggedinUserResponseType = {
   userID: string;
   email: string;
   firstName: string;
-  secondName: string;
+  lastName: string;
+  age: string;
+  maritalStatus: string;
   profileImage: string;
 };
 export type CommonSignupValues = {
