@@ -3,7 +3,7 @@ import styles from './Navbar.module.scss';
 import { TbEdit } from 'react-icons/tb';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
-import { SecondaryLoader } from '../Loaders/SecondaryLoader/SecondaryLoader';
+import { DataLoader } from '../Loaders/DataLoader/DataLoader';
 import { DataContext } from '../../contexts/DataContext';
 
 export const Navbar = () => {
@@ -92,7 +92,7 @@ export const Navbar = () => {
       </div>
       <div className={styles.main_greeting_box}>{user && greeting()}</div>
       {dataLoaderStatus ? (
-        <SecondaryLoader />
+        <DataLoader />
       ) : (
         <div className={styles.secondary_loader_placeholder}></div>
       )}
