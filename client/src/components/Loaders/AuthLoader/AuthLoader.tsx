@@ -1,6 +1,6 @@
-import styles from './MainLoader.module.scss';
+import styles from './AuthLoader.module.scss';
 
-export const MainLoader = () => {
+export const AuthLoader = () => {
   return (
     <div className={styles.main_loader_box}>
       <div className={styles.loader}></div>
