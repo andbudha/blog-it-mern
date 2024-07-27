@@ -67,8 +67,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loginEmailValue, setLoginEmailValue] = useState<string>('');
   const [loginPasswordValue, setLoginPasswordValue] = useState<string>('');
 
-  console.log(user);
-
   const registerUser = async (signupValues: CommonSignupValues) => {
     setAuthLoaderStatus('registering');
     try {
@@ -133,7 +131,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (data) {
           setUser(data.user);
         }
-        console.log(data.user);
       } catch (error) {
         console.log('Get user profile error:::', error);
       }
