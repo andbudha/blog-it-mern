@@ -7,65 +7,100 @@
   color: $main_font_color;
   @include flexBox(nowrap, column, center, center);
   .profile_box {
-    // border: 1px solid;
-    min-height: 340px;
-    min-width: 340px;
+    min-height: 420px;
+    max-width: 800px;
     @include flexBox(wrap, row, space-around, center);
-    .profile_image_box {
-      // border: 1px solid;
-      height: 320px;
-      width: 320px;
-      margin: 10px;
-      border-radius: 50%;
-      box-shadow: $main_font_color 0px 1px 8px;
-      @include flexBox(nowrap, row, center, center);
-      .user_icon {
-        height: 200px;
-        width: 200px;
+    .main_profile_image_box {
+      height: 400px;
+      width: 360px;
+      @include flexBox(nowrap, column, space-between, center);
+      .profile_image_box {
+        height: 300px;
+        width: 300px;
+        margin: 10px;
+        border-radius: 50%;
+        box-shadow: $main_font_color 0px 1px 8px;
+        @include flexBox(nowrap, row, center, center);
+        .profile_image,
+        .user_icon {
+          height: 200px;
+          width: 200px;
+        }
       }
-    }
-    .profile_details_box {
-      // border: 1px solid;
-      height: 320px;
-      min-width: 320px;
-      margin: 10px;
-      padding-left: 20px;
-      letter-spacing: 1px;
-      @include flexBox(nowrap, column, space-evenly, start);
-      .detail_header {
-        font-weight: 600;
-        .detail_span {
-          margin-left: 6px;
-          font-weight: 500;
-          color: $secondary_font_color;
+      .upload_image_input_box {
+        height: 50px;
+        max-width: 100%;
+        margin: 10px;
+        color: $secondary_font_color;
+        @include flexBox(nowrap, row, center, center);
+        .profile_image_button {
+          border-radius: 4px;
+          height: 36px;
+          width: 200px;
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: 1.2px;
+          color: $app_background;
+          background-color: $main_font_color;
+          cursor: pointer;
+          @include flexBox(nowrap, row, center, center);
+          &:hover {
+            transition: 0.4s;
+            background-color: $button_background_hover_color;
+          }
+          &:not(:hover) {
+            transition: 0.5s;
+          }
+        }
+        .profile_image_input {
+          display: none;
         }
       }
     }
-  }
-  .edit_profile_button_box {
-    // border: 1px solid;
-    height: 50px;
-    width: 200px;
-    margin: 30px;
-    @include flexBox(nowrap, row, center, center);
-    .edit_profile_button {
-      // border: 1px solid;
-      border-radius: 4px;
-      height: 40px;
-      width: 100%;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      color: $app_background;
-      background-color: $main_font_color;
-      cursor: pointer;
-      @include flexBox(nowrap, row, center, center);
-      &:hover {
-        transition: 0.4s;
-        background-color: $button_background_hover_color;
+    .main_profile_details_box {
+      height: 400px;
+      width: 360px;
+      @include flexBox(nowrap, column, space-between, center);
+      .profile_details_box {
+        min-height: 300px;
+        width: 340px;
+        margin: 10px;
+        padding-left: 20px;
+        letter-spacing: 1px;
+        @include flexBox(nowrap, column, space-evenly, start);
+        .detail_header {
+          font-weight: 600;
+          .detail_span {
+            margin-left: 6px;
+            font-weight: 500;
+            color: $secondary_font_color;
+          }
+        }
       }
-      &:not(:hover) {
-        transition: 0.5s;
+      .edit_profile_button_box {
+        height: 50px;
+        max-width: 100%;
+        margin: 10px;
+        @include flexBox(nowrap, row, center, center);
+        .edit_profile_button {
+          border-radius: 4px;
+          height: 36px;
+          width: 200px;
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: 1.2px;
+          color: $app_background;
+          background-color: $main_font_color;
+          cursor: pointer;
+          @include flexBox(nowrap, row, center, center);
+          &:hover {
+            transition: 0.4s;
+            background-color: $button_background_hover_color;
+          }
+          &:not(:hover) {
+            transition: 0.5s;
+          }
+        }
       }
     }
   }
