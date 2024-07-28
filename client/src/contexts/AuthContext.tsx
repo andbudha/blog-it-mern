@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import {
   CommonLoginValues,
   CommonSignupValues,
@@ -10,6 +10,7 @@ import axios, { AxiosError } from 'axios';
 import { failureToast } from '../assets/toasts/failureToast';
 import { baseUrl } from '../assets/base_url';
 import { getToken, removeToken } from '../assets/utils/tokenServices';
+import { DataContext } from './DataContext';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
@@ -56,6 +57,7 @@ export const AuthContext = createContext(initialAuthContextState);
 type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const { setDataLoaderStatus } = useContext(DataContext);
   const [user, setUser] = useState<null | LoggedinUserResponseType>(null);
   const [authLoaderStatus, setAuthLoaderStatus] =
     useState<MainLoaderStatus>('idle');
@@ -117,6 +119,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const getUserProfile = async () => {
+    setDataLoaderStatus(true);
     const token = getToken();
     if (token) {
       const myHeaders = new Headers();
@@ -129,10 +132,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         let response = await fetch(`${baseUrl}/users/profile`, requestOptions);
         const data = await response.json();
         if (data) {
+          setDataLoaderStatus(false);
           setUser(data.user);
         }
       } catch (error) {
         console.log('Get user profile error:::', error);
+      } finally {
+        setDataLoaderStatus(false);
       }
     }
   };
