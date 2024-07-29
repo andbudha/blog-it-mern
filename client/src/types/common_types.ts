@@ -10,7 +10,7 @@ export type LoggedinUserResponseType = {
 export type CommonSignupValues = {
   email: string;
   firstName: string;
-  secondName: string;
+  lastName: string;
   password: string;
 };
 
