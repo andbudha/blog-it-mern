@@ -18,6 +18,13 @@ export type CommonLoginValues = {
   email: string;
   password: string;
 };
+export type CommonEditProfileFormValues = {
+  firstName: string;
+  lastName: string;
+  age: string;
+  maritalStatus?: string;
+};
+
 export type MainLoaderStatus =
   | 'idle'
   | 'registering'
