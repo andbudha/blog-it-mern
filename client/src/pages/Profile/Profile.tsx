@@ -8,13 +8,25 @@ import { DataContext } from '../../contexts/DataContext';
 
 export const Profile = () => {
   const { user } = useContext(AuthContext);
-  const { activeEditForm, setActiveEditForm } = useContext(DataContext);
+  const {
+    activeEditForm,
+    maritalStatusValue,
+    setActiveEditForm,
+    setFirstNameEditProfileFormValue,
+    setLastNameEditProfileFormValue,
+    setAgeEditProfileFormValue,
+    setMaritalStatusValue,
+  } = useContext(DataContext);
+  console.log(maritalStatusValue);
 
   const selectedProfileImage = useRef<File | null>(null);
-  console.log(selectedProfileImage);
 
   const activateEditProfileFormHandler = () => {
     setActiveEditForm(true);
+    setFirstNameEditProfileFormValue(user!.firstName);
+    setLastNameEditProfileFormValue(user!.lastName);
+    setAgeEditProfileFormValue(user!.age ? user!.age : 'confidential');
+    setMaritalStatusValue('Marital-status');
   };
 
   const changeProfileImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
