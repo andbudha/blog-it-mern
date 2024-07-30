@@ -1,58 +1,201 @@
-import { useContext, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import styles from './ProfileEditForm.module.scss';
 import { DataContext } from '../../../contexts/DataContext';
-import { TbChevronDown } from 'react-icons/tb';
+import { TbChevronDown, TbChevronUp } from 'react-icons/tb';
+import { CommonEditProfileFormValues } from '../../../types/common_types';
 
 export const ProfileEditForm = () => {
-  const { setActiveEditForm } = useContext(DataContext);
-  const [customSelectStatus, setCustomSelecttatus] = useState<boolean>(false);
+  const [firstNameInputError, setFirstNameInputError] =
+    useState<boolean>(false);
+  const [lastNameInputError, setLastNameInputError] = useState<boolean>(false);
+  const [ageInputError, setAgeInputError] = useState<boolean>(false);
+
+  const {
+    customSelectStatus,
+    editProfileFormMaritalStatusValue,
+    firstNameEditProfileFormValue,
+    lastNameEditProfileFormValue,
+    ageEditProfileFormValue,
+    setActiveEditForm,
+    setCustomSelectStatus,
+    setEditProfileFormMaritalStatusValue,
+    setFirstNameEditProfileFormValue,
+    setLastNameEditProfileFormValue,
+    setAgeEditProfileFormValue,
+  } = useContext(DataContext);
+
+  const editProdileFormValues: CommonEditProfileFormValues = {
+    firstName: firstNameEditProfileFormValue,
+    lastName: lastNameEditProfileFormValue,
+    age: ageEditProfileFormValue,
+    maritalStatus: editProfileFormMaritalStatusValue,
+  };
+
+  // console.log(isNaN(Number(ageEditProfileFormValue)));
+  // console.log(ageInputError);
+
+  const validate = (values: CommonEditProfileFormValues) => {
+    const errors: CommonEditProfileFormValues = {
+      firstName: '',
+      lastName: '',
+      age: '',
+    };
+
+    if (!values.firstName) {
+      errors.firstName = 'First-name is required!';
+    }
+    if (!values.lastName) {
+      errors.lastName = 'Last-name is required!';
+    }
+    if (!values.age) {
+      errors.age = 'Age is required!';
+      // } else if (isNaN(Number(values.age))) {
+      //   errors.age = 'Must be a number!';
+      // } else if (Number(values.age) < 18) {
+      //   errors.age = 'Must be a number, 18+!';
+    }
+    return errors;
+  };
+
+  const validation = validate(editProdileFormValues);
+  const toggleCustomSelectHandler = () => {
+    setCustomSelectStatus(!customSelectStatus);
+  };
+
+  const changeMaritalStatusHandler = (newMaritalStatus: string) => {
+    setEditProfileFormMaritalStatusValue(newMaritalStatus);
+    setCustomSelectStatus(false);
+  };
+
+  const editProfileFirstNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.currentTarget.value);
+
+    setFirstNameEditProfileFormValue(e.currentTarget.value);
+    if (validation.firstName.length === 0) {
+      setFirstNameInputError(true);
+    }
+  };
+  const editProfileLastNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setLastNameEditProfileFormValue(e.currentTarget.value);
+    if (validation.lastName.length === 0) {
+      setLastNameInputError(true);
+    }
+  };
+  const editProfileAgeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setAgeEditProfileFormValue(e.currentTarget.value);
+    if (validation.age.length === 0) {
+      setAgeInputError(true);
+    }
+  };
+
+  const saveProfileChangesHandler = () => {
+    if (!validation.firstName && !validation.lastName && !validation.age) {
+      setFirstNameInputError(false);
+      setLastNameInputError(false);
+      setAgeInputError(false);
+      console.log(editProdileFormValues);
+    }
+  };
 
   const discardChangesHandler = () => {
     setActiveEditForm(false);
   };
+
   return (
     <div className={styles.main_profile_edit_form_box}>
       <div className={styles.edit_form_box}>
         <div className={styles.edit_profile_input_box}>
-          <label className={styles.label}>First-name</label>
+          {firstNameInputError && validation.firstName ? (
+            <div className={styles.error_text_box}>
+              <span className={styles.error_text}>{validation.firstName}</span>
+            </div>
+          ) : (
+            <label className={styles.label}>First-name</label>
+          )}
           <input
+            value={firstNameEditProfileFormValue}
+            onChange={editProfileFirstNameHandler}
             type="text"
             placeholder="your first-name..."
             className={styles.edit_profile_input}
           />
         </div>
         <div className={styles.edit_profile_input_box}>
-          <label className={styles.label}>Last-name</label>
+          {lastNameInputError && validation.lastName ? (
+            <div className={styles.error_text_box}>
+              <span className={styles.error_text}>{validation.lastName}</span>
+            </div>
+          ) : (
+            <label className={styles.label}>Last-name</label>
+          )}
           <input
+            value={lastNameEditProfileFormValue}
+            onChange={editProfileLastNameHandler}
             type="text"
             placeholder="your last-tname..."
             className={styles.edit_profile_input}
           />
         </div>
         <div className={styles.edit_profile_input_box}>
-          <label className={styles.label}>Age</label>
+          {ageInputError && validation.age ? (
+            <div className={styles.error_text_box}>
+              <span className={styles.error_text}>{validation.age}</span>
+            </div>
+          ) : (
+            <label className={styles.label}>Age</label>
+          )}
           <input
+            value={ageEditProfileFormValue}
+            onChange={editProfileAgeNameHandler}
             type="text"
             placeholder="your age..."
             className={styles.edit_profile_input}
           />
         </div>
-        <div className={styles.edit_profile_custom_select}>
-          <div className={styles.default_select_value_box}>
+        <div
+          className={`${styles.edit_profile_custom_select} ${
+            customSelectStatus && styles.active_edit_profile_custom_select
+          }`}
+        >
+          <div
+            className={styles.default_select_value_box}
+            onClick={toggleCustomSelectHandler}
+          >
             {' '}
-            Martital-status{' '}
-            <TbChevronDown className={styles.chevron_down_icon} />
+            {editProfileFormMaritalStatusValue}
+            {customSelectStatus ? (
+              <TbChevronUp className={styles.chevron_icon} />
+            ) : (
+              <TbChevronDown className={styles.chevron_icon} />
+            )}
           </div>
-          <div className={styles.select_option_box}>
-            {' '}
-            <div className={styles.select_option}>Single</div>
-            <div className={styles.select_option}>Married</div>
-          </div>
+          {customSelectStatus && (
+            <div className={styles.select_option_box}>
+              {' '}
+              <div
+                className={styles.select_option}
+                onClick={() => changeMaritalStatusHandler('single')}
+              >
+                single
+              </div>
+              <div
+                className={styles.select_option}
+                onClick={() => changeMaritalStatusHandler('married')}
+              >
+                married
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.edit_form_button_box}>
         {' '}
-        <div className={styles.save_changes_button}>save</div>
+        <div
+          className={styles.save_changes_button}
+          onClick={saveProfileChangesHandler}
+        >
+          save
+        </div>
         <div
           className={styles.discard_changes_button}
           onClick={discardChangesHandler}
