@@ -10,14 +10,12 @@ export const Profile = () => {
   const { user } = useContext(AuthContext);
   const {
     activeEditForm,
-    maritalStatusValue,
     setActiveEditForm,
     setFirstNameEditProfileFormValue,
     setLastNameEditProfileFormValue,
     setAgeEditProfileFormValue,
-    setMaritalStatusValue,
+    setEditProfileFormMaritalStatusValue,
   } = useContext(DataContext);
-  console.log(maritalStatusValue);
 
   const selectedProfileImage = useRef<File | null>(null);
 
@@ -26,7 +24,7 @@ export const Profile = () => {
     setFirstNameEditProfileFormValue(user!.firstName);
     setLastNameEditProfileFormValue(user!.lastName);
     setAgeEditProfileFormValue(user!.age ? user!.age : 'confidential');
-    setMaritalStatusValue('Marital-status');
+    setEditProfileFormMaritalStatusValue('Marital-status');
   };
 
   const changeProfileImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
