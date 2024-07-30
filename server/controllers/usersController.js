@@ -110,4 +110,40 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-export { getAllUsers, registerNewUser, loginUser, getUserProfile };
+const updateProfileDetails = async (req, res) => {
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      {
+        _id: req.body._id,
+      },
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        age: req.body.age,
+        maritalStatus: req.body.maritalStatus,
+      },
+      { new: true }
+    );
+    res.status(200).json({
+      message: 'Profile successfully updated!',
+      updatedUser: {
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        age: updatedUser.age,
+        maritalStatus: updatedUser.maritalStatus,
+      },
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ errorMessage: 'Server error. Updating profile failed!' });
+  }
+};
+
+export {
+  getAllUsers,
+  registerNewUser,
+  loginUser,
+  getUserProfile,
+  updateProfileDetails,
+};
