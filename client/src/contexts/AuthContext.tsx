@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import {
+  CommonEditProfileFormValues,
   CommonLoginValues,
   CommonSignupValues,
   LoggedinUserResponseType,
@@ -21,6 +22,10 @@ type AuthContextType = {
   loginEmailValue: string;
   loginPasswordValue: string;
   authLoaderStatus: string;
+  activeEditForm: boolean;
+  firstNameEditProfileFormValue: string;
+  lastNameEditProfileFormValue: string;
+  ageEditProfileFormValue: string;
   setSignupEmailValue: (newValue: string) => void;
   setSignupFirstNameValue: (newValue: string) => void;
   setSignupSecondNameValue: (newValue: string) => void;
@@ -31,6 +36,13 @@ type AuthContextType = {
   logUserIn: (loginValues: CommonLoginValues) => Promise<void>;
   logUserOut: () => void;
   getUserProfile: () => Promise<void>;
+  updateProfileDetails: (
+    newProfileDetails: CommonEditProfileFormValues
+  ) => Promise<void>;
+  setActiveEditForm: (newStatus: boolean) => void;
+  setFirstNameEditProfileFormValue: (newValue: string) => void;
+  setLastNameEditProfileFormValue: (newValue: string) => void;
+  setAgeEditProfileFormValue: (newValue: string) => void;
 };
 const initialAuthContextState = {
   user: null,
@@ -41,6 +53,10 @@ const initialAuthContextState = {
   loginEmailValue: '',
   loginPasswordValue: '',
   authLoaderStatus: 'idle',
+  activeEditForm: false,
+  firstNameEditProfileFormValue: '',
+  lastNameEditProfileFormValue: '',
+  ageEditProfileFormValue: '',
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
   setSignupSecondNameValue: (newValue: string) => newValue,
@@ -51,6 +67,11 @@ const initialAuthContextState = {
   logUserIn: () => Promise.resolve(),
   logUserOut: () => Promise.resolve(),
   getUserProfile: () => Promise.resolve(),
+  updateProfileDetails: () => Promise.resolve(),
+  setActiveEditForm: (newStatus: boolean) => newStatus,
+  setFirstNameEditProfileFormValue: (newValue: string) => newValue,
+  setLastNameEditProfileFormValue: (newValue: string) => newValue,
+  setAgeEditProfileFormValue: (newValue: string) => newValue,
 } as AuthContextType;
 export const AuthContext = createContext(initialAuthContextState);
 
@@ -68,6 +89,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [signupPasswordValue, setSignupPasswordValue] = useState<string>('');
   const [loginEmailValue, setLoginEmailValue] = useState<string>('');
   const [loginPasswordValue, setLoginPasswordValue] = useState<string>('');
+  const [activeEditForm, setActiveEditForm] = useState<boolean>(false);
+  const [firstNameEditProfileFormValue, setFirstNameEditProfileFormValue] =
+    useState<string>('');
+  const [lastNameEditProfileFormValue, setLastNameEditProfileFormValue] =
+    useState<string>('');
+  const [ageEditProfileFormValue, setAgeEditProfileFormValue] =
+    useState<string>('');
 
   const registerUser = async (signupValues: CommonSignupValues) => {
     setAuthLoaderStatus('registering');
@@ -150,10 +178,31 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       successfulToast('You have successfully logged out!');
     } catch (error) {}
   };
+
+  const updateProfileDetails = async (
+    newProfileDetails: CommonEditProfileFormValues
+  ) => {
+    console.log(newProfileDetails);
+    setDataLoaderStatus(true);
+    try {
+      const response = await axios.post(
+        `${baseUrl}/users/updatedetails`,
+        newProfileDetails
+      );
+      if (response) {
+        setDataLoaderStatus(false);
+        console.log(response.data.updatedUser);
+      }
+    } catch (error) {
+    } finally {
+      setDataLoaderStatus(false);
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
         user,
+        activeEditForm,
         signupEmailValue,
         signupFirstNameValue,
         signupSecondNameValue,
@@ -161,6 +210,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         loginEmailValue,
         loginPasswordValue,
         authLoaderStatus,
+        firstNameEditProfileFormValue,
+        lastNameEditProfileFormValue,
+        ageEditProfileFormValue,
+        setActiveEditForm,
         setSignupEmailValue,
         setSignupFirstNameValue,
         setSignupSecondNameValue,
@@ -171,6 +224,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         logUserIn,
         logUserOut,
         getUserProfile,
+        updateProfileDetails,
+        setFirstNameEditProfileFormValue,
+        setLastNameEditProfileFormValue,
+        setAgeEditProfileFormValue,
       }}
     >
       {children}

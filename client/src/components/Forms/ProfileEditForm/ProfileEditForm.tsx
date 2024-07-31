@@ -3,6 +3,7 @@ import styles from './ProfileEditForm.module.scss';
 import { DataContext } from '../../../contexts/DataContext';
 import { TbChevronDown, TbChevronUp } from 'react-icons/tb';
 import { CommonEditProfileFormValues } from '../../../types/common_types';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 export const ProfileEditForm = () => {
   const [firstNameInputError, setFirstNameInputError] =
@@ -13,16 +14,20 @@ export const ProfileEditForm = () => {
   const {
     customSelectStatus,
     editProfileFormMaritalStatusValue,
+    setCustomSelectStatus,
+    setEditProfileFormMaritalStatusValue,
+  } = useContext(DataContext);
+  const {
+    user,
     firstNameEditProfileFormValue,
     lastNameEditProfileFormValue,
     ageEditProfileFormValue,
+    updateProfileDetails,
     setActiveEditForm,
-    setCustomSelectStatus,
-    setEditProfileFormMaritalStatusValue,
     setFirstNameEditProfileFormValue,
     setLastNameEditProfileFormValue,
     setAgeEditProfileFormValue,
-  } = useContext(DataContext);
+  } = useContext(AuthContext);
 
   const editProdileFormValues: CommonEditProfileFormValues = {
     firstName: firstNameEditProfileFormValue,
@@ -89,11 +94,15 @@ export const ProfileEditForm = () => {
   };
 
   const saveProfileChangesHandler = () => {
+    const profileUpdates = {
+      userID: user?._id,
+      ...editProdileFormValues,
+    };
     if (!validation.firstName && !validation.lastName && !validation.age) {
       setFirstNameInputError(false);
       setLastNameInputError(false);
       setAgeInputError(false);
-      console.log(editProdileFormValues);
+      updateProfileDetails(profileUpdates);
     }
   };
 

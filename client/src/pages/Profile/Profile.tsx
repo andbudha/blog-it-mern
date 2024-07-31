@@ -7,15 +7,15 @@ import { ProfileEditForm } from '../../components/Forms/ProfileEditForm/ProfileE
 import { DataContext } from '../../contexts/DataContext';
 
 export const Profile = () => {
-  const { user } = useContext(AuthContext);
   const {
+    user,
     activeEditForm,
     setActiveEditForm,
     setFirstNameEditProfileFormValue,
     setLastNameEditProfileFormValue,
     setAgeEditProfileFormValue,
-    setEditProfileFormMaritalStatusValue,
-  } = useContext(DataContext);
+  } = useContext(AuthContext);
+  const { setEditProfileFormMaritalStatusValue } = useContext(DataContext);
 
   const selectedProfileImage = useRef<File | null>(null);
 
