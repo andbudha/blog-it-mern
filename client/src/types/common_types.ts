@@ -1,5 +1,5 @@
 export type LoggedinUserResponseType = {
-  userID: string;
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;

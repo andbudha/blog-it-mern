@@ -114,7 +114,7 @@ const updateProfileDetails = async (req, res) => {
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(
       {
-        _id: req.body._id,
+        _id: req.body.userID,
       },
       {
         firstName: req.body.firstName,
@@ -126,12 +126,7 @@ const updateProfileDetails = async (req, res) => {
     );
     res.status(200).json({
       message: 'Profile successfully updated!',
-      updatedUser: {
-        firstName: updatedUser.firstName,
-        lastName: updatedUser.lastName,
-        age: updatedUser.age,
-        maritalStatus: updatedUser.maritalStatus,
-      },
+      updatedUser,
     });
   } catch (error) {
     res
