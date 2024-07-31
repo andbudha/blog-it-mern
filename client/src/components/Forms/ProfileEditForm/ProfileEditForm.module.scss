@@ -32,7 +32,6 @@
       }
       .edit_profile_input {
         border: 1px solid $main_font_color;
-        border-radius: 4px;
         height: 36px;
         width: 300px;
         outline: none;
@@ -61,9 +60,16 @@
       color: $secondary_font_color;
       cursor: pointer;
       @include flexBox(nowrap, column, start, center);
+      .edit_profile_custom_select_label_box {
+        width: 100%;
+        padding: 0 6px;
+        letter-spacing: 1px;
+        font-weight: 400;
+        padding: 0 6px;
+        color: $secondary_font_color;
+      }
       .default_select_value_box {
         border: 1px solid $main_font_color;
-        border-radius: 4px;
         padding: 0 6px;
         height: 36px;
         width: 100%;
@@ -111,7 +117,6 @@
     margin: 10px;
     @include flexBox(nowrap, row, space-evenly, center);
     .save_changes_button {
-      border-radius: 4px;
       height: 36px;
       width: 140px;
       font-size: 1rem;
@@ -131,7 +136,6 @@
     }
     .discard_changes_button {
       border: 1px solid $main_font_color;
-      border-radius: 4px;
       height: 36px;
       width: 140px;
       font-size: 1rem;

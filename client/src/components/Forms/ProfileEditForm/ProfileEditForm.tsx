@@ -11,23 +11,21 @@ export const ProfileEditForm = () => {
   const [lastNameInputError, setLastNameInputError] = useState<boolean>(false);
   const [ageInputError, setAgeInputError] = useState<boolean>(false);
 
-  const {
-    customSelectStatus,
-    editProfileFormMaritalStatusValue,
-    setCustomSelectStatus,
-    setEditProfileFormMaritalStatusValue,
-  } = useContext(DataContext);
+  const { customSelectStatus, setCustomSelectStatus } = useContext(DataContext);
   const {
     user,
     firstNameEditProfileFormValue,
     lastNameEditProfileFormValue,
     ageEditProfileFormValue,
+    editProfileFormMaritalStatusValue,
     updateProfileDetails,
     setActiveEditForm,
     setFirstNameEditProfileFormValue,
     setLastNameEditProfileFormValue,
     setAgeEditProfileFormValue,
+    setEditProfileFormMaritalStatusValue,
   } = useContext(AuthContext);
+  console.log(editProfileFormMaritalStatusValue);
 
   const editProdileFormValues: CommonEditProfileFormValues = {
     firstName: firstNameEditProfileFormValue,
@@ -35,9 +33,6 @@ export const ProfileEditForm = () => {
     age: ageEditProfileFormValue,
     maritalStatus: editProfileFormMaritalStatusValue,
   };
-
-  // console.log(isNaN(Number(ageEditProfileFormValue)));
-  // console.log(ageInputError);
 
   const validate = (values: CommonEditProfileFormValues) => {
     const errors: CommonEditProfileFormValues = {
@@ -54,10 +49,10 @@ export const ProfileEditForm = () => {
     }
     if (!values.age) {
       errors.age = 'Age is required!';
-      // } else if (isNaN(Number(values.age))) {
-      //   errors.age = 'Must be a number!';
-      // } else if (Number(values.age) < 18) {
-      //   errors.age = 'Must be a number, 18+!';
+    } else if (isNaN(Number(values.age))) {
+      errors.age = 'Must be a number!';
+    } else if (Number(values.age) < 18) {
+      errors.age = 'Must be a number, 18+!';
     }
     return errors;
   };
@@ -166,6 +161,9 @@ export const ProfileEditForm = () => {
             customSelectStatus && styles.active_edit_profile_custom_select
           }`}
         >
+          <div className={styles.edit_profile_custom_select_label_box}>
+            <label className={styles.label}>Marital-status</label>
+          </div>
           <div
             className={styles.default_select_value_box}
             onClick={toggleCustomSelectHandler}

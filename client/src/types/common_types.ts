@@ -29,6 +29,7 @@ export type MainLoaderStatus =
   | 'idle'
   | 'registering'
   | 'logging-in'
+  | 'loading-profile'
   | 'creating'
   | 'editing'
   | 'adding'
