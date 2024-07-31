@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 import {
   CommonEditProfileFormValues,
   CommonLoginValues,
@@ -11,7 +11,6 @@ import axios, { AxiosError } from 'axios';
 import { failureToast } from '../assets/toasts/failureToast';
 import { baseUrl } from '../assets/base_url';
 import { getToken, removeToken } from '../assets/utils/tokenServices';
-import { DataContext } from './DataContext';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
@@ -26,6 +25,7 @@ type AuthContextType = {
   firstNameEditProfileFormValue: string;
   lastNameEditProfileFormValue: string;
   ageEditProfileFormValue: string;
+  editProfileFormMaritalStatusValue: string;
   setSignupEmailValue: (newValue: string) => void;
   setSignupFirstNameValue: (newValue: string) => void;
   setSignupSecondNameValue: (newValue: string) => void;
@@ -43,6 +43,7 @@ type AuthContextType = {
   setFirstNameEditProfileFormValue: (newValue: string) => void;
   setLastNameEditProfileFormValue: (newValue: string) => void;
   setAgeEditProfileFormValue: (newValue: string) => void;
+  setEditProfileFormMaritalStatusValue: (maritalStatus: string) => void;
 };
 const initialAuthContextState = {
   user: null,
@@ -57,6 +58,7 @@ const initialAuthContextState = {
   firstNameEditProfileFormValue: '',
   lastNameEditProfileFormValue: '',
   ageEditProfileFormValue: '',
+  editProfileFormMaritalStatusValue: 'Marital-status',
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
   setSignupSecondNameValue: (newValue: string) => newValue,
@@ -72,13 +74,14 @@ const initialAuthContextState = {
   setFirstNameEditProfileFormValue: (newValue: string) => newValue,
   setLastNameEditProfileFormValue: (newValue: string) => newValue,
   setAgeEditProfileFormValue: (newValue: string) => newValue,
+  setEditProfileFormMaritalStatusValue: (maritalStatus: string) =>
+    maritalStatus,
 } as AuthContextType;
 export const AuthContext = createContext(initialAuthContextState);
 
 type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { setDataLoaderStatus } = useContext(DataContext);
   const [user, setUser] = useState<null | LoggedinUserResponseType>(null);
   const [authLoaderStatus, setAuthLoaderStatus] =
     useState<MainLoaderStatus>('idle');
@@ -96,6 +99,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     useState<string>('');
   const [ageEditProfileFormValue, setAgeEditProfileFormValue] =
     useState<string>('');
+  const [
+    editProfileFormMaritalStatusValue,
+    setEditProfileFormMaritalStatusValue,
+  ] = useState<string>('Marital-status');
 
   const registerUser = async (signupValues: CommonSignupValues) => {
     setAuthLoaderStatus('registering');
@@ -147,7 +154,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const getUserProfile = async () => {
-    setDataLoaderStatus(true);
+    setAuthLoaderStatus('loading-profile');
     const token = getToken();
     if (token) {
       const myHeaders = new Headers();
@@ -160,13 +167,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         let response = await fetch(`${baseUrl}/users/profile`, requestOptions);
         const data = await response.json();
         if (data) {
-          setDataLoaderStatus(false);
+          setAuthLoaderStatus('idle');
           setUser(data.user);
         }
       } catch (error) {
         console.log('Get user profile error:::', error);
       } finally {
-        setDataLoaderStatus(false);
+        setAuthLoaderStatus('idle');
       }
     }
   };
@@ -182,20 +189,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const updateProfileDetails = async (
     newProfileDetails: CommonEditProfileFormValues
   ) => {
-    console.log(newProfileDetails);
-    setDataLoaderStatus(true);
     try {
       const response = await axios.post(
         `${baseUrl}/users/updatedetails`,
         newProfileDetails
       );
       if (response) {
-        setDataLoaderStatus(false);
+        setActiveEditForm(false);
+        getUserProfile();
         console.log(response.data.updatedUser);
       }
     } catch (error) {
     } finally {
-      setDataLoaderStatus(false);
     }
   };
   return (
@@ -213,6 +218,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         firstNameEditProfileFormValue,
         lastNameEditProfileFormValue,
         ageEditProfileFormValue,
+        editProfileFormMaritalStatusValue,
         setActiveEditForm,
         setSignupEmailValue,
         setSignupFirstNameValue,
@@ -228,6 +234,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setFirstNameEditProfileFormValue,
         setLastNameEditProfileFormValue,
         setAgeEditProfileFormValue,
+        setEditProfileFormMaritalStatusValue,
       }}
     >
       {children}
