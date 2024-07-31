@@ -58,7 +58,7 @@ const initialAuthContextState = {
   firstNameEditProfileFormValue: '',
   lastNameEditProfileFormValue: '',
   ageEditProfileFormValue: '',
-  editProfileFormMaritalStatusValue: 'Marital-status',
+  editProfileFormMaritalStatusValue: '',
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
   setSignupSecondNameValue: (newValue: string) => newValue,
@@ -102,7 +102,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [
     editProfileFormMaritalStatusValue,
     setEditProfileFormMaritalStatusValue,
-  ] = useState<string>('Marital-status');
+  ] = useState<string>('');
+
+  console.log(editProfileFormMaritalStatusValue);
 
   const registerUser = async (signupValues: CommonSignupValues) => {
     setAuthLoaderStatus('registering');

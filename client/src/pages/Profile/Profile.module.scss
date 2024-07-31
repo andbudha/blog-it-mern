@@ -2,6 +2,7 @@
 @import '../../assets/sass/variables.scss';
 
 .main_profie_box {
+  position: relative;
   height: 100%;
   width: 100%;
   color: $main_font_color;
@@ -16,10 +17,8 @@
       @include flexBox(nowrap, column, space-between, center);
       .profile_image_box {
         height: 300px;
-        width: 300px;
+        width: 280px;
         margin: 10px;
-        border-radius: 50%;
-        box-shadow: $main_font_color 0px 1px 8px;
         @include flexBox(nowrap, row, center, center);
         .profile_image,
         .user_icon {
@@ -34,7 +33,6 @@
         color: $secondary_font_color;
         @include flexBox(nowrap, row, center, center);
         .profile_image_button {
-          border-radius: 4px;
           height: 36px;
           width: 200px;
           font-size: 1rem;
@@ -83,8 +81,7 @@
         margin: 10px;
         @include flexBox(nowrap, row, center, center);
         .edit_profile_button {
-          border-radius: 4px;
-          height: 36px;
+          height: 37px;
           width: 200px;
           font-size: 1rem;
           font-weight: 600;

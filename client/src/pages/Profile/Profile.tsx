@@ -4,18 +4,19 @@ import { AuthContext } from '../../contexts/AuthContext';
 import styles from './Profile.module.scss';
 import { PiUserLight } from 'react-icons/pi';
 import { ProfileEditForm } from '../../components/Forms/ProfileEditForm/ProfileEditForm';
-import { DataContext } from '../../contexts/DataContext';
+import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 
 export const Profile = () => {
   const {
     user,
     activeEditForm,
+    authLoaderStatus,
+    setEditProfileFormMaritalStatusValue,
     setActiveEditForm,
     setFirstNameEditProfileFormValue,
     setLastNameEditProfileFormValue,
     setAgeEditProfileFormValue,
   } = useContext(AuthContext);
-  const { setEditProfileFormMaritalStatusValue } = useContext(DataContext);
 
   const selectedProfileImage = useRef<File | null>(null);
 
@@ -24,7 +25,7 @@ export const Profile = () => {
     setFirstNameEditProfileFormValue(user!.firstName);
     setLastNameEditProfileFormValue(user!.lastName);
     setAgeEditProfileFormValue(user!.age ? user!.age : 'confidential');
-    setEditProfileFormMaritalStatusValue('Marital-status');
+    setEditProfileFormMaritalStatusValue('confidential');
   };
 
   const changeProfileImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,72 +40,76 @@ export const Profile = () => {
   }
   return (
     <div className={styles.main_profie_box}>
-      <div className={styles.profile_box}>
-        <div className={styles.main_profile_image_box}>
-          <div className={styles.profile_image_box}>
-            {user.profileImage ? (
-              <img
-                src={user.profileImage}
-                alt="profile-image"
-                className={styles.profile_image}
-              />
-            ) : (
-              <PiUserLight className={styles.user_icon} />
-            )}
-          </div>
-          <div className={styles.upload_image_input_box}>
-            <label
-              htmlFor="image-input"
-              className={styles.profile_image_button}
-            >
-              change image
-            </label>
-            <input
-              type="file"
-              id="image-input"
-              className={styles.profile_image_input}
-              title="chnage image"
-              onChange={changeProfileImageHandler}
-            />
-          </div>
-        </div>
-        {activeEditForm ? (
-          <ProfileEditForm />
-        ) : (
-          <div className={styles.main_profile_details_box}>
-            <div className={styles.profile_details_box}>
-              <h3 className={styles.detail_header}>
-                First-name:{' '}
-                <span className={styles.detail_span}>{user.firstName}</span>
-              </h3>
-              <h3 className={styles.detail_header}>
-                Last-name:
-                <span className={styles.detail_span}>{user.lastName}</span>
-              </h3>
-              <h3 className={styles.detail_header}>
-                Age:
-                <span className={styles.detail_span}>
-                  {user.age ? user.age : 'confidential'}
-                </span>
-              </h3>
-              <h3 className={styles.detail_header}>
-                Marital-status:
-                <span className={styles.detail_span}>
-                  {user.maritalStatus ? user.maritalStatus : 'confidential'}
-                </span>
-              </h3>
+      {authLoaderStatus === 'loading-profile' ? (
+        <AuthLoader />
+      ) : (
+        <div className={styles.profile_box}>
+          <div className={styles.main_profile_image_box}>
+            <div className={styles.profile_image_box}>
+              {user.profileImage ? (
+                <img
+                  src={user.profileImage}
+                  alt="profile-image"
+                  className={styles.profile_image}
+                />
+              ) : (
+                <PiUserLight className={styles.user_icon} />
+              )}
             </div>
-            <div className={styles.edit_profile_button_box}>
-              <div
-                className={styles.edit_profile_button}
-                onClick={activateEditProfileFormHandler}
+            <div className={styles.upload_image_input_box}>
+              <label
+                htmlFor="image-input"
+                className={styles.profile_image_button}
               >
-                edit profile
+                change image
+              </label>
+              <input
+                type="file"
+                id="image-input"
+                className={styles.profile_image_input}
+                title="chnage image"
+                onChange={changeProfileImageHandler}
+              />
+            </div>
+          </div>
+          {activeEditForm ? (
+            <ProfileEditForm />
+          ) : (
+            <div className={styles.main_profile_details_box}>
+              <div className={styles.profile_details_box}>
+                <h3 className={styles.detail_header}>
+                  First-name:{' '}
+                  <span className={styles.detail_span}>{user.firstName}</span>
+                </h3>
+                <h3 className={styles.detail_header}>
+                  Last-name:
+                  <span className={styles.detail_span}>{user.lastName}</span>
+                </h3>
+                <h3 className={styles.detail_header}>
+                  Age:
+                  <span className={styles.detail_span}>
+                    {user.age ? user.age : 'confidential'}
+                  </span>
+                </h3>
+                <h3 className={styles.detail_header}>
+                  Marital-status:
+                  <span className={styles.detail_span}>
+                    {user.maritalStatus ? user.maritalStatus : 'confidential'}
+                  </span>
+                </h3>
+              </div>
+              <div className={styles.edit_profile_button_box}>
+                <div
+                  className={styles.edit_profile_button}
+                  onClick={activateEditProfileFormHandler}
+                >
+                  edit profile
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
