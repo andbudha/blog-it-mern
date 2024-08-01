@@ -168,7 +168,6 @@ export const ProfileEditForm = () => {
             className={styles.default_select_value_box}
             onClick={toggleCustomSelectHandler}
           >
-            {' '}
             {editProfileFormMaritalStatusValue}
             {customSelectStatus ? (
               <TbChevronUp className={styles.chevron_icon} />
@@ -178,7 +177,6 @@ export const ProfileEditForm = () => {
           </div>
           {customSelectStatus && (
             <div className={styles.select_option_box}>
-              {' '}
               <div
                 className={styles.select_option}
                 onClick={() => changeMaritalStatusHandler('single')}

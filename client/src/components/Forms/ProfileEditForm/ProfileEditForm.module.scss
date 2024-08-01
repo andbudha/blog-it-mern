@@ -74,6 +74,7 @@
         height: 36px;
         width: 100%;
         color: $secondary_font_color;
+        background-color: $app_background;
         cursor: pointer;
         @include flexBox(nowrap, row, space-between, center);
         .chevron_icon {
