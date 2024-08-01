@@ -9,11 +9,9 @@
     position: relative;
     min-height: 260px;
     width: 350px;
-    border-radius: 6px;
     padding: 20px;
     color: $main_font_color;
     box-shadow: $main_font_color 0px 0px 4px;
-
     .main_form_box {
       height: 100%;
       width: 100%;
@@ -28,7 +26,7 @@
           padding: 0 4px;
           .error_text {
             letter-spacing: 1px;
-            font-weight: 500;
+            font-weight: 600;
             color: $input_error_color;
           }
         }
@@ -61,7 +59,6 @@
         height: auto;
         width: 100%;
         padding: 6px;
-
         .login_button {
           border: 1px solid $main_font_color;
           width: 100%;
@@ -86,7 +83,6 @@
         }
       }
       .info_box {
-        // border: 1px solid;
         width: 100%;
         padding: 6px;
         letter-spacing: 1px;
@@ -99,6 +95,9 @@
           font-weight: 700;
         }
       }
+    }
+    @media screen and (max-width: 450px) {
+      box-shadow: none;
     }
   }
 }

@@ -2,7 +2,6 @@
 @import '../../../assets/sass/variables.scss';
 
 .active_burger_menu {
-  border: 1px solid;
   position: absolute;
   z-index: 100;
   height: calc(100% + 150px);
@@ -47,7 +46,6 @@
     }
   }
 }
-
 .inactive_burger_menu {
   left: -100vw;
   transition: 0.5s;
