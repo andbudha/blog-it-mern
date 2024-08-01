@@ -6,6 +6,7 @@ export type LoggedinUserResponseType = {
   age: string;
   maritalStatus: string;
   profileImage: string;
+  profileImagePublicID: string;
 };
 export type CommonSignupValues = {
   email: string;

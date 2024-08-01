@@ -7,8 +7,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 export const BurgerMenu = () => {
   const { user, burgerMenuStatus, setBurgerMenuStatus, logUserOut } =
     useContext(AuthContext);
-  console.log(burgerMenuStatus);
   const path = useLocation();
+
   const toggleBurgerMenuHandler = () => {
     setBurgerMenuStatus(false);
   };

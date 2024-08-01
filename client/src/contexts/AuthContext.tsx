@@ -108,7 +108,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setEditProfileFormMaritalStatusValue,
   ] = useState<string>('');
   const [burgerMenuStatus, setBurgerMenuStatus] = useState<boolean>(false);
-  console.log(editProfileFormMaritalStatusValue);
 
   const registerUser = async (signupValues: CommonSignupValues) => {
     setAuthLoaderStatus('registering');
