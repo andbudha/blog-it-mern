@@ -1,0 +1,54 @@
+@import '../../../assets/sass/mixinns.scss';
+@import '../../../assets/sass/variables.scss';
+
+.active_burger_menu {
+  border: 1px solid;
+  position: absolute;
+  z-index: 100;
+  height: calc(100% + 150px);
+  width: 100%;
+  left: 0;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  transition: 0.5s;
+  @include flexBox(nowrap, row, space-between, center);
+  .main_links_box {
+    height: 100%;
+    width: 70%;
+    background-color: $app_background;
+    .close_burger_menu_icon_box {
+      height: 60px;
+      padding: 0 20px;
+      color: $main_font_color;
+      @include flexBox(nowrap, row, end, center);
+      .close_burger_menu_icon {
+        height: 30px;
+        width: 30px;
+      }
+    }
+    .links_box {
+      height: calc(100% - 60px);
+      padding: 50px 0;
+      @include flexBox(nowrap, column, start, start);
+      .link_box {
+        height: 30px;
+        margin: 10px 20px;
+        opacity: 0.8;
+        text-decoration: none;
+        box-shadow: $main_font_color 0px 0.4px 0px 0px;
+        @include flexBox(nowrap, row, center, center);
+        .link_text {
+          color: $main_font_color;
+        }
+      }
+      .active_link {
+        box-shadow: $main_font_color 0px 4px 0px 0px;
+      }
+    }
+  }
+}
+
+.inactive_burger_menu {
+  left: -100vw;
+  transition: 0.5s;
+}
