@@ -8,6 +8,7 @@ const userSchema = new Schema(
     lastName: { type: String, required: true },
     password: { type: String, required: true },
     profileImage: { type: String },
+    profileImagePublicID: { type: String },
     maritalStatus: { type: String },
     age: { type: String },
     blogList: [],

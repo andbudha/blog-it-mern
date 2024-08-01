@@ -1,8 +1,11 @@
 import { UserModel } from '../models/userModel.js';
 import { encryptPassword, verifyPassword } from '../utils/passwordServices.js';
+import { imageUpload } from '../utils/profileImageServices.js';
+import { removeTempFile } from '../utils/temporaryFileServices.js';
 import { generateToken } from '../utils/tokenServices.js';
 
 const registerNewUser = async (req, res) => {
+  console.log(req.body);
   try {
     const existingEmail = await UserModel.findOne({ email: req.body.email });
 
@@ -135,10 +138,40 @@ const updateProfileDetails = async (req, res) => {
   }
 };
 
+const uploadProfileImage = async (req, res) => {
+  try {
+    let profileImageURL;
+    if (req.file) {
+      profileImageURL = await imageUpload(req.file, 'blog_it');
+    }
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      {
+        _id: req.body.userID,
+      },
+      {
+        profileImage: profileImageURL.secure_url,
+        profileImagePublicID: profileImageURL.public_id,
+      },
+      { new: true }
+    );
+    res.status(200).json({
+      message: 'Profile image successfully updated!',
+      profileImage: updatedUser.profileImage,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ errorMessage: 'Server error. Updating profile image failed!' });
+  } finally {
+    removeTempFile(req.file);
+  }
+};
+
 export {
   getAllUsers,
   registerNewUser,
   loginUser,
   getUserProfile,
   updateProfileDetails,
+  uploadProfileImage,
 };
