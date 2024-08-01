@@ -5,10 +5,13 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { DataLoader } from '../Loaders/DataLoader/DataLoader';
 import { DataContext } from '../../contexts/DataContext';
+import { GiHamburgerMenu } from 'react-icons/gi';
 
 export const Navbar = () => {
-  const { user, logUserOut } = useContext(AuthContext);
+  const { user, burgerMenuStatus, logUserOut, setBurgerMenuStatus } =
+    useContext(AuthContext);
   const { dataLoaderStatus } = useContext(DataContext);
+
   const path = useLocation();
   const time = new Date().getHours();
   const greeting = () => {
@@ -25,6 +28,10 @@ export const Navbar = () => {
 
   const logoutHandler = () => {
     logUserOut();
+  };
+
+  const showBurgerMenuHandler = () => {
+    setBurgerMenuStatus(!burgerMenuStatus);
   };
 
   return (
@@ -53,7 +60,6 @@ export const Navbar = () => {
               >
                 <h3 className={styles.link_text}>my-favorites</h3>
               </NavLink>
-
               <NavLink
                 className={`${styles.link_box} ${
                   path.pathname === '/profile' && styles.active_link
@@ -89,6 +95,12 @@ export const Navbar = () => {
             </div>
           )}
         </div>
+        {!burgerMenuStatus && (
+          <GiHamburgerMenu
+            className={styles.burger_menu_icon}
+            onClick={showBurgerMenuHandler}
+          />
+        )}
       </div>
       <div className={styles.main_greeting_box}>{user && greeting()}</div>
       {dataLoaderStatus ? (

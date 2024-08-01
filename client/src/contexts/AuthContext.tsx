@@ -26,6 +26,7 @@ type AuthContextType = {
   lastNameEditProfileFormValue: string;
   ageEditProfileFormValue: string;
   editProfileFormMaritalStatusValue: string;
+  burgerMenuStatus: boolean;
   setSignupEmailValue: (newValue: string) => void;
   setSignupFirstNameValue: (newValue: string) => void;
   setSignupSecondNameValue: (newValue: string) => void;
@@ -44,6 +45,7 @@ type AuthContextType = {
   setLastNameEditProfileFormValue: (newValue: string) => void;
   setAgeEditProfileFormValue: (newValue: string) => void;
   setEditProfileFormMaritalStatusValue: (maritalStatus: string) => void;
+  setBurgerMenuStatus: (newStatus: boolean) => void;
 };
 const initialAuthContextState = {
   user: null,
@@ -59,6 +61,7 @@ const initialAuthContextState = {
   lastNameEditProfileFormValue: '',
   ageEditProfileFormValue: '',
   editProfileFormMaritalStatusValue: '',
+  burgerMenuStatus: false,
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
   setSignupSecondNameValue: (newValue: string) => newValue,
@@ -76,6 +79,7 @@ const initialAuthContextState = {
   setAgeEditProfileFormValue: (newValue: string) => newValue,
   setEditProfileFormMaritalStatusValue: (maritalStatus: string) =>
     maritalStatus,
+  setBurgerMenuStatus: (newStatus: boolean) => newStatus,
 } as AuthContextType;
 export const AuthContext = createContext(initialAuthContextState);
 
@@ -103,7 +107,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     editProfileFormMaritalStatusValue,
     setEditProfileFormMaritalStatusValue,
   ] = useState<string>('');
-
+  const [burgerMenuStatus, setBurgerMenuStatus] = useState<boolean>(false);
   console.log(editProfileFormMaritalStatusValue);
 
   const registerUser = async (signupValues: CommonSignupValues) => {
@@ -221,6 +225,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         lastNameEditProfileFormValue,
         ageEditProfileFormValue,
         editProfileFormMaritalStatusValue,
+        burgerMenuStatus,
         setActiveEditForm,
         setSignupEmailValue,
         setSignupFirstNameValue,
@@ -237,6 +242,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLastNameEditProfileFormValue,
         setAgeEditProfileFormValue,
         setEditProfileFormMaritalStatusValue,
+        setBurgerMenuStatus,
       }}
     >
       {children}
