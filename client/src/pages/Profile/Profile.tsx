@@ -11,15 +11,17 @@ export const Profile = () => {
     user,
     activeEditForm,
     authLoaderStatus,
+    updateProfileImageButtonStatus,
+    setAuthLoaderStatus,
     setEditProfileFormMaritalStatusValue,
     setActiveEditForm,
     setFirstNameEditProfileFormValue,
     setLastNameEditProfileFormValue,
     setAgeEditProfileFormValue,
+    setUpdateProfileImageButtonStatus,
+    uploadProfileImage,
   } = useContext(AuthContext);
-
   const selectedProfileImage = useRef<File | null>(null);
-
   const activateEditProfileFormHandler = () => {
     setActiveEditForm(true);
     setFirstNameEditProfileFormValue(user!.firstName);
@@ -27,13 +29,34 @@ export const Profile = () => {
     setAgeEditProfileFormValue(user!.age ? user!.age : 'confidential');
     setEditProfileFormMaritalStatusValue('confidential');
   };
-
   const changeProfileImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.files);
+    setAuthLoaderStatus('uploading-profile-image');
+    setUpdateProfileImageButtonStatus(true);
     if (e.currentTarget.files && e.currentTarget.files.length > 0) {
       selectedProfileImage.current = e.currentTarget.files[0];
-      console.log('Profile image is being updated');
     }
+  };
+  const saveNewProfileImageHandler = () => {
+    const profileImageUpdateBody = new FormData();
+    if (user) {
+      profileImageUpdateBody.append('userID', user._id);
+      profileImageUpdateBody.append(
+        'avatarPublicID',
+        user.profileImagePublicID
+      );
+    }
+    if (selectedProfileImage.current) {
+      profileImageUpdateBody.append(
+        'profileImage',
+        selectedProfileImage.current
+      );
+    }
+    setAuthLoaderStatus('loading-profile');
+    uploadProfileImage(profileImageUpdateBody);
+  };
+  const discardNewProfileImageHandler = () => {
+    setUpdateProfileImageButtonStatus(false);
+    setAuthLoaderStatus('idle');
   };
   if (!user) {
     return <Navigate to={'/'} />;
@@ -46,31 +69,59 @@ export const Profile = () => {
         <div className={styles.profile_box}>
           <div className={styles.main_profile_image_box}>
             <div className={styles.profile_image_box}>
-              {user.profileImage ? (
-                <img
-                  src={user.profileImage}
-                  alt="profile-image"
-                  className={styles.profile_image}
-                />
+              {authLoaderStatus === 'uploading-profile-image' ? (
+                <>
+                  <h3 className={styles.save_selected_image}>
+                    Save selected image?
+                  </h3>
+                  <AuthLoader />
+                </>
               ) : (
-                <PiUserLight className={styles.user_icon} />
+                <>
+                  {user.profileImage ? (
+                    <img
+                      src={user.profileImage}
+                      alt="profile-image"
+                      className={styles.profile_image}
+                    />
+                  ) : (
+                    <PiUserLight className={styles.user_icon} />
+                  )}
+                </>
               )}
             </div>
-            <div className={styles.upload_image_input_box}>
-              <label
-                htmlFor="image-input"
-                className={styles.profile_image_button}
-              >
-                change image
-              </label>
-              <input
-                type="file"
-                id="image-input"
-                className={styles.profile_image_input}
-                title="chnage image"
-                onChange={changeProfileImageHandler}
-              />
-            </div>
+            {updateProfileImageButtonStatus ? (
+              <div className={styles.edit_form_button_box}>
+                <div
+                  className={styles.save_changes_button}
+                  onClick={saveNewProfileImageHandler}
+                >
+                  save
+                </div>
+                <div
+                  className={styles.discard_changes_button}
+                  onClick={discardNewProfileImageHandler}
+                >
+                  discard
+                </div>
+              </div>
+            ) : (
+              <div className={styles.upload_image_input_box}>
+                <label
+                  htmlFor="image-input"
+                  className={styles.profile_image_button}
+                >
+                  change image
+                </label>
+                <input
+                  type="file"
+                  id="image-input"
+                  className={styles.profile_image_input}
+                  title="chnage image"
+                  onChange={changeProfileImageHandler}
+                />
+              </div>
+            )}
           </div>
           {activeEditForm ? (
             <ProfileEditForm />
