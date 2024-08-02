@@ -31,6 +31,7 @@ export type MainLoaderStatus =
   | 'registering'
   | 'logging-in'
   | 'loading-profile'
+  | 'uploading-profile-image'
   | 'creating'
   | 'editing'
   | 'adding'
