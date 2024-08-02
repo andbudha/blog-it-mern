@@ -10,7 +10,6 @@ export const ProfileEditForm = () => {
     useState<boolean>(false);
   const [lastNameInputError, setLastNameInputError] = useState<boolean>(false);
   const [ageInputError, setAgeInputError] = useState<boolean>(false);
-
   const { customSelectStatus, setCustomSelectStatus } = useContext(DataContext);
   const {
     user,
@@ -25,7 +24,6 @@ export const ProfileEditForm = () => {
     setAgeEditProfileFormValue,
     setEditProfileFormMaritalStatusValue,
   } = useContext(AuthContext);
-  console.log(editProfileFormMaritalStatusValue);
 
   const editProdileFormValues: CommonEditProfileFormValues = {
     firstName: firstNameEditProfileFormValue,
@@ -194,7 +192,6 @@ export const ProfileEditForm = () => {
         </div>
       </div>
       <div className={styles.edit_form_button_box}>
-        {' '}
         <div
           className={styles.save_changes_button}
           onClick={saveProfileChangesHandler}

@@ -26,7 +26,9 @@ type AuthContextType = {
   lastNameEditProfileFormValue: string;
   ageEditProfileFormValue: string;
   editProfileFormMaritalStatusValue: string;
+  updateProfileImageButtonStatus: boolean;
   burgerMenuStatus: boolean;
+  setAuthLoaderStatus: (newStatus: MainLoaderStatus) => void;
   setSignupEmailValue: (newValue: string) => void;
   setSignupFirstNameValue: (newValue: string) => void;
   setSignupSecondNameValue: (newValue: string) => void;
@@ -45,7 +47,9 @@ type AuthContextType = {
   setLastNameEditProfileFormValue: (newValue: string) => void;
   setAgeEditProfileFormValue: (newValue: string) => void;
   setEditProfileFormMaritalStatusValue: (maritalStatus: string) => void;
+  setUpdateProfileImageButtonStatus: (newStatus: boolean) => void;
   setBurgerMenuStatus: (newStatus: boolean) => void;
+  uploadProfileImage: (profileImageUpdate: FormData) => Promise<void>;
 };
 const initialAuthContextState = {
   user: null,
@@ -61,7 +65,9 @@ const initialAuthContextState = {
   lastNameEditProfileFormValue: '',
   ageEditProfileFormValue: '',
   editProfileFormMaritalStatusValue: '',
+  updateProfileImageButtonStatus: false,
   burgerMenuStatus: false,
+  setAuthLoaderStatus: (newStatus: MainLoaderStatus) => newStatus,
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
   setSignupSecondNameValue: (newValue: string) => newValue,
@@ -79,7 +85,9 @@ const initialAuthContextState = {
   setAgeEditProfileFormValue: (newValue: string) => newValue,
   setEditProfileFormMaritalStatusValue: (maritalStatus: string) =>
     maritalStatus,
+  setUpdateProfileImageButtonStatus: (newStatus: boolean) => newStatus,
   setBurgerMenuStatus: (newStatus: boolean) => newStatus,
+  uploadProfileImage: () => Promise.resolve(),
 } as AuthContextType;
 export const AuthContext = createContext(initialAuthContextState);
 
@@ -107,6 +115,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     editProfileFormMaritalStatusValue,
     setEditProfileFormMaritalStatusValue,
   ] = useState<string>('');
+  const [updateProfileImageButtonStatus, setUpdateProfileImageButtonStatus] =
+    useState<boolean>(false);
   const [burgerMenuStatus, setBurgerMenuStatus] = useState<boolean>(false);
 
   const registerUser = async (signupValues: CommonSignupValues) => {
@@ -202,10 +212,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (response) {
         setActiveEditForm(false);
         getUserProfile();
-        console.log(response.data.updatedUser);
       }
     } catch (error) {
     } finally {
+    }
+  };
+
+  const uploadProfileImage = async (profileImageUpdate: FormData) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/users/uploadimage`,
+        profileImageUpdate
+      );
+      if (response) {
+        setUpdateProfileImageButtonStatus(false);
+        getUserProfile();
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -225,6 +250,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         ageEditProfileFormValue,
         editProfileFormMaritalStatusValue,
         burgerMenuStatus,
+        updateProfileImageButtonStatus,
+        setAuthLoaderStatus,
         setActiveEditForm,
         setSignupEmailValue,
         setSignupFirstNameValue,
@@ -241,7 +268,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLastNameEditProfileFormValue,
         setAgeEditProfileFormValue,
         setEditProfileFormMaritalStatusValue,
+        setUpdateProfileImageButtonStatus,
         setBurgerMenuStatus,
+        uploadProfileImage,
       }}
     >
       {children}

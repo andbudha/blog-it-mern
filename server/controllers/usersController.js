@@ -156,7 +156,7 @@ const uploadProfileImage = async (req, res) => {
     );
     res.status(200).json({
       message: 'Profile image successfully updated!',
-      profileImage: updatedUser.profileImage,
+      user: updatedUser,
     });
   } catch (error) {
     res
