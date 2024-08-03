@@ -17,6 +17,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
 import { PaginationProvider } from './contexts/PaginationContext';
 import { Toaster } from 'react-hot-toast';
+import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 
 function App() {
   const router = createBrowserRouter(
@@ -35,9 +36,30 @@ function App() {
         <Route index element={<Blogs />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
-        <Route path="myblogs" element={<MyBlogs />} />
-        <Route path="myfavorites" element={<MyFavorites />} />
-        <Route path="profile" element={<Profile />} />
+        <Route
+          path="myblogs"
+          element={
+            <ProtectedRoute>
+              <MyBlogs />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="myfavorites"
+          element={
+            <ProtectedRoute>
+              <MyFavorites />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     )

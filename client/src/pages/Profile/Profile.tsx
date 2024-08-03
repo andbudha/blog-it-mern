@@ -1,5 +1,4 @@
 import { ChangeEvent, useContext, useRef, useState } from 'react';
-import { Navigate } from 'react-router';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './Profile.module.scss';
 import { PiUserLight } from 'react-icons/pi';
@@ -69,9 +68,7 @@ export const Profile = () => {
     setUpdateProfileImageButtonStatus(false);
     setTemporaryImageUrl('');
   };
-  if (!user) {
-    return <Navigate to={'/'} />;
-  }
+
   return (
     <div className={styles.main_profie_box}>
       {authLoaderStatus === 'loading-profile' ? (
@@ -88,7 +85,7 @@ export const Profile = () => {
                 />
               ) : (
                 <>
-                  {user.profileImage ? (
+                  {user?.profileImage ? (
                     <img
                       src={user.profileImage}
                       alt="profile-image"
@@ -140,22 +137,22 @@ export const Profile = () => {
               <div className={styles.profile_details_box}>
                 <h3 className={styles.detail_header}>
                   First-name:{' '}
-                  <span className={styles.detail_span}>{user.firstName}</span>
+                  <span className={styles.detail_span}>{user!.firstName}</span>
                 </h3>
                 <h3 className={styles.detail_header}>
                   Last-name:
-                  <span className={styles.detail_span}>{user.lastName}</span>
+                  <span className={styles.detail_span}>{user?.lastName}</span>
                 </h3>
                 <h3 className={styles.detail_header}>
                   Age:
                   <span className={styles.detail_span}>
-                    {user.age ? user.age : 'confidential'}
+                    {user?.age ? user.age : 'confidential'}
                   </span>
                 </h3>
                 <h3 className={styles.detail_header}>
                   Marital-status:
                   <span className={styles.detail_span}>
-                    {user.maritalStatus ? user.maritalStatus : 'confidential'}
+                    {user?.maritalStatus ? user.maritalStatus : 'confidential'}
                   </span>
                 </h3>
               </div>
