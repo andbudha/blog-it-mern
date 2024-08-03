@@ -41,7 +41,7 @@ export const Profile = () => {
     if (user) {
       profileImageUpdateBody.append('userID', user._id);
       profileImageUpdateBody.append(
-        'avatarPublicID',
+        'profileImagePublicID',
         user.profileImagePublicID
       );
     }

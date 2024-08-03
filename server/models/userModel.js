@@ -11,7 +11,6 @@ const userSchema = new Schema(
     profileImagePublicID: { type: String },
     maritalStatus: { type: String },
     age: { type: String },
-    blogList: [],
     favoriteBlogList: [],
   },
   {

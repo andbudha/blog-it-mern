@@ -10,3 +10,15 @@ export const imageUpload = async (file, folder) => {
     console.log('Cloudinary uploading error: ', error);
   }
 };
+
+export const removeImageFromCloudinray = async (publicID) => {
+  try {
+    if (publicID) {
+      await cloudinary.uploader.destroy(publicID, function (result) {
+        console.log('Successfully removed avatar from clodinary: ', result);
+      });
+    }
+  } catch (error) {
+    console.log('Removing avatar from cloudinary error: ', error);
+  }
+};

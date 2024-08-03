@@ -1,6 +1,9 @@
 import { UserModel } from '../models/userModel.js';
 import { encryptPassword, verifyPassword } from '../utils/passwordServices.js';
-import { imageUpload } from '../utils/profileImageServices.js';
+import {
+  imageUpload,
+  removeImageFromCloudinray,
+} from '../utils/profileImageServices.js';
 import { removeTempFile } from '../utils/temporaryFileServices.js';
 import { generateToken } from '../utils/tokenServices.js';
 
@@ -142,6 +145,7 @@ const uploadProfileImage = async (req, res) => {
   try {
     let profileImageURL;
     if (req.file) {
+      await removeImageFromCloudinray(req.body.profileImagePublicID);
       profileImageURL = await imageUpload(req.file, 'blog_it');
     }
     const updatedUser = await UserModel.findByIdAndUpdate(
