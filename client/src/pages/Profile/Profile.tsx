@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useRef } from 'react';
+import { ChangeEvent, useContext, useRef, useState } from 'react';
 import { Navigate } from 'react-router';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './Profile.module.scss';
@@ -7,6 +7,7 @@ import { ProfileEditForm } from '../../components/Forms/ProfileEditForm/ProfileE
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 
 export const Profile = () => {
+  const [temporaryImageUrl, setTemporaryImageUrl] = useState<string>('');
   const {
     user,
     activeEditForm,
@@ -32,8 +33,17 @@ export const Profile = () => {
   const changeProfileImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setAuthLoaderStatus('uploading-profile-image');
     setUpdateProfileImageButtonStatus(true);
+    if (temporaryImageUrl) {
+      URL.revokeObjectURL(temporaryImageUrl);
+    }
     if (e.currentTarget.files && e.currentTarget.files.length > 0) {
       selectedProfileImage.current = e.currentTarget.files[0];
+      const url = URL.createObjectURL(e.currentTarget.files[0]);
+      setTemporaryImageUrl(url);
+    } else {
+      if (temporaryImageUrl) {
+        URL.revokeObjectURL(temporaryImageUrl);
+      }
     }
   };
   const saveNewProfileImageHandler = () => {
@@ -53,10 +63,11 @@ export const Profile = () => {
     }
     setAuthLoaderStatus('loading-profile');
     uploadProfileImage(profileImageUpdateBody);
+    setTemporaryImageUrl('');
   };
   const discardNewProfileImageHandler = () => {
     setUpdateProfileImageButtonStatus(false);
-    setAuthLoaderStatus('idle');
+    setTemporaryImageUrl('');
   };
   if (!user) {
     return <Navigate to={'/'} />;
@@ -69,13 +80,12 @@ export const Profile = () => {
         <div className={styles.profile_box}>
           <div className={styles.main_profile_image_box}>
             <div className={styles.profile_image_box}>
-              {authLoaderStatus === 'uploading-profile-image' ? (
-                <>
-                  <h3 className={styles.save_selected_image}>
-                    Save selected image?
-                  </h3>
-                  <AuthLoader />
-                </>
+              {temporaryImageUrl ? (
+                <img
+                  src={temporaryImageUrl}
+                  alt="temporary profile image"
+                  className={styles.profile_image}
+                />
               ) : (
                 <>
                   {user.profileImage ? (
