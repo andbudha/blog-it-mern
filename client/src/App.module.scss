@@ -13,11 +13,11 @@
   background-color: $app_background;
   .app_box {
     max-width: 1600px;
-    max-height: 100vh;
+    min-height: 100vh;
     margin-inline: auto;
     background-color: $app_main_box_background;
     @media screen and (max-width: 760px) {
-      min-height: calc(100vh + 150px);
+      min-height: calc(100vh - 150px);
     }
   }
 }
