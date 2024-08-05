@@ -15,8 +15,8 @@ const registerNewUser = async (req, res) => {
     const existingFirstName = await UserModel.findOne({
       firstName: req.body.firstName,
     });
-    const existingSecondName = await UserModel.findOne({
-      secondName: req.body.secondName,
+    const existingLastName = await UserModel.findOne({
+      secondName: req.body.lastName,
     });
 
     if (existingEmail) {
@@ -25,14 +25,14 @@ const registerNewUser = async (req, res) => {
       });
       return;
     }
-    if (existingFirstName && existingSecondName) {
+    if (existingFirstName && existingLastName) {
       res.status(500).json({
         errorMessage:
           'User under the entered first-name and second-name already registered. Pick other names, please!',
       });
       return;
     }
-    if (!existingEmail && !existingFirstName && !existingSecondName) {
+    if (!existingEmail && !existingFirstName && !existingLastName) {
       try {
         const encryptedPassword = await encryptPassword(req.body.password);
         if (encryptPassword) {
