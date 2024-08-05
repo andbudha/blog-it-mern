@@ -16,7 +16,7 @@ type AuthContextType = {
   user: null | LoggedinUserResponseType;
   signupEmailValue: string;
   signupFirstNameValue: string;
-  signupSecondNameValue: string;
+  signupLastNameValue: string;
   signupPasswordValue: string;
   loginEmailValue: string;
   loginPasswordValue: string;
@@ -31,7 +31,7 @@ type AuthContextType = {
   setAuthLoaderStatus: (newStatus: MainLoaderStatus) => void;
   setSignupEmailValue: (newValue: string) => void;
   setSignupFirstNameValue: (newValue: string) => void;
-  setSignupSecondNameValue: (newValue: string) => void;
+  setSignupLastNameValue: (newValue: string) => void;
   setSignupPasswordValue: (newValue: string) => void;
   setLoginEmailValue: (newValue: string) => void;
   setLoginPasswordValue: (newValue: string) => void;
@@ -55,7 +55,7 @@ const initialAuthContextState = {
   user: null,
   signupEmailValue: '',
   signupFirstNameValue: '',
-  signupSecondNameValue: '',
+  signupLastNameValue: '',
   signupPasswordValue: '',
   loginEmailValue: '',
   loginPasswordValue: '',
@@ -70,7 +70,7 @@ const initialAuthContextState = {
   setAuthLoaderStatus: (newStatus: MainLoaderStatus) => newStatus,
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
-  setSignupSecondNameValue: (newValue: string) => newValue,
+  setSignupLastNameValue: (newValue: string) => newValue,
   setSignupPasswordValue: (newValue: string) => newValue,
   setLoginEmailValue: (newValue: string) => newValue,
   setLoginPasswordValue: (newValue: string) => newValue,
@@ -95,12 +95,13 @@ type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<null | LoggedinUserResponseType>(null);
+  console.log(user);
+
   const [authLoaderStatus, setAuthLoaderStatus] =
     useState<MainLoaderStatus>('idle');
   const [signupEmailValue, setSignupEmailValue] = useState<string>('');
   const [signupFirstNameValue, setSignupFirstNameValue] = useState<string>('');
-  const [signupSecondNameValue, setSignupSecondNameValue] =
-    useState<string>('');
+  const [signupLastNameValue, setSignupLastNameValue] = useState<string>('');
   const [signupPasswordValue, setSignupPasswordValue] = useState<string>('');
   const [loginEmailValue, setLoginEmailValue] = useState<string>('');
   const [loginPasswordValue, setLoginPasswordValue] = useState<string>('');
@@ -131,7 +132,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         successfulToast(response.data.message);
         setSignupEmailValue('');
         setSignupFirstNameValue('');
-        setSignupSecondNameValue('');
+        setSignupLastNameValue('');
         setSignupPasswordValue('');
       }
     } catch (error) {
@@ -150,6 +151,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('blog-it-token', response.data.token);
       }
       if (response) {
+        console.log(response);
+
         setAuthLoaderStatus('idle');
         successfulToast(response.data.message);
         setUser(response.data.user);
@@ -240,7 +243,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         activeEditForm,
         signupEmailValue,
         signupFirstNameValue,
-        signupSecondNameValue,
+        signupLastNameValue,
         signupPasswordValue,
         loginEmailValue,
         loginPasswordValue,
@@ -255,7 +258,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setActiveEditForm,
         setSignupEmailValue,
         setSignupFirstNameValue,
-        setSignupSecondNameValue,
+        setSignupLastNameValue,
         setSignupPasswordValue,
         setLoginEmailValue,
         setLoginPasswordValue,

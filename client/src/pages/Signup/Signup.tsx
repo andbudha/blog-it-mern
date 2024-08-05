@@ -12,17 +12,17 @@ export const Signup = () => {
     useState<boolean>(false);
   const [signupFirstNameInputError, setSignupFirstNameInputError] =
     useState<boolean>(false);
-  const [signupSecondNameInputError, setSignupSecondNameInputError] =
+  const [signupSecondNameInputError, setSignupLastNameInputError] =
     useState<boolean>(false);
   const {
     signupEmailValue,
     signupFirstNameValue,
-    signupSecondNameValue,
+    signupLastNameValue,
     signupPasswordValue,
     authLoaderStatus,
     setSignupEmailValue,
     setSignupFirstNameValue,
-    setSignupSecondNameValue,
+    setSignupLastNameValue,
     setSignupPasswordValue,
     registerUser,
   } = useContext(AuthContext);
@@ -30,7 +30,7 @@ export const Signup = () => {
   const signupValues: CommonSignupValues = {
     email: signupEmailValue,
     firstName: signupFirstNameValue,
-    lastName: signupSecondNameValue,
+    lastName: signupLastNameValue,
     password: signupPasswordValue,
   };
 
@@ -83,12 +83,12 @@ export const Signup = () => {
       setSignupFirstNameInputError(true);
     }
   };
-  const catchSignupSecondNameValueHandler = (
+  const catchSignupLastNameValueHandler = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    setSignupSecondNameValue(e.currentTarget.value);
+    setSignupLastNameValue(e.currentTarget.value);
     if (validation.lastName.length > 0) {
-      setSignupSecondNameInputError(true);
+      setSignupLastNameInputError(true);
     }
   };
 
@@ -109,7 +109,7 @@ export const Signup = () => {
       setSignupEmailInputError(true);
       setSignupPasswordInputError(true);
       setSignupFirstNameInputError(true);
-      setSignupSecondNameInputError(true);
+      setSignupLastNameInputError(true);
     } else if (validation.email) {
       setSignupEmailInputError(true);
     } else if (validation.password) {
@@ -117,7 +117,7 @@ export const Signup = () => {
     } else if (validation.firstName) {
       setSignupFirstNameInputError(true);
     } else if (validation.lastName) {
-      setSignupSecondNameInputError(true);
+      setSignupLastNameInputError(true);
     } else if (
       !validation.email &&
       !validation.password &&
@@ -128,7 +128,7 @@ export const Signup = () => {
       setSignupEmailInputError(false);
       setSignupPasswordInputError(false);
       setSignupFirstNameInputError(false);
-      setSignupSecondNameInputError(false);
+      setSignupLastNameInputError(false);
     }
   };
   return (
@@ -176,14 +176,14 @@ export const Signup = () => {
                 <span className={styles.error_text}>{validation.lastName}</span>
               </div>
             ) : (
-              <label className={styles.label}>Second-name:</label>
+              <label className={styles.label}>Last-name:</label>
             )}
             <input
-              value={signupSecondNameValue}
+              value={signupLastNameValue}
               type="text"
               className={styles.input}
-              placeholder="your second-name..."
-              onChange={catchSignupSecondNameValueHandler}
+              placeholder="your last-name..."
+              onChange={catchSignupLastNameValueHandler}
             />
           </div>
           <div className={styles.input_box}>
