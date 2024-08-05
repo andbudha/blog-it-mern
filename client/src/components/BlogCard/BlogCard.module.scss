@@ -1,0 +1,83 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_blog_card_box {
+  position: relative;
+  // border: 1px solid;
+  margin: 20px;
+  min-height: 380px;
+  width: 300px;
+  text-decoration: none;
+  background-color: $app_background;
+  box-shadow: $secondary_font_color 0px 0px 6px 0px;
+  @include flexBox(nowrap, column, center, center);
+  .blog_card_image_box {
+    // border: 1px solid;
+    height: 140px;
+    width: 100%;
+    object-fit: cover;
+    @include flexBox(nowrap, column, center, center);
+    .blog_image {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+  }
+  .blog_card_details_box {
+    // border: 1px solid;
+    padding: 10px;
+    min-height: 220px;
+    width: 100%;
+    @include flexBox(nowrap, column, space-around, start);
+
+    .blog_card_title {
+      color: $secondary_font_color;
+      letter-spacing: 1px;
+      font-style: italic;
+    }
+    .blog_card_author {
+      color: $main_font_color;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      font-style: italic;
+      font-weight: 500;
+    }
+    .blog_card_text_body {
+      color: $secondary_font_color;
+      letter-spacing: 1px;
+    }
+  }
+  .blog_card_bottom_box {
+    height: 50px;
+    width: 100%;
+    padding: 0 16px;
+    @include flexBox(nowrap, row, space-between, center);
+    .likes_box {
+      height: 30px;
+      min-width: 50px;
+      @include flexBox(nowrap, row, space-around, center);
+      .like_icon {
+        height: 20px;
+        width: 20px;
+        color: $main_font_color;
+      }
+      .likes_amount {
+        padding: 0 6px;
+        color: $secondary_font_color;
+        font-style: italic;
+
+        font-weight: 600;
+      }
+    }
+    .read_more_box {
+      height: 30px;
+      min-width: 30px;
+      @include flexBox(nowrap, column, center, center);
+      .book_icon {
+        height: 26px;
+        width: 26px;
+        color: $main_font_color;
+      }
+    }
+  }
+}
