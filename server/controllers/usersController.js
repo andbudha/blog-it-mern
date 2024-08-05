@@ -77,7 +77,7 @@ const loginUser = async (req, res) => {
       res.status(200).json({
         message: 'You have successfully logged in!',
         user: {
-          _id: existingUser._id,
+          userID: existingUser._id,
           email: existingUser.email,
           firstName: existingUser.firstName,
           lastName: existingUser.lastName,
@@ -98,7 +98,17 @@ const getUserProfile = async (req, res) => {
     if (req.user) {
       res.status(200).json({
         message: 'User profile succeccfully received!',
-        user: req.user,
+        user: {
+          userID: req.user._id,
+          email: req.user.email,
+          firstName: req.user.firstName,
+          lastName: req.user.lastName,
+          profileImage: req.user.profileImage,
+          age: req.user.age || 'confidential',
+          maritalStatus: req.user.maritalStatus || 'confidential',
+          favoriteBlogList: req.user.favoriteBlogList,
+          profileImagePublicID: req.user.profileImagePublicID,
+        },
       });
     }
   } catch (error) {

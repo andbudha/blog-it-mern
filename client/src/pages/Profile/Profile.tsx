@@ -48,7 +48,7 @@ export const Profile = () => {
   const saveNewProfileImageHandler = () => {
     const profileImageUpdateBody = new FormData();
     if (user) {
-      profileImageUpdateBody.append('userID', user._id);
+      profileImageUpdateBody.append('userID', user.userID);
       profileImageUpdateBody.append(
         'profileImagePublicID',
         user.profileImagePublicID

@@ -155,8 +155,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('blog-it-token', response.data.token);
       }
       if (response) {
-        console.log(response);
-
         setAuthLoaderStatus('idle');
         successfulToast(response.data.message);
         setUser(response.data.user);
@@ -238,6 +236,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     } catch (error) {
       console.log(error);
+      if (error instanceof AxiosError)
+        failureToast(`${error.response?.data.errorMessage}`);
+      setAuthLoaderStatus('idle');
     }
   };
   return (
