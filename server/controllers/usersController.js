@@ -8,17 +8,14 @@ import { removeTempFile } from '../utils/temporaryFileServices.js';
 import { generateToken } from '../utils/tokenServices.js';
 
 const registerNewUser = async (req, res) => {
-  console.log(req.body);
   try {
     const existingEmail = await UserModel.findOne({ email: req.body.email });
-
     const existingFirstName = await UserModel.findOne({
       firstName: req.body.firstName,
     });
     const existingLastName = await UserModel.findOne({
       secondName: req.body.lastName,
     });
-
     if (existingEmail) {
       res.status(500).json({
         errorMessage: 'Email already in use. Pick another email, please!',

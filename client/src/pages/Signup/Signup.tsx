@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import styles from './Signup.module.scss';
 import { ChangeEvent, useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -15,6 +15,7 @@ export const Signup = () => {
   const [signupSecondNameInputError, setSignupLastNameInputError] =
     useState<boolean>(false);
   const {
+    signUpStatus,
     signupEmailValue,
     signupFirstNameValue,
     signupLastNameValue,
@@ -131,6 +132,10 @@ export const Signup = () => {
       setSignupLastNameInputError(false);
     }
   };
+
+  if (signUpStatus) {
+    return <Navigate to={'/login'} />;
+  }
   return (
     <div className={styles.main_signup_box}>
       <div className={styles.signup_box}>

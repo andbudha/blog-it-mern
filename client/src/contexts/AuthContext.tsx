@@ -14,6 +14,7 @@ import { getToken, removeToken } from '../assets/utils/tokenServices';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
+  signUpStatus: boolean;
   signupEmailValue: string;
   signupFirstNameValue: string;
   signupLastNameValue: string;
@@ -28,6 +29,7 @@ type AuthContextType = {
   editProfileFormMaritalStatusValue: string;
   updateProfileImageButtonStatus: boolean;
   burgerMenuStatus: boolean;
+  setSignUpStatus: (newStatus: boolean) => void;
   setAuthLoaderStatus: (newStatus: MainLoaderStatus) => void;
   setSignupEmailValue: (newValue: string) => void;
   setSignupFirstNameValue: (newValue: string) => void;
@@ -53,6 +55,7 @@ type AuthContextType = {
 };
 const initialAuthContextState = {
   user: null,
+  signUpStatus: false,
   signupEmailValue: '',
   signupFirstNameValue: '',
   signupLastNameValue: '',
@@ -67,6 +70,7 @@ const initialAuthContextState = {
   editProfileFormMaritalStatusValue: '',
   updateProfileImageButtonStatus: false,
   burgerMenuStatus: false,
+  setSignUpStatus: (newStatus: boolean) => newStatus,
   setAuthLoaderStatus: (newStatus: MainLoaderStatus) => newStatus,
   setSignupEmailValue: (newValue: string) => newValue,
   setSignupFirstNameValue: (newValue: string) => newValue,
@@ -95,10 +99,9 @@ type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<null | LoggedinUserResponseType>(null);
-  console.log(user);
-
   const [authLoaderStatus, setAuthLoaderStatus] =
     useState<MainLoaderStatus>('idle');
+  const [signUpStatus, setSignUpStatus] = useState<boolean>(false);
   const [signupEmailValue, setSignupEmailValue] = useState<string>('');
   const [signupFirstNameValue, setSignupFirstNameValue] = useState<string>('');
   const [signupLastNameValue, setSignupLastNameValue] = useState<string>('');
@@ -128,6 +131,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         signupValues
       );
       if (response) {
+        setSignUpStatus(true);
         setAuthLoaderStatus('idle');
         successfulToast(response.data.message);
         setSignupEmailValue('');
@@ -240,6 +244,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider
       value={{
         user,
+        signUpStatus,
         activeEditForm,
         signupEmailValue,
         signupFirstNameValue,
@@ -254,6 +259,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         editProfileFormMaritalStatusValue,
         burgerMenuStatus,
         updateProfileImageButtonStatus,
+        setSignUpStatus,
         setAuthLoaderStatus,
         setActiveEditForm,
         setSignupEmailValue,

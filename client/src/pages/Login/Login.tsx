@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import styles from './Login.module.scss';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CommonLoginValues } from '../../types/common_types';
@@ -16,11 +16,15 @@ export const Login = () => {
     loginEmailValue,
     loginPasswordValue,
     authLoaderStatus,
+    setSignUpStatus,
     setLoginEmailValue,
     setLoginPasswordValue,
     logUserIn,
   } = useContext(AuthContext);
 
+  useEffect(() => {
+    setSignUpStatus(false);
+  }, []);
   const loginValues: CommonLoginValues = {
     email: loginEmailValue,
     password: loginPasswordValue,
