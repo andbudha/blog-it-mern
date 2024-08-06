@@ -1,8 +1,29 @@
 @import '../../assets/sass/mixinns.scss';
 @import '../../assets/sass/variables.scss';
 
-.main_myblogs_box {
-  // border: 1px solid;
+.main_my_blogs_box {
   height: 100%;
-  @include flexBox(nowrap, row, center, center);
+  color: $secondary_font_color;
+  letter-spacing: 1px;
+  @include flexBox(nowrap, column, center, center);
+  .my_blogs_info_box {
+    // border: 1px solid;
+    height: 150px;
+    @include flexBox(nowrap, column, space-between, center);
+    .add_blog_button_box {
+      height: 40px;
+      width: 180px;
+      background-color: $main_font_color;
+      color: $app_background;
+      cursor: pointer;
+      @include flexBox(nowrap, column, center, center);
+      &:hover {
+        background-color: $button_background_hover_color;
+        transition: 0.4s;
+      }
+      &:not(:hover) {
+        transition: 0.5s;
+      }
+    }
+  }
 }
