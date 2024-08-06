@@ -18,6 +18,7 @@ import { DataProvider } from './contexts/DataContext';
 import { PaginationProvider } from './contexts/PaginationContext';
 import { Toaster } from 'react-hot-toast';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
+import { DetailedBlog } from './pages/DetailedBlog/DetailedBlog';
 
 function App() {
   const router = createBrowserRouter(
@@ -60,6 +61,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="blog" element={<DetailedBlog />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     )
