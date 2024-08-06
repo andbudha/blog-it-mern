@@ -30,6 +30,13 @@ export type CommonBlogFormValues = {
   keyWord: string;
   content: string;
 };
+export type BlogPostingValues = {
+  userID: string;
+  blogID?: string;
+  title: string;
+  image: string;
+  content: string;
+};
 
 export type MainLoaderStatus =
   | 'idle'

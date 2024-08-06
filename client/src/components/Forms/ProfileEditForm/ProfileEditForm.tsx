@@ -66,8 +66,6 @@ export const ProfileEditForm = () => {
   };
 
   const editProfileFirstNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value);
-
     setFirstNameEditProfileFormValue(e.currentTarget.value);
     if (validation.firstName.length === 0) {
       setFirstNameInputError(true);
