@@ -1,18 +1,28 @@
-import { ChangeEvent, FocusEvent, useContext, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import styles from './BlogForm.module.scss';
 import { DataContext } from '../../../contexts/DataContext';
-import { CommonBlogFormValues } from '../../../types/common_types';
+import {
+  BlogPostingValues,
+  CommonBlogFormValues,
+} from '../../../types/common_types';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 export const BlogForm = () => {
+  const { user } = useContext(AuthContext);
   const {
     addBlogTitleInputValue,
     addBlogKeyWordInputValue,
     addBlogContentInputValue,
+    randomlyFetchedImage,
     setAddBlogFormStatus,
     setAddBlogTitleInputValue,
     setAddBlogKeyWordInputValue,
     setAddBlogContentInputValue,
+    fetchRandomImage,
+    postBlog,
   } = useContext(DataContext);
+  console.log(randomlyFetchedImage);
+
   const [titleInputError, setTitleInputError] = useState<boolean>(false);
   const [keyWordInputError, setKeyWordInputError] = useState<boolean>(false);
   const [contentInputError, setContentInputError] = useState<boolean>(false);
@@ -29,9 +39,8 @@ export const BlogForm = () => {
       keyWord: '',
       content: '',
     };
-
     if (!values.title) {
-      errors.title = 'Blog-title is required!';
+      errors.title = 'Blog title is required!';
     }
     if (!values.keyWord) {
       errors.keyWord = 'Blog key-word is required!';
@@ -43,30 +52,61 @@ export const BlogForm = () => {
   };
 
   const validation = validate(blogFormValues);
-  const discardAddBlogFormValuesHandler = () => {
-    setAddBlogTitleInputValue('');
-    setAddBlogKeyWordInputValue('');
-    setAddBlogContentInputValue('');
-    setAddBlogFormStatus(false);
-  };
+
   const catchingTitleInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setAddBlogTitleInputValue(e.currentTarget.value);
+    if (validation.title.length === 0) {
+      setTitleInputError(true);
+    }
   };
   const catchingKeyWordInputValueHandler = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
     setAddBlogKeyWordInputValue(e.currentTarget.value);
+    if (validation.keyWord.length === 0) {
+      setKeyWordInputError(true);
+    }
   };
-  const catchingKeyWordOnBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
+  const catchingKeyWordOnBlurHandler = () => {
     if (addBlogKeyWordInputValue) {
-      console.log(addBlogKeyWordInputValue);
+      fetchRandomImage(addBlogKeyWordInputValue);
     }
   };
   const catchingTextAreaValueHandler = (
     e: ChangeEvent<HTMLTextAreaElement>
   ) => {
     setAddBlogContentInputValue(e.currentTarget.value);
+    if (validation.content.length === 0) {
+      setContentInputError(true);
+    }
   };
+  const postBlogHandler = () => {
+    const blogValues: BlogPostingValues = {
+      userID: user!.userID,
+      title: addBlogTitleInputValue,
+      image: randomlyFetchedImage,
+      content: addBlogContentInputValue,
+    };
+    if (validation.content && validation.keyWord && validation.title) {
+      setTitleInputError(true);
+      setKeyWordInputError(true);
+      setContentInputError(true);
+    } else if (
+      !validation.title &&
+      !validation.keyWord &&
+      !validation.content
+    ) {
+      postBlog(blogValues);
+    }
+  };
+
+  const discardAddBlogFormValuesHandler = () => {
+    setAddBlogTitleInputValue('');
+    setAddBlogKeyWordInputValue('');
+    setAddBlogContentInputValue('');
+    setAddBlogFormStatus(false);
+  };
+
   return (
     <div className={styles.main_blog_form_box}>
       <div className={styles.blog_form_box}>
@@ -119,7 +159,9 @@ export const BlogForm = () => {
           />
         </div>
         <div className={styles.blog_form_button_box}>
-          <div className={styles.post_blog_button}>post blog</div>
+          <div className={styles.post_blog_button} onClick={postBlogHandler}>
+            post blog
+          </div>
           <div
             className={styles.discard_changes_button}
             onClick={discardAddBlogFormValuesHandler}
