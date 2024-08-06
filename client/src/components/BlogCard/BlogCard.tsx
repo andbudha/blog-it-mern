@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 export const BlogCard = () => {
   return (
-    <NavLink className={styles.main_blog_card_box} to={'/profile'}>
+    <NavLink className={styles.main_blog_card_box} to={'/blog'}>
       <div className={styles.blog_card_image_box}>
         <img
           className={styles.blog_image}
