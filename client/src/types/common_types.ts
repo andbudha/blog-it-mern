@@ -25,6 +25,11 @@ export type CommonEditProfileFormValues = {
   age: string;
   maritalStatus?: string;
 };
+export type CommonBlogFormValues = {
+  title: string;
+  keyWord: string;
+  content: string;
+};
 
 export type MainLoaderStatus =
   | 'idle'
