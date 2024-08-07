@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import usersRouter from './routes/usersRouter.js';
+import blogsRouter from './routes/blogsRouter.js';
 import passport from 'passport';
 import passportStrategy from './config/passportConfig.js';
 import { cloudinaryConfig } from './config/cloudinary.js';
@@ -29,6 +30,7 @@ const startServer = () => {
 
 const loadRoutes = () => {
   app.use('/blogit/users', usersRouter);
+  app.use('/blogit/blogs', blogsRouter);
 };
 
 const connectingWithMongoDB = async () => {
