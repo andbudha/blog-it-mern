@@ -6,9 +6,12 @@ import {
   CommonBlogFormValues,
 } from '../../../types/common_types';
 import { AuthContext } from '../../../contexts/AuthContext';
+import { AuthLoader } from '../../Loaders/AuthLoader/AuthLoader';
 
 export const BlogForm = () => {
-  const { user } = useContext(AuthContext);
+  const { user, authLoaderStatus } = useContext(AuthContext);
+  console.log(authLoaderStatus);
+
   const {
     addBlogTitleInputValue,
     addBlogKeyWordInputValue,
@@ -21,7 +24,6 @@ export const BlogForm = () => {
     fetchRandomImage,
     postBlog,
   } = useContext(DataContext);
-  console.log(randomlyFetchedImage);
 
   const [titleInputError, setTitleInputError] = useState<boolean>(false);
   const [keyWordInputError, setKeyWordInputError] = useState<boolean>(false);
@@ -82,7 +84,7 @@ export const BlogForm = () => {
   };
   const postBlogHandler = () => {
     const blogValues: BlogPostingValues = {
-      userID: user!.userID,
+      user: user!.userID,
       title: addBlogTitleInputValue,
       image: randomlyFetchedImage,
       content: addBlogContentInputValue,
@@ -109,67 +111,71 @@ export const BlogForm = () => {
 
   return (
     <div className={styles.main_blog_form_box}>
-      <div className={styles.blog_form_box}>
-        <div className={styles.blog_form_input_box}>
-          {titleInputError && validation.title ? (
-            <div className={styles.error_text_box}>
-              <span className={styles.error_text}>{validation.title}</span>
-            </div>
-          ) : (
-            <label className={styles.label}>Blog title</label>
-          )}
-          <input
-            value={addBlogTitleInputValue}
-            onChange={catchingTitleInputValueHandler}
-            type="text"
-            placeholder="Blog title..."
-            className={styles.blog_form_input}
-          />
-        </div>{' '}
-        <div className={styles.blog_form_input_box}>
-          {keyWordInputError && validation.keyWord ? (
-            <div className={styles.error_text_box}>
-              <span className={styles.error_text}>{validation.keyWord}</span>
-            </div>
-          ) : (
-            <label className={styles.label}>Blog key-word</label>
-          )}
-          <input
-            value={addBlogKeyWordInputValue}
-            onChange={catchingKeyWordInputValueHandler}
-            onBlur={catchingKeyWordOnBlurHandler}
-            type="text"
-            placeholder="Blog key-word..."
-            className={styles.blog_form_input}
-          />
-        </div>
-        <div className={styles.blog_form_text_area_box}>
-          {contentInputError && validation.content ? (
-            <div className={styles.error_text_box}>
-              <span className={styles.error_text}>{validation.content}</span>
-            </div>
-          ) : (
-            <label className={styles.label}>Blog content</label>
-          )}
-          <textarea
-            value={addBlogContentInputValue}
-            onChange={catchingTextAreaValueHandler}
-            placeholder="Blog content..."
-            className={styles.blog_form_text_area}
-          />
-        </div>
-        <div className={styles.blog_form_button_box}>
-          <div className={styles.post_blog_button} onClick={postBlogHandler}>
-            post blog
+      {authLoaderStatus === 'adding' ? (
+        <AuthLoader />
+      ) : (
+        <div className={styles.blog_form_box}>
+          <div className={styles.blog_form_input_box}>
+            {titleInputError && validation.title ? (
+              <div className={styles.error_text_box}>
+                <span className={styles.error_text}>{validation.title}</span>
+              </div>
+            ) : (
+              <label className={styles.label}>Blog title</label>
+            )}
+            <input
+              value={addBlogTitleInputValue}
+              onChange={catchingTitleInputValueHandler}
+              type="text"
+              placeholder="Blog title..."
+              className={styles.blog_form_input}
+            />
+          </div>{' '}
+          <div className={styles.blog_form_input_box}>
+            {keyWordInputError && validation.keyWord ? (
+              <div className={styles.error_text_box}>
+                <span className={styles.error_text}>{validation.keyWord}</span>
+              </div>
+            ) : (
+              <label className={styles.label}>Blog key-word</label>
+            )}
+            <input
+              value={addBlogKeyWordInputValue}
+              onChange={catchingKeyWordInputValueHandler}
+              onBlur={catchingKeyWordOnBlurHandler}
+              type="text"
+              placeholder="Blog key-word..."
+              className={styles.blog_form_input}
+            />
           </div>
-          <div
-            className={styles.discard_changes_button}
-            onClick={discardAddBlogFormValuesHandler}
-          >
-            discard blog
+          <div className={styles.blog_form_text_area_box}>
+            {contentInputError && validation.content ? (
+              <div className={styles.error_text_box}>
+                <span className={styles.error_text}>{validation.content}</span>
+              </div>
+            ) : (
+              <label className={styles.label}>Blog content</label>
+            )}
+            <textarea
+              value={addBlogContentInputValue}
+              onChange={catchingTextAreaValueHandler}
+              placeholder="Blog content..."
+              className={styles.blog_form_text_area}
+            />
+          </div>
+          <div className={styles.blog_form_button_box}>
+            <div className={styles.post_blog_button} onClick={postBlogHandler}>
+              post blog
+            </div>
+            <div
+              className={styles.discard_changes_button}
+              onClick={discardAddBlogFormValuesHandler}
+            >
+              discard blog
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
