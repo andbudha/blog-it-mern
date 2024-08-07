@@ -2,25 +2,23 @@ import styles from './BlogCard.module.scss';
 import { FiThumbsUp } from 'react-icons/fi';
 import { AiOutlineRead } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
+import { BlogResponse } from '../../types/common_types';
 
-export const BlogCard = () => {
+type BlogCardProps = {
+  blog: BlogResponse;
+};
+export const BlogCard = ({ blog }: BlogCardProps) => {
   return (
     <NavLink className={styles.main_blog_card_box} to={'/blog'}>
       <div className={styles.blog_card_image_box}>
-        <img
-          className={styles.blog_image}
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROJmGQU-YJkAWvjqyS0zA6Ul5zqRPNBK_8YA&s"
-          alt="blog_card_image"
-        />
+        <img className={styles.blog_image} src={blog.image} />
       </div>
       <div className={styles.blog_card_details_box}>
-        <h4 className={styles.blog_card_title}>Blog Title</h4>
-        <h5 className={styles.blog_card_author}>by: Delia Bartov</h5>
-        <p className={styles.blog_card_text_body}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Consequuntur, alias aspernatur nemo voluptatibus dicta fuga alias
-          aspernatur nemo voluptatibus dicta fuga.
-        </p>
+        <h4 className={styles.blog_card_title}>{blog.title}</h4>
+        <h5 className={styles.blog_card_author}>
+          by: {blog.user.firstName} {blog.user.lastName}
+        </h5>
+        <pre className={styles.blog_card_text_body}>{blog.content}</pre>
       </div>
       <div className={styles.blog_card_bottom_box}>
         {' '}
