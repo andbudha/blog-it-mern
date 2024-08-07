@@ -31,8 +31,7 @@ export type CommonBlogFormValues = {
   content: string;
 };
 export type BlogPostingValues = {
-  userID: string;
-  blogID?: string;
+  user: string;
   title: string;
   image: string;
   content: string;
@@ -48,3 +47,27 @@ export type MainLoaderStatus =
   | 'editing'
   | 'adding'
   | 'deleting';
+
+//Response Types
+
+export type UserResponse = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  profileImage: string;
+};
+
+export type BlogResponse = {
+  _id: string;
+  user: UserResponse;
+  title: string;
+  image: string;
+  content: string;
+  likes: string[];
+  comments: string[];
+  createdAt: Date;
+};
+export type BlogsResponseValues = {
+  message: string;
+  blogs: BlogResponse[];
+};
