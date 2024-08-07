@@ -1,8 +1,13 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { randomImageAPI } from '../assets/api/randomImageAPI';
-import { BlogPostingValues } from '../types/common_types';
+import { BlogPostingValues, BlogResponse } from '../types/common_types';
+import axios from 'axios';
+import { baseUrl } from '../assets/base_url';
+import { successfulToast } from '../assets/toasts/successfulToast';
+import { AuthContext } from './AuthContext';
 
 type DataContextType = {
+  blogs: null | BlogResponse[];
   dataLoaderStatus: boolean;
   customSelectStatus: boolean;
   addBlogFormStatus: boolean;
@@ -18,8 +23,10 @@ type DataContextType = {
   setAddBlogContentInputValue: (newValue: string) => void;
   fetchRandomImage: (newImage: string) => Promise<void>;
   postBlog: (newBlogValues: BlogPostingValues) => Promise<void>;
+  fetchBlogs: () => Promise<void>;
 };
 const initialDataContextState = {
+  blogs: null,
   dataLoaderStatus: false,
   customSelectStatus: false,
   addBlogFormStatus: false,
@@ -35,12 +42,14 @@ const initialDataContextState = {
   setAddBlogContentInputValue: (newValue: string) => newValue,
   fetchRandomImage: () => Promise.resolve(),
   postBlog: () => Promise.resolve(),
+  fetchBlogs: () => Promise.resolve(),
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
 type DataProviderProps = { children: ReactNode };
 
 export const DataProvider = ({ children }: DataProviderProps) => {
+  const { setAuthLoaderStatus } = useContext(AuthContext);
   const [dataLoaderStatus, setDataLoaderStatus] = useState<boolean>(false);
   const [customSelectStatus, setCustomSelectStatus] = useState<boolean>(false);
   const [addBlogFormStatus, setAddBlogFormStatus] = useState<boolean>(false);
@@ -51,6 +60,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   const [addBlogContentInputValue, setAddBlogContentInputValue] =
     useState<string>('');
   const [randomlyFetchedImage, setRandomlyFetchedImage] = useState<string>('');
+  const [blogs, setBlogs] = useState<null | BlogResponse[]>(null);
 
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
@@ -61,14 +71,39 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     }
   };
 
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/blogs/getblogs`);
+      if (response) {
+        console.log(response.data);
+        setBlogs(response.data.blogs);
+      }
+    } catch (error) {}
+  };
   const postBlog = async (newBlogValues: BlogPostingValues) => {
-    console.log(newBlogValues);
-    setRandomlyFetchedImage('');
+    setAuthLoaderStatus('adding');
+    try {
+      const response = await axios.post(
+        `${baseUrl}/blogs/addblog`,
+        newBlogValues
+      );
+      if (response) {
+        successfulToast(response.data.message);
+        setAddBlogFormStatus(false);
+        setAddBlogTitleInputValue('');
+        setAddBlogKeyWordInputValue('');
+        setAddBlogContentInputValue('');
+        setRandomlyFetchedImage('');
+        setAuthLoaderStatus('idle');
+        fetchBlogs();
+      }
+    } catch (error) {}
   };
 
   return (
     <DataContext.Provider
       value={{
+        blogs,
         dataLoaderStatus,
         customSelectStatus,
         addBlogFormStatus,
@@ -84,6 +119,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setAddBlogContentInputValue,
         fetchRandomImage,
         postBlog,
+        fetchBlogs,
       }}
     >
       {children}
