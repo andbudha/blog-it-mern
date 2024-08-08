@@ -9,10 +9,15 @@ type BlogCardProps = {
 };
 export const BlogCard = ({ blog }: BlogCardProps) => {
   const splitBlogCardContent = blog.content.slice(0, 220);
+  const alternativeBlogCoverImage =
+    'https://d3t4nwcgmfrp9x.cloudfront.net/upload/tendencias-blogs-2023-643x342.jpg';
   return (
     <NavLink className={styles.main_blog_card_box} to={'/blog'}>
       <div className={styles.blog_card_image_box}>
-        <img className={styles.blog_image} src={blog.image} />
+        <img
+          className={styles.blog_image}
+          src={blog.image ? blog.image : alternativeBlogCoverImage}
+        />
       </div>
       <div className={styles.blog_card_details_box}>
         <div className={styles.blog_card_title_box}>

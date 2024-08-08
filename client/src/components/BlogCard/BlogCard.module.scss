@@ -26,10 +26,9 @@
     width: 100%;
     @include flexBox(nowrap, column, start, start);
     .blog_card_title_box {
-      // border: 1px solid;
-      height: 30px;
+      height: 40px;
       width: 100%;
-      @include flexBox(nowrap, column, center, start);
+      @include flexBox(nowrap, column, end, start);
       .blog_card_title {
         color: $secondary_font_color;
         letter-spacing: 1px;
