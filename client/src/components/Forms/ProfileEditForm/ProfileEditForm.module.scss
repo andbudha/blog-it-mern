@@ -25,6 +25,7 @@
       .label {
         letter-spacing: 1px;
         font-weight: 400;
+        font-size: 0.9rem;
         padding: 0 6px;
         color: $secondary_font_color;
       }
@@ -36,7 +37,7 @@
         outline: none;
         padding: 0 6px;
         color: $secondary_font_color;
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 600;
         letter-spacing: 1.2px;
         &::placeholder {
@@ -54,7 +55,7 @@
       min-height: auto;
       width: 300px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: $secondary_font_color;
       cursor: pointer;
       @include flexBox(nowrap, column, start, center);
@@ -117,7 +118,7 @@
     .save_changes_button {
       height: 36px;
       width: 140px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       letter-spacing: 1.2px;
       color: $app_background;
@@ -136,7 +137,7 @@
       border: 1px solid $main_font_color;
       height: 36px;
       width: 140px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       letter-spacing: 1.2px;
       color: $main_font_color;
