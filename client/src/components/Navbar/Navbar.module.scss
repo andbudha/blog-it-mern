@@ -6,11 +6,11 @@
   width: 100%;
   padding: 0 50px;
   font-family: 'Poppins', sans-serif;
-  font-weight: 100;
   letter-spacing: 1.2px;
   @include flexBox(nowrap, column, center, center);
   .main_navbar_link_box {
     width: 100%;
+    font-size: 0.8rem;
     @include flexBox(nowrap, row, space-between, center);
     .main_logo_box {
       padding: 6px;

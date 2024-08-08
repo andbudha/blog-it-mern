@@ -17,9 +17,12 @@
       @include flexBox(nowrap, column, space-between, center);
       .profile_image_box {
         position: relative;
-        height: 300px;
+        border-radius: 50%;
+        height: 280px;
         width: 280px;
         margin: 10px;
+        box-shadow: $main_font_color 0px 0px 6px 0px;
+
         @include flexBox(nowrap, row, center, center);
         .profile_image,
         .user_icon {
@@ -39,7 +42,7 @@
         .save_changes_button {
           height: 36px;
           width: 140px;
-          font-size: 1rem;
+          font-size: 0.9rem;
           font-weight: 600;
           letter-spacing: 1.2px;
           color: $app_background;
@@ -58,7 +61,7 @@
           border: 1px solid $main_font_color;
           height: 36px;
           width: 140px;
-          font-size: 1rem;
+          font-size: 0.9rem;
           font-weight: 600;
           letter-spacing: 1.2px;
           color: $main_font_color;
@@ -84,7 +87,7 @@
         .profile_image_button {
           height: 36px;
           width: 200px;
-          font-size: 1rem;
+          font-size: 0.9rem;
           font-weight: 600;
           letter-spacing: 1.2px;
           color: $app_background;
@@ -110,8 +113,10 @@
       @include flexBox(nowrap, column, space-between, center);
       .profile_details_box {
         min-height: 300px;
-        width: 340px;
+        min-width: 240px;
+        max-width: 340px;
         margin: 10px;
+        font-size: 0.8rem;
         padding-left: 20px;
         letter-spacing: 1px;
         @include flexBox(nowrap, column, space-evenly, start);
@@ -132,7 +137,7 @@
         .edit_profile_button {
           height: 36px;
           width: 200px;
-          font-size: 1rem;
+          font-size: 0.9rem;
           font-weight: 600;
           letter-spacing: 1.2px;
           color: $app_background;
