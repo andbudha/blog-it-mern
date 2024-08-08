@@ -2,28 +2,64 @@ import { useContext } from 'react';
 import styles from './MyBlogs.module.scss';
 import { DataContext } from '../../contexts/DataContext';
 import { BlogForm } from '../../components/Forms/BlogForm/BlogForm';
+import { BlogCard } from '../../components/BlogCard/BlogCard';
+import { AuthContext } from '../../contexts/AuthContext';
+import { IoAdd } from 'react-icons/io5';
 
 export const MyBlogs = () => {
-  const { addBlogFormStatus, setAddBlogFormStatus } = useContext(DataContext);
+  const { user } = useContext(AuthContext);
+  const { blogs, addBlogFormStatus, setAddBlogFormStatus } =
+    useContext(DataContext);
+  const filteredBlogs = blogs?.filter((blog) => blog.user._id === user?.userID);
+  const myBlogs = filteredBlogs?.map((blog) => (
+    <BlogCard key={blog._id} blog={blog} />
+  ));
 
   const changeBlogFormStatusHandler = () => {
     setAddBlogFormStatus(true);
   };
   return (
     <div className={styles.main_my_blogs_box}>
-      {addBlogFormStatus ? (
-        <BlogForm />
+      {!blogs?.length ? (
+        <>
+          {addBlogFormStatus ? (
+            <BlogForm />
+          ) : (
+            <div className={styles.my_blogs_info_box}>
+              <h2>No Blogs Added Yet.</h2>
+
+              <div
+                className={styles.add_blog_button}
+                onClick={changeBlogFormStatusHandler}
+              >
+                {' '}
+                <IoAdd className={styles.add_icon} />
+                <h4>add blog</h4>
+              </div>
+            </div>
+          )}
+        </>
       ) : (
-        <div className={styles.my_blogs_info_box}>
-          <h2>No Blogs Added.</h2>
-          <h2>Feel Free To Add One.</h2>
-          <div
-            className={styles.add_blog_button_box}
-            onClick={changeBlogFormStatusHandler}
-          >
-            <h4>add blog</h4>
-          </div>
-        </div>
+        <>
+          {addBlogFormStatus ? (
+            <BlogForm />
+          ) : (
+            <div className={styles.my_blogs_box}>
+              <div className={styles.my_blogs_grid_box}>
+                {' '}
+                <div
+                  className={styles.add_blog_button}
+                  onClick={changeBlogFormStatusHandler}
+                >
+                  {' '}
+                  <IoAdd className={styles.add_icon} />
+                  <h4>add new blog</h4>
+                </div>
+                {myBlogs}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
