@@ -26,4 +26,33 @@ const addBlog = async (req, res) => {
   }
 };
 
-export { addBlog, getBlogs };
+const toggleBlogLiking = async (req, res) => {
+  console.log(req.body);
+  const blog = await BlogModel.findOne({ _id: req.body.blogID });
+  const liked = blog.likes.filter((userID) => userID === req.body.userID);
+
+  try {
+    if (liked.length > 0) {
+      const existingBlog = await BlogModel.findByIdAndUpdate(
+        { _id: req.body.blogID },
+        { $pull: { likes: req.body.userID } },
+        { new: true }
+      );
+      res.status(200).json({ message: 'You dislike this blog!', existingBlog });
+    } else if (liked.length === 0) {
+      const existingBlog = await BlogModel.findByIdAndUpdate(
+        { _id: req.body.blogID },
+        { $push: { likes: req.body.userID } },
+        { new: true }
+      );
+      res.status(200).json({ message: 'You like this blog!', existingBlog });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: 'Disliking failed. Try again late, please!',
+    });
+  }
+};
+
+export { addBlog, getBlogs, toggleBlogLiking };
