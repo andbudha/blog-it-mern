@@ -3,20 +3,20 @@ import { FaRegHeart } from 'react-icons/fa';
 import { AiOutlineRead } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 import { BlogResponse } from '../../types/common_types';
+import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 
 type BlogCardProps = {
   blog: BlogResponse;
 };
 export const BlogCard = ({ blog }: BlogCardProps) => {
   const splitBlogCardContent = blog.content.slice(0, 220);
-  const alternativeBlogCoverImage =
-    'https://d3t4nwcgmfrp9x.cloudfront.net/upload/tendencias-blogs-2023-643x342.jpg';
+
   return (
-    <NavLink className={styles.main_blog_card_box} to={'/blog'}>
+    <NavLink className={styles.main_blog_card_box} to={`/blog/${blog._id}`}>
       <div className={styles.blog_card_image_box}>
         <img
           className={styles.blog_image}
-          src={blog.image ? blog.image : alternativeBlogCoverImage}
+          src={blog.image ? blog.image : blogAlternativeImage}
         />
       </div>
       <div className={styles.blog_card_details_box}>
@@ -25,7 +25,7 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
         </div>
         <div className={styles.blog_card_author_box}>
           <h5 className={styles.blog_card_author}>
-            by: {blog.user.firstName} {blog.user.lastName}
+            by {blog.user.firstName} {blog.user.lastName}
           </h5>
         </div>
         <div className={styles.blog_card_text_body_box}>
