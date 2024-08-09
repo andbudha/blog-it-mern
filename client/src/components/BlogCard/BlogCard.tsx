@@ -1,9 +1,9 @@
 import styles from './BlogCard.module.scss';
-import { FaRegHeart } from 'react-icons/fa';
 import { AiOutlineRead } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 import { BlogResponse } from '../../types/common_types';
 import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
+import { RiThumbUpLine } from 'react-icons/ri';
 
 type BlogCardProps = {
   blog: BlogResponse;
@@ -37,7 +37,7 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
       <div className={styles.blog_card_bottom_box}>
         {' '}
         <div className={styles.likes_box}>
-          <FaRegHeart className={styles.like_icon} />
+          <RiThumbUpLine className={styles.like_icon} />
           <div className={styles.likes_amount}>{blog.likes.length}</div>
         </div>
         <div className={styles.read_more_box}>

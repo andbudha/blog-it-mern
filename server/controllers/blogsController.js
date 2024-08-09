@@ -28,24 +28,26 @@ const addBlog = async (req, res) => {
 
 const toggleBlogLiking = async (req, res) => {
   console.log(req.body);
-  const blog = await BlogModel.findOne({ _id: req.body.blogID });
-  const liked = blog.likes.filter((userID) => userID === req.body.userID);
+  const existingBlog = await BlogModel.findOne({ _id: req.body.blogID });
+  const liked = existingBlog.likes.filter(
+    (userID) => userID === req.body.userID
+  );
 
   try {
     if (liked.length > 0) {
-      const existingBlog = await BlogModel.findByIdAndUpdate(
+      const blog = await BlogModel.findByIdAndUpdate(
         { _id: req.body.blogID },
         { $pull: { likes: req.body.userID } },
         { new: true }
       );
-      res.status(200).json({ message: 'You dislike this blog!', existingBlog });
+      res.status(200).json({ message: 'You dislike this blog!', blog });
     } else if (liked.length === 0) {
-      const existingBlog = await BlogModel.findByIdAndUpdate(
+      const blog = await BlogModel.findByIdAndUpdate(
         { _id: req.body.blogID },
         { $push: { likes: req.body.userID } },
         { new: true }
       );
-      res.status(200).json({ message: 'You like this blog!', existingBlog });
+      res.status(200).json({ message: 'You like this blog!', blog });
     }
   } catch (error) {
     res.status(500).json({
