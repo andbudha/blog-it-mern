@@ -1,6 +1,10 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { randomImageAPI } from '../assets/api/randomImageAPI';
-import { BlogPostingValues, BlogResponse } from '../types/common_types';
+import {
+  BlogLikingValues,
+  BlogPostingValues,
+  BlogResponse,
+} from '../types/common_types';
 import axios from 'axios';
 import { baseUrl } from '../assets/base_url';
 import { successfulToast } from '../assets/toasts/successfulToast';
@@ -24,6 +28,7 @@ type DataContextType = {
   fetchRandomImage: (newImage: string) => Promise<void>;
   postBlog: (newBlogValues: BlogPostingValues) => Promise<void>;
   fetchBlogs: () => Promise<void>;
+  toggleBlogLiking: (blogLikingRequestBody: BlogLikingValues) => Promise<void>;
 };
 const initialDataContextState = {
   blogs: null,
@@ -43,6 +48,7 @@ const initialDataContextState = {
   fetchRandomImage: () => Promise.resolve(),
   postBlog: () => Promise.resolve(),
   fetchBlogs: () => Promise.resolve(),
+  toggleBlogLiking: () => Promise.resolve(),
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
@@ -75,7 +81,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     try {
       const response = await axios.get(`${baseUrl}/blogs/getblogs`);
       if (response) {
-        console.log(response.data);
         setBlogs(response.data.blogs);
       }
     } catch (error) {}
@@ -100,6 +105,19 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     } catch (error) {}
   };
 
+  const toggleBlogLiking = async (blogLikingRequestBody: BlogLikingValues) => {
+    setDataLoaderStatus(true);
+    try {
+      const response = await axios.post(
+        `${baseUrl}/blogs/liking`,
+        blogLikingRequestBody
+      );
+      if (response) {
+        setDataLoaderStatus(false);
+        fetchBlogs();
+      }
+    } catch (error) {}
+  };
   return (
     <DataContext.Provider
       value={{
@@ -120,6 +138,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         fetchRandomImage,
         postBlog,
         fetchBlogs,
+        toggleBlogLiking,
       }}
     >
       {children}

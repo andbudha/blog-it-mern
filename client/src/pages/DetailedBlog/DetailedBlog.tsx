@@ -8,11 +8,19 @@ import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
-  const { blogs } = useContext(DataContext);
+  const { blogs, toggleBlogLiking } = useContext(DataContext);
   const blog = blogs?.find((blog) => blog._id === blogID);
   const date = new Date(blog?.createdAt!).toLocaleDateString();
   const time = new Date(blog?.createdAt!).toLocaleTimeString();
-  const liked = 0;
+  const liked = blog?.likes.filter((userID) => userID === blog.user._id);
+
+  const toggleLikeBlogHandler = () => {
+    const blogLikingRequestBody = {
+      userID: blog!.user._id,
+      blogID: blog!._id,
+    };
+    toggleBlogLiking(blogLikingRequestBody);
+  };
 
   return (
     <div className={styles.main_detailed_blog_box}>
@@ -34,10 +42,16 @@ export const DetailedBlog = () => {
         <div className={styles.blog_footer_box}>
           <div className={styles.footer_likes_box}>
             <div className={styles.thumb_up_icon_box}>
-              {liked ? (
-                <RiThumbUpFill className={styles.thumb_up_icon} />
+              {liked?.length === 1 ? (
+                <RiThumbUpFill
+                  className={styles.thumb_up_icon}
+                  onClick={toggleLikeBlogHandler}
+                />
               ) : (
-                <RiThumbUpLine className={styles.thumb_up_icon} />
+                <RiThumbUpLine
+                  className={styles.thumb_up_icon}
+                  onClick={toggleLikeBlogHandler}
+                />
               )}
             </div>
             <div className={styles.likes_amount_box}>{blog?.likes.length}</div>
