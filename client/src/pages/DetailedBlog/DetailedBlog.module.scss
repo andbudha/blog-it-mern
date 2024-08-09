@@ -2,7 +2,144 @@
 @import '../../assets/sass/variables.scss';
 
 .main_detailed_blog_box {
+  // border: 1px solid;
   height: 100%;
   width: 100%;
+  color: $secondary_font_color;
   @include flexBox(nowrap, column, center, center);
+  .detailed_blog_box {
+    // border: 1px solid;
+    width: 700px;
+    min-height: 600px;
+    @include flexBox(nowrap, column, start, center);
+    .blog_image_box {
+      // border: 1px solid;
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+      );
+
+      .blog_image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        opacity: 0.8;
+      }
+    }
+    .blog_title_box {
+      // border: 1px solid;
+      height: 80px;
+      width: 100%;
+      padding: 0 20px;
+      color: $main_font_color;
+      @include flexBox(nowrap, column, center, start);
+    }
+    .blog_content_box {
+      // border: 1px solid;
+      min-height: 200px;
+      width: 100%;
+      padding: 0 20px;
+      @include flexBox(nowrap, column, center, start);
+    }
+    .blog_footer_box {
+      // border: 1px solid;
+      height: 100px;
+      width: 100%;
+      padding: 0 20px;
+      @include flexBox(nowrap, row, end, center);
+      .details_box {
+        // border: 1px solid;
+        min-width: 200px;
+        height: 60px;
+        .user_full_name_box {
+          // border: 1px solid;
+          height: 30px;
+          width: 100%;
+          padding: 0 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: $main_font_color;
+          font-style: italic;
+          @include flexBox(nowrap, row, end, end);
+        }
+        .blog_date_box {
+          // border: 1px solid;
+          height: 30px;
+          width: 100%;
+          padding: 0 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: $main_font_color;
+          font-style: italic;
+          @include flexBox(nowrap, row, end, start);
+        }
+      }
+      .user_profile_image_box {
+        border-radius: 50%;
+        height: 60px;
+        width: 60px;
+        box-shadow: $secondary_font_color 0px 0px 6px 0px;
+        @include flexBox(nowrap, column, center, center);
+        .user_profile_image {
+          height: 50px;
+          width: 50px;
+          border-radius: 50%;
+        }
+        .user_icon {
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          color: $main_font_color;
+        }
+      }
+    }
+  }
+  .comment_text_area_box {
+    // border: 1px solid;
+    height: auto;
+    width: 700px;
+    @include flexBox(nowrap, column, center, center);
+    .comment_text_area {
+      border: none;
+      border-bottom: 2px solid $main_font_color;
+      width: 600px;
+      height: 150px;
+      padding: 20px;
+      outline: none;
+      color: $secondary_font_color;
+      letter-spacing: 1.2px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      resize: none;
+      &::placeholder {
+        opacity: 0.6;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-style: italic;
+      }
+    }
+    .post_comment_button {
+      border: none;
+      margin: 10px 0;
+      width: 600px;
+      height: 40px;
+      letter-spacing: 1px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: $app_background;
+      cursor: pointer;
+      background-color: $main_font_color;
+      &:hover {
+        background-color: $button_background_hover_color;
+        transition: 0.4s;
+      }
+      &:not(:hover) {
+        transition: 0.5s;
+      }
+    }
+  }
 }

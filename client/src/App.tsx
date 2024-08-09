@@ -61,7 +61,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="blog" element={<DetailedBlog />} />
+        <Route path="blog/:blogID" element={<DetailedBlog />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     )
