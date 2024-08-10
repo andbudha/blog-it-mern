@@ -1,4 +1,5 @@
 import { BlogModel } from '../models/blogModel.js';
+import { UserModel } from '../models/userModel.js';
 
 const getBlogs = async (req, res) => {
   try {
@@ -8,6 +9,22 @@ const getBlogs = async (req, res) => {
     res.status(500).json({
       error,
       message: 'Fetching blogs failed. Try again late, please!',
+    });
+  }
+};
+
+const getFavoriteBlogs = async (req, res) => {
+  console.log(req.query.userID);
+
+  try {
+    const user = await UserModel.findOne({
+      _id: req.query.userID,
+    }).populate('favoriteBlogList');
+    const favoriteBlogs = user.favoriteBlogList;
+    res.status(200).json({ message: 'Favorite blogs fetched!', favoriteBlogs });
+  } catch (error) {
+    res.status(400).json({
+      message: 'Fetching favorite blogs failed. Try again late, please!',
     });
   }
 };
@@ -40,14 +57,28 @@ const toggleBlogLiking = async (req, res) => {
         { $pull: { likes: req.body.userID } },
         { new: true }
       );
-      res.status(200).json({ message: 'You dislike this blog!', blog });
+      const user = await UserModel.findByIdAndUpdate(
+        { _id: req.body.userID },
+        {
+          $pull: { favoriteBlogList: req.body.blogID },
+        },
+        { new: true }
+      );
+      res.status(200).json({ message: 'You dislike this blog!', blog, user });
     } else if (liked.length === 0) {
       const blog = await BlogModel.findByIdAndUpdate(
         { _id: req.body.blogID },
         { $push: { likes: req.body.userID } },
         { new: true }
       );
-      res.status(200).json({ message: 'You like this blog!', blog });
+      const user = await UserModel.findByIdAndUpdate(
+        { _id: req.body.userID },
+        {
+          $push: { favoriteBlogList: req.body.blogID },
+        },
+        { new: true }
+      );
+      res.status(200).json({ message: 'You like this blog!', blog, user });
     }
   } catch (error) {
     res.status(500).json({
@@ -57,4 +88,4 @@ const toggleBlogLiking = async (req, res) => {
   }
 };
 
-export { addBlog, getBlogs, toggleBlogLiking };
+export { addBlog, getBlogs, toggleBlogLiking, getFavoriteBlogs };
