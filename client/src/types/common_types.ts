@@ -1,13 +1,3 @@
-export type LoggedinUserResponseType = {
-  userID: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  age: string;
-  maritalStatus: string;
-  profileImage: string;
-  profileImagePublicID: string;
-};
 export type CommonSignupValues = {
   email: string;
   firstName: string;
@@ -50,10 +40,20 @@ export type MainLoaderStatus =
   | 'creating'
   | 'editing'
   | 'adding'
-  | 'deleting';
+  | 'deleting'
+  | 'fetching';
 
 //Response Types
-
+export type LoggedinUserResponseType = {
+  userID: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  age: string;
+  maritalStatus: string;
+  profileImage: string;
+  profileImagePublicID: string;
+};
 export type UserResponse = {
   _id: string;
   firstName: string;
@@ -74,4 +74,13 @@ export type BlogResponse = {
 export type BlogsResponseValues = {
   message: string;
   blogs: BlogResponse[];
+};
+
+export type FavoriteBlogResponseValues = {
+  _id: string;
+  user: string;
+  title: string;
+  image: string;
+  content: string;
+  likes: string[];
 };
