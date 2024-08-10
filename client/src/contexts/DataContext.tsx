@@ -12,6 +12,7 @@ import { AuthContext } from './AuthContext';
 
 type DataContextType = {
   blogs: null | BlogResponse[];
+  favoriteBlogs: null | BlogResponse[];
   dataLoaderStatus: boolean;
   customSelectStatus: boolean;
   addBlogFormStatus: boolean;
@@ -29,9 +30,11 @@ type DataContextType = {
   postBlog: (newBlogValues: BlogPostingValues) => Promise<void>;
   fetchBlogs: () => Promise<void>;
   toggleBlogLiking: (blogLikingRequestBody: BlogLikingValues) => Promise<void>;
+  fetchFavorites: (userID: string) => Promise<void>;
 };
 const initialDataContextState = {
   blogs: null,
+  favoriteBlogs: null,
   dataLoaderStatus: false,
   customSelectStatus: false,
   addBlogFormStatus: false,
@@ -49,13 +52,14 @@ const initialDataContextState = {
   postBlog: () => Promise.resolve(),
   fetchBlogs: () => Promise.resolve(),
   toggleBlogLiking: () => Promise.resolve(),
+  fetchFavorites: () => Promise.resolve(),
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
 type DataProviderProps = { children: ReactNode };
 
 export const DataProvider = ({ children }: DataProviderProps) => {
-  const { setAuthLoaderStatus } = useContext(AuthContext);
+  const { user, setAuthLoaderStatus } = useContext(AuthContext);
   const [dataLoaderStatus, setDataLoaderStatus] = useState<boolean>(false);
   const [customSelectStatus, setCustomSelectStatus] = useState<boolean>(false);
   const [addBlogFormStatus, setAddBlogFormStatus] = useState<boolean>(false);
@@ -67,6 +71,9 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     useState<string>('');
   const [randomlyFetchedImage, setRandomlyFetchedImage] = useState<string>('');
   const [blogs, setBlogs] = useState<null | BlogResponse[]>(null);
+  const [favoriteBlogs, setFavoriteBlogs] = useState<null | BlogResponse[]>(
+    null
+  );
 
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
@@ -85,6 +92,21 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       }
     } catch (error) {}
   };
+
+  const fetchFavorites = async (userID: string) => {
+    setAuthLoaderStatus('fetching');
+    try {
+      const response = await axios.get(
+        `${baseUrl}/blogs/getfavorites?userID=${userID}`
+      );
+      if (response) {
+        setAuthLoaderStatus('idle');
+        setFavoriteBlogs(response.data.favoriteBlogs);
+        fetchBlogs();
+      }
+    } catch (error) {}
+  };
+
   const postBlog = async (newBlogValues: BlogPostingValues) => {
     setAuthLoaderStatus('adding');
     try {
@@ -115,6 +137,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       if (response) {
         setDataLoaderStatus(false);
         fetchBlogs();
+        fetchFavorites(user!.userID);
       }
     } catch (error) {}
   };
@@ -122,6 +145,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     <DataContext.Provider
       value={{
         blogs,
+        favoriteBlogs,
         dataLoaderStatus,
         customSelectStatus,
         addBlogFormStatus,
@@ -139,6 +163,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         postBlog,
         fetchBlogs,
         toggleBlogLiking,
+        fetchFavorites,
       }}
     >
       {children}
