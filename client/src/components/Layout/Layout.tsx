@@ -7,11 +7,13 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { BurgerMenu } from '../Navbar/BurgerMenu/BurgerMenu';
 import { DataContext } from '../../contexts/DataContext';
 export const Layout = () => {
-  const { getUserProfile } = useContext(AuthContext);
+  const { getUserProfile, getUsers } = useContext(AuthContext);
   const { fetchBlogs } = useContext(DataContext);
+
   useEffect(() => {
     getUserProfile();
     fetchBlogs();
+    getUsers();
   }, []);
   return (
     <div className={styles.main_layout_box}>

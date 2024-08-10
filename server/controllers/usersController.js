@@ -59,7 +59,9 @@ const registerNewUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const existingUser = await UserModel.findOne({ email: req.body.email });
+    const existingUser = await UserModel.findOne({
+      email: req.body.email,
+    });
     if (!existingUser) {
       res.status(401).json({
         errorMessage:
@@ -117,9 +119,9 @@ const getUserProfile = async (req, res) => {
 };
 const getAllUsers = async (req, res) => {
   try {
-    const allUsers = await UserModel.find({});
-    console.log(allUsers);
-    res.status(200).json(allUsers);
+    const users = await UserModel.find({});
+
+    res.status(200).json({ message: 'Users fetched!', users });
   } catch (error) {
     res.status(400).json({ message: 'Something went wrong!' });
   }

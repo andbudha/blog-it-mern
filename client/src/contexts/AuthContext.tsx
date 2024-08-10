@@ -5,6 +5,7 @@ import {
   CommonSignupValues,
   LoggedinUserResponseType,
   MainLoaderStatus,
+  UserResponse,
 } from '../types/common_types';
 import { successfulToast } from '../assets/toasts/successfulToast';
 import axios, { AxiosError } from 'axios';
@@ -14,6 +15,7 @@ import { getToken, removeToken } from '../assets/utils/tokenServices';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
+  allUsers: null | UserResponse[];
   signUpStatus: boolean;
   signupEmailValue: string;
   signupFirstNameValue: string;
@@ -52,9 +54,11 @@ type AuthContextType = {
   setUpdateProfileImageButtonStatus: (newStatus: boolean) => void;
   setBurgerMenuStatus: (newStatus: boolean) => void;
   uploadProfileImage: (profileImageUpdate: FormData) => Promise<void>;
+  getUsers: () => Promise<void>;
 };
 const initialAuthContextState = {
   user: null,
+  allUsers: null,
   signUpStatus: false,
   signupEmailValue: '',
   signupFirstNameValue: '',
@@ -92,6 +96,7 @@ const initialAuthContextState = {
   setUpdateProfileImageButtonStatus: (newStatus: boolean) => newStatus,
   setBurgerMenuStatus: (newStatus: boolean) => newStatus,
   uploadProfileImage: () => Promise.resolve(),
+  getUsers: () => Promise.resolve(),
 } as AuthContextType;
 export const AuthContext = createContext(initialAuthContextState);
 
@@ -99,6 +104,7 @@ type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<null | LoggedinUserResponseType>(null);
+  const [allUsers, setAllUsers] = useState<null | UserResponse[]>(null);
   const [authLoaderStatus, setAuthLoaderStatus] =
     useState<MainLoaderStatus>('idle');
   const [signUpStatus, setSignUpStatus] = useState<boolean>(false);
@@ -235,16 +241,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         console.log(response);
       }
     } catch (error) {
-      console.log(error);
       if (error instanceof AxiosError)
         failureToast(`${error.response?.data.errorMessage}`);
       setAuthLoaderStatus('idle');
     }
   };
+  const getUsers = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/users/all`);
+      if (response) {
+        setAllUsers(response.data.users);
+      }
+    } catch (error) {}
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
+        allUsers,
         signUpStatus,
         activeEditForm,
         signupEmailValue,
@@ -281,6 +296,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUpdateProfileImageButtonStatus,
         setBurgerMenuStatus,
         uploadProfileImage,
+        getUsers,
       }}
     >
       {children}
