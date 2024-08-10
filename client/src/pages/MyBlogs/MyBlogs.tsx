@@ -20,21 +20,19 @@ export const MyBlogs = () => {
   };
   return (
     <div className={styles.main_my_blogs_box}>
-      {!blogs?.length ? (
+      {!myBlogs?.length ? (
         <>
           {addBlogFormStatus ? (
             <BlogForm />
           ) : (
             <div className={styles.my_blogs_info_box}>
-              <h2>No Blogs Added Yet.</h2>
-
+              <h2>No Blogs Posted Yet</h2>
               <div
                 className={styles.add_blog_button}
                 onClick={changeBlogFormStatusHandler}
               >
-                {' '}
                 <IoAdd className={styles.add_icon} />
-                <h4>add blog</h4>
+                <h3>add blog</h3>
               </div>
             </div>
           )}
@@ -46,14 +44,12 @@ export const MyBlogs = () => {
           ) : (
             <div className={styles.my_blogs_box}>
               <div className={styles.my_blogs_grid_box}>
-                {' '}
                 <div
                   className={styles.add_blog_button}
                   onClick={changeBlogFormStatusHandler}
                 >
-                  {' '}
                   <IoAdd className={styles.add_icon} />
-                  <h4>add new blog</h4>
+                  <h3>add new blog</h3>
                 </div>
                 {myBlogs}
               </div>

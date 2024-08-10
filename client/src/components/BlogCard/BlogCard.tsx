@@ -10,7 +10,6 @@ type BlogCardProps = {
 };
 export const BlogCard = ({ blog }: BlogCardProps) => {
   const splitBlogCardContent = blog.content.slice(0, 220);
-
   return (
     <NavLink className={styles.main_blog_card_box} to={`/blog/${blog._id}`}>
       <div className={styles.blog_card_image_box}>
