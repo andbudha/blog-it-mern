@@ -5,21 +5,29 @@ import { DataContext } from '../../contexts/DataContext';
 import { PiUserLight } from 'react-icons/pi';
 import { RiThumbUpLine, RiThumbUpFill } from 'react-icons/ri';
 import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
+import { AuthContext } from '../../contexts/AuthContext';
+import { notificationToast } from '../../assets/toasts/notificationToast';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
+  const { user } = useContext(AuthContext);
   const { blogs, toggleBlogLiking } = useContext(DataContext);
   const blog = blogs?.find((blog) => blog._id === blogID);
   const date = new Date(blog?.createdAt!).toLocaleDateString();
   const time = new Date(blog?.createdAt!).toLocaleTimeString();
-  const liked = blog?.likes.filter((userID) => userID === blog.user._id);
+  const liked = blog?.likes.filter((userID) => userID === user?.userID);
 
   const toggleLikeBlogHandler = () => {
-    const blogLikingRequestBody = {
-      userID: blog!.user._id,
-      blogID: blog!._id,
-    };
-    toggleBlogLiking(blogLikingRequestBody);
+    if (user) {
+      const blogLikingRequestBody = {
+        userID: user.userID,
+        blogID: blog!._id,
+      };
+      toggleBlogLiking(blogLikingRequestBody);
+      return;
+    } else {
+      notificationToast('Log in first, please!');
+    }
   };
 
   return (
