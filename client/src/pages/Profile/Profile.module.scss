@@ -18,16 +18,20 @@
       .profile_image_box {
         position: relative;
         border-radius: 50%;
-        height: 280px;
-        width: 280px;
+        height: 260px;
+        width: 260px;
         margin: 10px;
         box-shadow: $main_font_color 0px 0px 6px 0px;
-
         @include flexBox(nowrap, row, center, center);
         .profile_image,
         .user_icon {
           height: 200px;
           width: 200px;
+        }
+        .profile_image {
+          height: 240px;
+          width: 240px;
+          border-radius: 50%;
         }
         .save_selected_image {
           position: absolute;
