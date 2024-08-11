@@ -1,9 +1,12 @@
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import styles from './DetailedBlog.module.scss';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { DataContext } from '../../contexts/DataContext';
 import { PiUserLight } from 'react-icons/pi';
 import { RiThumbUpLine, RiThumbUpFill } from 'react-icons/ri';
+import { FiEdit3 } from 'react-icons/fi';
+import { MdOutlineDelete } from 'react-icons/md';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 import { AuthContext } from '../../contexts/AuthContext';
 import { notificationToast } from '../../assets/toasts/notificationToast';
@@ -11,7 +14,11 @@ import { notificationToast } from '../../assets/toasts/notificationToast';
 export const DetailedBlog = () => {
   const { blogID } = useParams();
   const { user } = useContext(AuthContext);
-  const { blogs, toggleBlogLiking } = useContext(DataContext);
+  const { informStatus, blogs, toggleBlogLiking, deleteBlog } =
+    useContext(DataContext);
+  const [displayTextareaStatus, setDisplayTextAreaStatus] =
+    useState<boolean>(false);
+
   const blog = blogs?.find((blog) => blog._id === blogID);
   const date = new Date(blog?.createdAt!).toLocaleDateString();
   const time = new Date(blog?.createdAt!).toLocaleTimeString();
@@ -30,6 +37,17 @@ export const DetailedBlog = () => {
     }
   };
 
+  const displayTextareaHandler = () => {
+    setDisplayTextAreaStatus(!displayTextareaStatus);
+  };
+
+  const deleteBlogHandler = (blogID: string) => {
+    deleteBlog(blogID);
+  };
+
+  if (informStatus) {
+    return <Navigate to={'/info-page'} />;
+  }
   return (
     <div className={styles.main_detailed_blog_box}>
       <div className={styles.detailed_blog_box}>
@@ -90,13 +108,43 @@ export const DetailedBlog = () => {
             </div>
           </div>
         </div>
+        {user?.userID === blog?.user._id && (
+          <div className={styles.manage_blog_box}>
+            <div className={styles.manage_blog_button_box}>
+              <div className={styles.edit_blog_button}>
+                <FiEdit3 className={styles.edit_blog_icon} />
+              </div>
+              <div
+                className={styles.remove_blog_button}
+                onClick={() => deleteBlogHandler(blogID!)}
+              >
+                <MdOutlineDelete className={styles.remove_blog_icon} />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <div className={styles.comment_text_area_box}>
-        <textarea
-          className={styles.comment_text_area}
-          placeholder="Feel free to leave a commentary..."
-        />
-        <button className={styles.post_comment_button}>post</button>
+        <div
+          className={styles.display_textarea_button}
+          onClick={displayTextareaHandler}
+        >
+          <h4>leave commentary</h4>
+          {displayTextareaStatus ? (
+            <FaChevronUp className={styles.chevron_icon} />
+          ) : (
+            <FaChevronDown className={styles.chevron_icon} />
+          )}
+        </div>
+        {displayTextareaStatus && (
+          <>
+            <textarea
+              className={styles.comment_text_area}
+              placeholder="Feel free to leave a commentary..."
+            />
+            <button className={styles.post_comment_button}>post</button>
+          </>
+        )}
       </div>
     </div>
   );
