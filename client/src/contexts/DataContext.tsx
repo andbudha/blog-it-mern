@@ -20,6 +20,7 @@ type DataContextType = {
   addBlogKeyWordInputValue: string;
   addBlogContentInputValue: string;
   randomlyFetchedImage: string;
+  informStatus: boolean;
   setDataLoaderStatus: (newStatus: boolean) => void;
   setCustomSelectStatus: (newStatus: boolean) => void;
   setAddBlogFormStatus: (newStatus: boolean) => void;
@@ -31,6 +32,8 @@ type DataContextType = {
   fetchBlogs: () => Promise<void>;
   toggleBlogLiking: (blogLikingRequestBody: BlogLikingValues) => Promise<void>;
   fetchFavorites: (userID: string) => Promise<void>;
+  deleteBlog: (blogID: string) => Promise<void>;
+  setInformStatus: (newStatus: boolean) => void;
 };
 const initialDataContextState = {
   blogs: null,
@@ -42,6 +45,7 @@ const initialDataContextState = {
   addBlogKeyWordInputValue: '',
   addBlogContentInputValue: '',
   randomlyFetchedImage: '',
+  informStatus: false,
   setDataLoaderStatus: (newStatus: boolean) => newStatus,
   setCustomSelectStatus: (newStatus: boolean) => newStatus,
   setAddBlogFormStatus: (newStatus: boolean) => newStatus,
@@ -53,6 +57,8 @@ const initialDataContextState = {
   fetchBlogs: () => Promise.resolve(),
   toggleBlogLiking: () => Promise.resolve(),
   fetchFavorites: () => Promise.resolve(),
+  setInformStatus: (newStatus: boolean) => newStatus,
+  deleteBlog: () => Promise.resolve(),
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
@@ -61,6 +67,7 @@ type DataProviderProps = { children: ReactNode };
 export const DataProvider = ({ children }: DataProviderProps) => {
   const { user, setAuthLoaderStatus } = useContext(AuthContext);
   const [dataLoaderStatus, setDataLoaderStatus] = useState<boolean>(false);
+  const [informStatus, setInformStatus] = useState<boolean>(false);
   const [customSelectStatus, setCustomSelectStatus] = useState<boolean>(false);
   const [addBlogFormStatus, setAddBlogFormStatus] = useState<boolean>(false);
   const [addBlogTitleInputValue, setAddBlogTitleInputValue] =
@@ -141,6 +148,22 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       }
     } catch (error) {}
   };
+
+  const deleteBlog = async (blogID: string) => {
+    console.log(blogID);
+
+    setDataLoaderStatus(true);
+    try {
+      const response = await axios.post(`${baseUrl}/blogs/delete-blog`, {
+        blogID,
+      });
+      if (response) {
+        setDataLoaderStatus(false);
+        setInformStatus(true);
+        fetchBlogs();
+      }
+    } catch (error) {}
+  };
   return (
     <DataContext.Provider
       value={{
@@ -153,6 +176,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         addBlogKeyWordInputValue,
         addBlogContentInputValue,
         randomlyFetchedImage,
+        informStatus,
         setDataLoaderStatus,
         setCustomSelectStatus,
         setAddBlogFormStatus,
@@ -164,6 +188,8 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         fetchBlogs,
         toggleBlogLiking,
         fetchFavorites,
+        deleteBlog,
+        setInformStatus,
       }}
     >
       {children}
