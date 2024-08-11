@@ -5,4 +5,31 @@
   max-height: 100%;
   width: 100%;
   @include flexBox(wrap, row, center, center);
+  .info_box {
+    height: 100%;
+    width: 100%;
+    @include flexBox(nowrap, column, center, center);
+    .info_text {
+      color: $secondary_font_color;
+      letter-spacing: 1.2px;
+    }
+    .home_button {
+      margin: 30px;
+      text-decoration: none;
+      height: 40px;
+      width: 180px;
+      color: $app_background;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      background-color: $main_font_color;
+      @include flexBox(nowrap, column, center, center);
+      &:hover {
+        background-color: $button_background_hover_color;
+        transition: 0.4s;
+      }
+      &:not(:hover) {
+        transition: 0.5s;
+      }
+    }
+  }
 }
