@@ -10,12 +10,19 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 import { AuthContext } from '../../contexts/AuthContext';
 import { notificationToast } from '../../assets/toasts/notificationToast';
+import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
-  const { user } = useContext(AuthContext);
-  const { informStatus, blogs, toggleBlogLiking, deleteBlog } =
-    useContext(DataContext);
+  const { user, authLoaderStatus } = useContext(AuthContext);
+  const {
+    displayPopupWindowStatus,
+    informStatus,
+    blogs,
+    toggleBlogLiking,
+    deleteBlog,
+    setDisplayPopupWindowStatus,
+  } = useContext(DataContext);
   const [displayTextareaStatus, setDisplayTextAreaStatus] =
     useState<boolean>(false);
 
@@ -40,6 +47,9 @@ export const DetailedBlog = () => {
   const displayTextareaHandler = () => {
     setDisplayTextAreaStatus(!displayTextareaStatus);
   };
+  const displayPopupWindowHandler = () => {
+    setDisplayPopupWindowStatus(!displayPopupWindowStatus);
+  };
 
   const deleteBlogHandler = (blogID: string) => {
     deleteBlog(blogID);
@@ -50,6 +60,31 @@ export const DetailedBlog = () => {
   }
   return (
     <div className={styles.main_detailed_blog_box}>
+      {displayPopupWindowStatus && (
+        <div className={styles.popup_box}>
+          <div className={styles.popup_window}>
+            {authLoaderStatus === 'deleting' && <AuthLoader />}
+            <div className={styles.info_text_box}>
+              <h3>This blog will be deleted!</h3>
+            </div>
+            <div className={styles.popup_window_button_box}>
+              <div
+                className={styles.delete_blog_button}
+                onClick={() => deleteBlogHandler(blogID!)}
+              >
+                delete
+              </div>
+              <div
+                className={styles.cancel_delete_blog_button}
+                onClick={displayPopupWindowHandler}
+              >
+                cancel
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={styles.detailed_blog_box}>
         <div className={styles.blog_image_box}>
           <img
@@ -116,7 +151,7 @@ export const DetailedBlog = () => {
               </div>
               <div
                 className={styles.remove_blog_button}
-                onClick={() => deleteBlogHandler(blogID!)}
+                onClick={displayPopupWindowHandler}
               >
                 <MdOutlineDelete className={styles.remove_blog_icon} />
               </div>
