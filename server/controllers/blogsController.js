@@ -12,10 +12,7 @@ const getBlogs = async (req, res) => {
     });
   }
 };
-
 const getFavoriteBlogs = async (req, res) => {
-  console.log(req.query.userID);
-
   try {
     const user = await UserModel.findOne({
       _id: req.query.userID,
@@ -29,7 +26,6 @@ const getFavoriteBlogs = async (req, res) => {
   }
 };
 const addBlog = async (req, res) => {
-  console.log(req.body);
   try {
     const newBlog = await BlogModel.create({ ...req.body });
     res
@@ -42,14 +38,11 @@ const addBlog = async (req, res) => {
     });
   }
 };
-
 const toggleBlogLiking = async (req, res) => {
-  console.log(req.body);
   const existingBlog = await BlogModel.findOne({ _id: req.body.blogID });
   const liked = existingBlog.likes.filter(
     (userID) => userID === req.body.userID
   );
-
   try {
     if (liked.length > 0) {
       const blog = await BlogModel.findByIdAndUpdate(
@@ -87,5 +80,18 @@ const toggleBlogLiking = async (req, res) => {
     });
   }
 };
+const deleteBlog = async (req, res) => {
+  console.log(req.body);
 
-export { addBlog, getBlogs, toggleBlogLiking, getFavoriteBlogs };
+  try {
+    const blog = await BlogModel.findByIdAndDelete({ _id: req.body.blogID });
+    res.status(200).json({ message: 'Blog successfully deleted!' });
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: 'Deleting blog failed. Try again later, please!',
+    });
+  }
+};
+
+export { addBlog, getBlogs, toggleBlogLiking, getFavoriteBlogs, deleteBlog };
