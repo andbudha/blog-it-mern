@@ -2,7 +2,7 @@
 @import '../../../assets/sass/variables.scss';
 
 .blog_form_box {
-  // border: 1px solid;
+  position: relative;
   min-height: 500px;
   width: 600px;
   @include flexBox(nowrap, column, center, center);

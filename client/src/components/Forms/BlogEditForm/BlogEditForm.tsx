@@ -7,6 +7,7 @@ import {
   EditBlogPostingValues,
 } from '../../../types/common_types';
 import styles from './BlogEditForm.module.scss';
+import { AuthLoader } from '../../Loaders/AuthLoader/AuthLoader';
 
 type BlogEditFormProps = {
   blog: BlogResponse | undefined;
@@ -84,10 +85,13 @@ export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
 
   const discardBlogEditFormHandler = () => {
     setDisplayBlogEditFormStatus(false);
+    setEditBlogTitleInputValue('');
+    setEditBlogContentInputValue('');
   };
 
   return (
     <div className={styles.blog_form_box}>
+      {authLoaderStatus === 'editing' && <AuthLoader />}
       <div className={styles.blog_form_input_box}>
         {titleInputError && validation.title ? (
           <div className={styles.error_text_box}>
