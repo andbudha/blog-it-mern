@@ -4,6 +4,7 @@ import {
   BlogLikingValues,
   BlogPostingValues,
   BlogResponse,
+  EditBlogPostingValues,
 } from '../types/common_types';
 import axios from 'axios';
 import { baseUrl } from '../assets/base_url';
@@ -22,6 +23,10 @@ type DataContextType = {
   randomlyFetchedImage: string;
   informStatus: boolean;
   displayPopupWindowStatus: boolean;
+  displayBlogEditFormStatus: boolean;
+  editBlogTitleInputValue: string;
+  editBlogKeyWordInputValue: string;
+  editBlogContentInputValue: string;
   setDataLoaderStatus: (newStatus: boolean) => void;
   setCustomSelectStatus: (newStatus: boolean) => void;
   setAddBlogFormStatus: (newStatus: boolean) => void;
@@ -36,6 +41,11 @@ type DataContextType = {
   deleteBlog: (blogID: string) => Promise<void>;
   setInformStatus: (newStatus: boolean) => void;
   setDisplayPopupWindowStatus: (newStatus: boolean) => void;
+  setDisplayBlogEditFormStatus: (newStatus: boolean) => void;
+  setEditBlogTitleInputValue: (newValue: string) => void;
+  setEditBlogKeyWordInputValue: (newValue: string) => void;
+  setEditBlogContentInputValue: (newValue: string) => void;
+  editBlog: (newBlogValues: EditBlogPostingValues) => Promise<void>;
 };
 const initialDataContextState = {
   blogs: null,
@@ -49,6 +59,10 @@ const initialDataContextState = {
   randomlyFetchedImage: '',
   informStatus: false,
   displayPopupWindowStatus: false,
+  displayBlogEditFormStatus: false,
+  editBlogTitleInputValue: '',
+  editBlogKeyWordInputValue: '',
+  editBlogContentInputValue: '',
   setDataLoaderStatus: (newStatus: boolean) => newStatus,
   setCustomSelectStatus: (newStatus: boolean) => newStatus,
   setAddBlogFormStatus: (newStatus: boolean) => newStatus,
@@ -63,6 +77,11 @@ const initialDataContextState = {
   setInformStatus: (newStatus: boolean) => newStatus,
   deleteBlog: () => Promise.resolve(),
   setDisplayPopupWindowStatus: (newStatus: boolean) => newStatus,
+  setDisplayBlogEditFormStatus: (newStatus: boolean) => newStatus,
+  setEditBlogTitleInputValue: (newValue: string) => newValue,
+  setEditBlogKeyWordInputValue: (newValue: string) => newValue,
+  setEditBlogContentInputValue: (newValue: string) => newValue,
+  editBlog: () => Promise.resolve(),
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
@@ -74,6 +93,8 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   const [informStatus, setInformStatus] = useState<boolean>(false);
   const [displayPopupWindowStatus, setDisplayPopupWindowStatus] =
     useState<boolean>(false);
+  const [displayBlogEditFormStatus, setDisplayBlogEditFormStatus] =
+    useState<boolean>(false);
   const [customSelectStatus, setCustomSelectStatus] = useState<boolean>(false);
   const [addBlogFormStatus, setAddBlogFormStatus] = useState<boolean>(false);
   const [addBlogTitleInputValue, setAddBlogTitleInputValue] =
@@ -81,6 +102,13 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   const [addBlogKeyWordInputValue, setAddBlogKeyWordInputValue] =
     useState<string>('');
   const [addBlogContentInputValue, setAddBlogContentInputValue] =
+    useState<string>('');
+
+  const [editBlogTitleInputValue, setEditBlogTitleInputValue] =
+    useState<string>('');
+  const [editBlogKeyWordInputValue, setEditBlogKeyWordInputValue] =
+    useState<string>('');
+  const [editBlogContentInputValue, setEditBlogContentInputValue] =
     useState<string>('');
   const [randomlyFetchedImage, setRandomlyFetchedImage] = useState<string>('');
   const [blogs, setBlogs] = useState<null | BlogResponse[]>(null);
@@ -167,6 +195,10 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       }
     } catch (error) {}
   };
+
+  const editBlog = async (newBlogValues: EditBlogPostingValues) => {
+    console.log(newBlogValues);
+  };
   return (
     <DataContext.Provider
       value={{
@@ -181,6 +213,10 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         randomlyFetchedImage,
         informStatus,
         displayPopupWindowStatus,
+        displayBlogEditFormStatus,
+        editBlogTitleInputValue,
+        editBlogKeyWordInputValue,
+        editBlogContentInputValue,
         setDataLoaderStatus,
         setCustomSelectStatus,
         setAddBlogFormStatus,
@@ -195,6 +231,11 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         deleteBlog,
         setInformStatus,
         setDisplayPopupWindowStatus,
+        setDisplayBlogEditFormStatus,
+        setEditBlogTitleInputValue,
+        setEditBlogKeyWordInputValue,
+        setEditBlogContentInputValue,
+        editBlog,
       }}
     >
       {children}
