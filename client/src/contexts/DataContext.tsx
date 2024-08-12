@@ -192,12 +192,26 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setDisplayPopupWindowStatus(false);
         setInformStatus(true);
         fetchBlogs();
+        setEditBlogTitleInputValue('');
+        setEditBlogContentInputValue('');
       }
     } catch (error) {}
   };
 
   const editBlog = async (newBlogValues: EditBlogPostingValues) => {
     console.log(newBlogValues);
+    setAuthLoaderStatus('editing');
+    try {
+      const response = await axios.post(
+        `${baseUrl}/blogs/edit-blog`,
+        newBlogValues
+      );
+      if (response) {
+        fetchBlogs();
+        setAuthLoaderStatus('idle');
+        setDisplayBlogEditFormStatus(false);
+      }
+    } catch (error) {}
   };
   return (
     <DataContext.Provider

@@ -21,6 +21,8 @@ export const DetailedBlog = () => {
     displayPopupWindowStatus,
     informStatus,
     blogs,
+    editBlogTitleInputValue,
+    editBlogContentInputValue,
     toggleBlogLiking,
     deleteBlog,
     setDisplayBlogEditFormStatus,
@@ -103,10 +105,10 @@ export const DetailedBlog = () => {
           </div>
 
           <div className={styles.blog_title_box}>
-            <h2>{blog?.title}</h2>
+            <h2>{editBlogTitleInputValue || blog?.title}</h2>
           </div>
           <div className={styles.blog_content_box}>
-            <p>{blog?.content}</p>
+            <p>{editBlogContentInputValue || blog?.content}</p>
           </div>
           <div className={styles.blog_footer_box}>
             <div className={styles.footer_likes_box}>
