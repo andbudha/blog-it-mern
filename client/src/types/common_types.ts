@@ -17,13 +17,18 @@ export type CommonEditProfileFormValues = {
 };
 export type CommonBlogFormValues = {
   title: string;
-  keyWord: string;
+  keyWord?: string;
   content: string;
 };
 export type BlogPostingValues = {
   user: string;
   title: string;
   image: string;
+  content: string;
+};
+export type EditBlogPostingValues = {
+  blogID: string;
+  title: string;
   content: string;
 };
 

@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 
 export const MyFavorites = () => {
   const { user } = useContext(AuthContext);
-  const { blogs, favoriteBlogs, fetchFavorites } = useContext(DataContext);
+  const { favoriteBlogs, fetchFavorites } = useContext(DataContext);
 
   const favoriteBlogsGrid = favoriteBlogs?.map((blog) => (
     <BlogCard key={blog._id} blog={blog} />
