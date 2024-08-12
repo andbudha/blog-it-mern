@@ -7,7 +7,7 @@
   @include flexBox(nowrap, column, center, center);
   .blog_form_box {
     min-height: 500px;
-    width: 500px;
+    width: 600px;
     max-width: 700px;
     @include flexBox(nowrap, column, center, center);
     .blog_form_input_box {
@@ -117,6 +117,7 @@
         height: 40px;
         width: 100%;
         color: $main_font_color;
+        background-color: $app_background;
         cursor: pointer;
         letter-spacing: 1px;
         font-weight: 600;
@@ -132,6 +133,9 @@
       }
     }
     @media screen and (max-width: 600px) {
+      width: 450px;
+    }
+    @media screen and (max-width: 500px) {
       width: 350px;
     }
   }

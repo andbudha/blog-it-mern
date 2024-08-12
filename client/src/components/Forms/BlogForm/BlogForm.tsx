@@ -65,7 +65,7 @@ export const BlogForm = () => {
     e: ChangeEvent<HTMLInputElement>
   ) => {
     setAddBlogKeyWordInputValue(e.currentTarget.value);
-    if (validation.keyWord.length === 0) {
+    if (validation.keyWord?.length === 0) {
       setKeyWordInputError(true);
     }
   };
