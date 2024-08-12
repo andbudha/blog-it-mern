@@ -1,0 +1,138 @@
+@import '../../../assets/sass/mixinns.scss';
+@import '../../../assets/sass/variables.scss';
+
+.blog_form_box {
+  // border: 1px solid;
+  min-height: 500px;
+  width: 600px;
+  @include flexBox(nowrap, column, center, center);
+  .blog_form_input_box {
+    margin-top: 14px;
+    width: 100%;
+    height: 70px;
+    @include flexBox(nowrap, column, center, start);
+    .error_text_box {
+      padding: 0 4px;
+      .error_text {
+        letter-spacing: 1px;
+        font-weight: 600;
+        color: $input_error_color;
+      }
+    }
+    .label {
+      letter-spacing: 1px;
+      font-weight: 400;
+      padding: 0 6px;
+      color: $secondary_font_color;
+    }
+    .blog_form_input {
+      border: none;
+      border-bottom: 2px solid $main_font_color;
+      height: 40px;
+      width: 100%;
+      outline: none;
+      padding: 0 6px;
+      color: $secondary_font_color;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      &::placeholder {
+        font-size: 1rem;
+        opacity: 0.5;
+        font-style: oblique;
+        color: $secondary_font_color;
+      }
+    }
+  }
+  .blog_form_text_area_box {
+    margin-top: 14px;
+    width: 100%;
+    min-height: 70px;
+    @include flexBox(nowrap, column, center, start);
+    .error_text_box {
+      padding: 0 4px;
+      .error_text {
+        letter-spacing: 1px;
+        font-weight: 600;
+        color: $input_error_color;
+      }
+    }
+    .label {
+      letter-spacing: 1px;
+      font-weight: 400;
+      padding: 0 6px;
+      color: $secondary_font_color;
+    }
+    .blog_form_text_area {
+      border: none;
+      border-bottom: 2px solid $main_font_color;
+      height: 300px;
+      width: 100%;
+      outline: none;
+      padding: 8px;
+      color: $secondary_font_color;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      resize: none;
+      &::placeholder {
+        font-size: 1rem;
+        opacity: 0.5;
+        font-style: oblique;
+        color: $secondary_font_color;
+      }
+      @media screen and (max-width: 600px) {
+        height: 300px;
+      }
+    }
+  }
+  .blog_form_button_box {
+    min-height: 120px;
+    width: 100%;
+    margin: 20px 0;
+    @include flexBox(nowrap, column, space-evenly, center);
+    .post_blog_button {
+      height: 40px;
+      width: 100%;
+      color: $app_background;
+      background-color: $main_font_color;
+      letter-spacing: 1px;
+      font-weight: 600;
+      cursor: pointer;
+      @include flexBox(nowrap, row, center, center);
+      &:hover {
+        background-color: $button_background_hover_color;
+        transition: 0.4s;
+      }
+      &:not(:hover) {
+        transition: 0.5s;
+      }
+    }
+    .discard_changes_button {
+      border: 1px solid;
+      height: 40px;
+      width: 100%;
+      color: $main_font_color;
+      background-color: $app_background;
+      cursor: pointer;
+      letter-spacing: 1px;
+      font-weight: 600;
+      @include flexBox(nowrap, row, center, center);
+      &:hover {
+        background-color: $button_background_hover_color;
+        color: $app_background;
+        transition: 0.4s;
+      }
+      &:not(:hover) {
+        transition: 0.5s;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    width: 450px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 340px;
+  }
+}

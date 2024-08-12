@@ -1,0 +1,138 @@
+import { useContext, useState, ChangeEvent, useEffect } from 'react';
+import { AuthContext } from '../../../contexts/AuthContext';
+import { DataContext } from '../../../contexts/DataContext';
+import {
+  CommonBlogFormValues,
+  BlogResponse,
+  EditBlogPostingValues,
+} from '../../../types/common_types';
+import styles from './BlogEditForm.module.scss';
+
+type BlogEditFormProps = {
+  blog: BlogResponse | undefined;
+};
+export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
+  const { authLoaderStatus } = useContext(AuthContext);
+  const {
+    editBlogTitleInputValue,
+    editBlogContentInputValue,
+    setDisplayBlogEditFormStatus,
+    setEditBlogTitleInputValue,
+    setEditBlogContentInputValue,
+    editBlog,
+  } = useContext(DataContext);
+
+  useEffect(() => {
+    setEditBlogTitleInputValue(blog!.title);
+    setEditBlogContentInputValue(blog!.content);
+  }, []);
+  const [titleInputError, setTitleInputError] = useState<boolean>(false);
+  const [contentInputError, setContentInputError] = useState<boolean>(false);
+
+  const editBlogFormValues: CommonBlogFormValues = {
+    title: editBlogTitleInputValue,
+    content: editBlogContentInputValue,
+  };
+
+  const validate = (values: CommonBlogFormValues) => {
+    const errors: CommonBlogFormValues = {
+      title: '',
+      content: '',
+    };
+    if (!values.title) {
+      errors.title = 'Blog title is required!';
+    }
+    if (!values.content) {
+      errors.content = 'Blog content is required!';
+    }
+    return errors;
+  };
+
+  const validation = validate(editBlogFormValues);
+
+  const catchingTitleInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditBlogTitleInputValue(e.currentTarget.value);
+    if (validation.title.length === 0) {
+      setTitleInputError(true);
+    }
+  };
+  const catchingTextAreaValueHandler = (
+    e: ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setEditBlogContentInputValue(e.currentTarget.value);
+    if (validation.content.length === 0) {
+      setContentInputError(true);
+    }
+  };
+  const saveBlogChangesHandler = () => {
+    const blogValues: EditBlogPostingValues = {
+      blogID: blog!._id,
+      title: editBlogTitleInputValue,
+      content: editBlogContentInputValue,
+    };
+    if (validation.title) {
+      setTitleInputError(true);
+    } else if (validation.content) {
+      setContentInputError(true);
+    } else if (validation.content && validation.title) {
+      setTitleInputError(true);
+      setContentInputError(true);
+    } else if (!validation.title && !validation.content) {
+      editBlog(blogValues);
+    }
+  };
+
+  const discardBlogEditFormHandler = () => {
+    setDisplayBlogEditFormStatus(false);
+  };
+
+  return (
+    <div className={styles.blog_form_box}>
+      <div className={styles.blog_form_input_box}>
+        {titleInputError && validation.title ? (
+          <div className={styles.error_text_box}>
+            <span className={styles.error_text}>{validation.title}</span>
+          </div>
+        ) : (
+          <label className={styles.label}>Blog title</label>
+        )}
+        <input
+          value={editBlogTitleInputValue}
+          onChange={catchingTitleInputValueHandler}
+          type="text"
+          placeholder="Blog title..."
+          className={styles.blog_form_input}
+        />
+      </div>{' '}
+      <div className={styles.blog_form_text_area_box}>
+        {contentInputError && validation.content ? (
+          <div className={styles.error_text_box}>
+            <span className={styles.error_text}>{validation.content}</span>
+          </div>
+        ) : (
+          <label className={styles.label}>Blog content</label>
+        )}
+        <textarea
+          value={editBlogContentInputValue}
+          onChange={catchingTextAreaValueHandler}
+          placeholder="Blog content..."
+          className={styles.blog_form_text_area}
+        />
+      </div>
+      <div className={styles.blog_form_button_box}>
+        <div
+          className={styles.post_blog_button}
+          onClick={saveBlogChangesHandler}
+        >
+          save
+        </div>
+        <div
+          className={styles.discard_changes_button}
+          onClick={discardBlogEditFormHandler}
+        >
+          discard
+        </div>
+      </div>
+    </div>
+  );
+};
