@@ -7,7 +7,7 @@
   width: 100%;
   color: $secondary_font_color;
   @include flexBox(nowrap, column, none, center);
-  .popup_box {
+  .main_popup_box {
     position: fixed;
     top: 0;
     right: 0;
@@ -19,8 +19,7 @@
     @include flexBox(nowrap, column, center, center);
     .popup_window {
       position: relative;
-      border: 2px solid $main_font_color;
-      height: 200px;
+      height: 180px;
       width: 340px;
       background: #fff;
       @include flexBox(nowrap, column, space-between, center);
@@ -68,7 +67,7 @@
       object-fit: cover;
       mask-image: linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 1) 70%,
         transparent 100%
       );
       .blog_image {
@@ -302,7 +301,7 @@
     }
     .comment_text_area {
       border: none;
-      width: 700px;
+      width: 600px;
       height: 100px;
       padding: 20px;
       outline: none;
@@ -332,11 +331,12 @@
     }
     .post_comment_button {
       border: none;
-      width: 100%;
+      width: 600px;
       height: 40px;
       letter-spacing: 1px;
       font-weight: 600;
       font-size: 1rem;
+      margin-bottom: 40px;
       color: $app_background;
       cursor: pointer;
       background-color: $main_font_color;
