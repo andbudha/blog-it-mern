@@ -81,10 +81,8 @@ const toggleBlogLiking = async (req, res) => {
   }
 };
 const deleteBlog = async (req, res) => {
-  console.log(req.body);
-
   try {
-    const blog = await BlogModel.findByIdAndDelete({ _id: req.body.blogID });
+    await BlogModel.findByIdAndDelete({ _id: req.body.blogID });
     res.status(200).json({ message: 'Blog successfully deleted!' });
   } catch (error) {
     res.status(500).json({
@@ -94,4 +92,27 @@ const deleteBlog = async (req, res) => {
   }
 };
 
-export { addBlog, getBlogs, toggleBlogLiking, getFavoriteBlogs, deleteBlog };
+const editBlog = async (req, res) => {
+  try {
+    const blog = await BlogModel.findByIdAndUpdate(
+      { _id: req.body.blogID },
+      { title: req.body.title, content: req.body.content },
+      { new: true }
+    );
+    res.status(200).json({ message: 'Blog successfully edited!', blog });
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: 'Blog editing failed. Try again later, please!',
+    });
+  }
+};
+
+export {
+  addBlog,
+  getBlogs,
+  toggleBlogLiking,
+  getFavoriteBlogs,
+  deleteBlog,
+  editBlog,
+};
