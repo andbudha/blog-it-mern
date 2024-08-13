@@ -36,13 +36,15 @@ export type BlogLikingValues = {
   blogID: string;
   userID: string;
 };
-export type NewCommentaryValues = {
+export type CommentaryValues = {
+  _id?: string;
   blogID: string;
   userID: string;
   profileImage: string;
   firstName: string;
   lastName: string;
   commentary: string;
+  createdAt?: Date;
 };
 
 export type MainLoaderStatus =
@@ -82,7 +84,7 @@ export type BlogResponse = {
   image: string;
   content: string;
   likes: string[];
-  comments: string[];
+  comments: CommentaryValues[];
   createdAt: Date;
 };
 export type BlogsResponseValues = {
