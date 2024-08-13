@@ -1,0 +1,8 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_commentary_bandBox {
+  height: auto;
+  width: auto;
+  @include flexBox(nowrap, column, center, center);
+}
