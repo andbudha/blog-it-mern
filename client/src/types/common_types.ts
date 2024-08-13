@@ -36,6 +36,15 @@ export type BlogLikingValues = {
   blogID: string;
   userID: string;
 };
+export type NewCommentaryValues = {
+  blogID: string;
+  userID: string;
+  profileImage: string;
+  firstName: string;
+  lastName: string;
+  commentary: string;
+};
+
 export type MainLoaderStatus =
   | 'idle'
   | 'registering'
