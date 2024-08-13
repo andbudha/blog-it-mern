@@ -1,12 +1,43 @@
-import { useState } from 'react';
+import { ChangeEvent, useContext } from 'react';
 import styles from './CommentaryTextarea.module.scss';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
+import { DataContext } from '../../../contexts/DataContext';
+import { AuthContext } from '../../../contexts/AuthContext';
+import { useParams } from 'react-router';
+import { notificationToast } from '../../../assets/toasts/notificationToast';
 
 export const CommentaryTextarea = () => {
-  const [displayTextareaStatus, setDisplayTextAreaStatus] =
-    useState<boolean>(false);
+  const {
+    displayTextareaStatus,
+    commentaryTextareaValue,
+    setCommentrayTextareaValue,
+    postCommentary,
+    setDisplayTextAreaStatus,
+  } = useContext(DataContext);
+  const { user } = useContext(AuthContext);
+  const { blogID } = useParams();
+
   const displayTextareaHandler = () => {
     setDisplayTextAreaStatus(!displayTextareaStatus);
+  };
+
+  const catchTextareaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentrayTextareaValue(e.currentTarget.value);
+  };
+  const postCommentaryHandler = () => {
+    const newCommentary = {
+      blogID: blogID!,
+      userID: user!.userID,
+      profileImage: user!.profileImage,
+      firstName: user!.firstName,
+      lastName: user!.lastName,
+      commentary: commentaryTextareaValue.trim(),
+    };
+    if (commentaryTextareaValue) {
+      postCommentary(newCommentary);
+    } else {
+      notificationToast('Write a commentary first, please!');
+    }
   };
   return (
     <div className={styles.commentary_text_area_box}>
@@ -24,10 +55,17 @@ export const CommentaryTextarea = () => {
       {displayTextareaStatus && (
         <>
           <textarea
+            value={commentaryTextareaValue}
             className={styles.comment_text_area}
             placeholder="Feel free to leave a commentary..."
+            onChange={catchTextareaHandler}
           />
-          <button className={styles.post_comment_button}>post</button>
+          <button
+            className={styles.post_comment_button}
+            onClick={postCommentaryHandler}
+          >
+            post
+          </button>
         </>
       )}
     </div>
