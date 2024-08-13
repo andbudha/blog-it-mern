@@ -1,18 +1,18 @@
 import { Navigate, useParams } from 'react-router';
 import styles from './DetailedBlog.module.scss';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { DataContext } from '../../contexts/DataContext';
 import { PiUserLight } from 'react-icons/pi';
 import { RiThumbUpLine, RiThumbUpFill } from 'react-icons/ri';
 import { FiEdit3 } from 'react-icons/fi';
 import { MdOutlineDelete } from 'react-icons/md';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 import { AuthContext } from '../../contexts/AuthContext';
 import { notificationToast } from '../../assets/toasts/notificationToast';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { BlogEditForm } from '../../components/Forms/BlogEditForm/BlogEditForm';
 import { Commentary } from '../../components/Commentary/Commentray';
+import { CommentaryTextarea } from '../../components/Forms/CommentaryTextarea/CommentaryTextarea';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
@@ -29,8 +29,6 @@ export const DetailedBlog = () => {
     setDisplayBlogEditFormStatus,
     setDisplayPopupWindowStatus,
   } = useContext(DataContext);
-  const [displayTextareaStatus, setDisplayTextAreaStatus] =
-    useState<boolean>(false);
 
   const blog = blogs?.find((blog) => blog._id === blogID);
   const date = new Date(blog?.createdAt!).toLocaleDateString();
@@ -48,10 +46,6 @@ export const DetailedBlog = () => {
     } else {
       notificationToast('Log in first, please!');
     }
-  };
-
-  const displayTextareaHandler = () => {
-    setDisplayTextAreaStatus(!displayTextareaStatus);
   };
   const displayPopupWindowHandler = () => {
     setDisplayPopupWindowStatus(!displayPopupWindowStatus);
@@ -177,8 +171,9 @@ export const DetailedBlog = () => {
         </div>
       )}
 
-      <div className={styles.comment_text_area_box}>
-        <div
+      <div className={styles.main_commentary_text_area_box}>
+        <CommentaryTextarea />
+        {/* <div
           className={styles.display_textarea_button}
           onClick={displayTextareaHandler}
         >
@@ -197,7 +192,7 @@ export const DetailedBlog = () => {
             />
             <button className={styles.post_comment_button}>post</button>
           </>
-        )}
+        )} */}
       </div>
       <div className={styles.commentary_band_box}>
         <Commentary blog={blog} />
