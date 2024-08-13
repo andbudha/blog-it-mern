@@ -6,7 +6,7 @@
   min-height: 150px;
   width: 600px;
   border-radius: 40px 0 40px 0;
-  margin: 20px 0;
+  margin: 10px 0;
   background-color: $app_background;
   box-shadow: $main_font_color 0px 0px 6px 0px;
   @include flexBox(nowrap, column, center, center);
@@ -97,12 +97,12 @@
     // border: 1px solid;
     min-height: 50px;
     width: 100%;
-    padding: 0px 10px;
+    padding: 0px 16px;
     font-size: 0.9rem;
     color: $main_font_color;
     letter-spacing: 1px;
     font-weight: 500;
-    @include flexBox(nowrap, row, center, center);
+    @include flexBox(nowrap, row, start, center);
   }
   .commentary_footer_box {
     // border: 1px solid;
