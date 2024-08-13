@@ -108,12 +108,14 @@
     // border: 1px solid;
     height: 40px;
     width: 100%;
-    padding: 0 20px;
     font-size: 0.8rem;
     font-weight: 600;
     color: $main_font_color;
     font-style: italic;
     @include flexBox(nowrap, row, end, center);
+    .commentary_date {
+      padding: 0 16px;
+    }
     @media screen and (max-width: 480px) {
       font-size: 0.7rem;
       padding: 0 6px;
@@ -126,10 +128,10 @@
     max-width: 460px;
   }
   @media screen and (max-width: 480px) {
-    max-width: 400px;
+    max-width: 380px;
   }
   @media screen and (max-width: 410px) {
-    max-width: 350px;
+    max-width: 340px;
     padding: 0 8px;
   }
 }
