@@ -1,0 +1,95 @@
+@import '../../../assets/sass/mixinns.scss';
+@import '../../../assets/sass/variables.scss';
+
+.commentary_text_area_box {
+  height: auto;
+  max-width: 700px;
+  @include flexBox(nowrap, column, center, center);
+  .display_textarea_button {
+    border-top: 2px solid $main_font_color;
+    height: 40px;
+    width: 700px;
+    margin-bottom: 20px;
+    color: $main_font_color;
+    cursor: pointer;
+    @include flexBox(nowrap, row, center, center);
+    .chevron_icon {
+      height: 20px;
+      width: 20px;
+      margin: 0 10px;
+    }
+    @media screen and (max-width: 700px) {
+      max-width: 500px;
+    }
+    @media screen and (max-width: 560px) {
+      max-width: 460px;
+    }
+    @media screen and (max-width: 480px) {
+      max-width: 380px;
+    }
+    @media screen and (max-width: 410px) {
+      max-width: 340px;
+    }
+  }
+  .comment_text_area {
+    border: none;
+    width: 600px;
+    height: 100px;
+    padding: 20px;
+    outline: none;
+    color: $secondary_font_color;
+    letter-spacing: 1.2px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    resize: none;
+    &::placeholder {
+      opacity: 0.6;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-style: italic;
+    }
+    @media screen and (max-width: 700px) {
+      max-width: 500px;
+    }
+    @media screen and (max-width: 560px) {
+      max-width: 460px;
+    }
+    @media screen and (max-width: 480px) {
+      max-width: 380px;
+    }
+    @media screen and (max-width: 410px) {
+      max-width: 340px;
+    }
+  }
+  .post_comment_button {
+    border: none;
+    width: 600px;
+    height: 40px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: $app_background;
+    cursor: pointer;
+    background-color: $main_font_color;
+    &:hover {
+      background-color: $button_background_hover_color;
+      transition: 0.4s;
+    }
+    &:not(:hover) {
+      transition: 0.5s;
+    }
+    @media screen and (max-width: 700px) {
+      max-width: 500px;
+    }
+    @media screen and (max-width: 560px) {
+      max-width: 460px;
+    }
+    @media screen and (max-width: 480px) {
+      max-width: 380px;
+    }
+    @media screen and (max-width: 410px) {
+      max-width: 340px;
+    }
+  }
+}
