@@ -1,0 +1,135 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_commentary_box {
+  // border: 1px solid;
+  min-height: 150px;
+  width: 600px;
+  border-radius: 40px 0 40px 0;
+  margin: 20px 0;
+  background-color: $app_background;
+  box-shadow: $main_font_color 0px 0px 6px 0px;
+  @include flexBox(nowrap, column, center, center);
+  .secondary_commentary_author_box {
+    // border: 1px solid;
+    height: 80px;
+    width: 100%;
+    padding: 0 10px;
+    @include flexBox(nowrap, row, space-between, center);
+    .commentary_author_box {
+      // border: 1px solid;
+      height: auto;
+      width: auto;
+      @include flexBox(nowrap, row, center, center);
+      .author_image_box {
+        // border: 1px solid;
+        border-radius: 50%;
+        height: 60px;
+        width: 60px;
+        background-color: $app_background;
+        box-shadow: $main_font_color 0px 0px 6px 0px;
+        @include flexBox(nowrap, row, center, center);
+        .author_image {
+          // border: 1px solid;
+          border-radius: 50%;
+          height: 54px;
+          width: 54px;
+          @include flexBox(nowrap, row, center, center);
+          @media screen and (max-width: 410px) {
+            height: 40px;
+            width: 40px;
+          }
+        }
+        @media screen and (max-width: 410px) {
+          height: 50px;
+          width: 50px;
+        }
+      }
+      .author_full_name_box {
+        // border: 1px solid;
+        height: 60px;
+        min-width: 100px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: $main_font_color;
+        font-style: italic;
+        @include flexBox(nowrap, column, center, start);
+        @media screen and (max-width: 480px) {
+          font-size: 0.7rem;
+          padding: 0 6px;
+        }
+      }
+    }
+    .commentary_manage_box {
+      // border: 1px solid;
+      height: 60px;
+      width: 100px;
+      @include flexBox(nowrap, row, space-between, start);
+      .edit_commentary_button_box,
+      .remove_commentary_button_box {
+        border: none;
+        box-shadow: $main_font_color 0px 0px 6px 0px;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        color: $main_font_color;
+        background-color: $app_background;
+        cursor: pointer;
+        @include flexBox(nowrap, row, center, center);
+        &:hover {
+          background-color: $button_background_hover_color;
+          color: $app_background;
+          transition: 0.4s;
+        }
+        &:not(:hover) {
+          transition: 0.5s;
+        }
+        .edit_icon,
+        .remove_icon {
+          height: 22px;
+          width: 22px;
+        }
+      }
+    }
+  }
+  .commentary_body_box {
+    // border: 1px solid;
+    min-height: 50px;
+    width: 100%;
+    padding: 0px 10px;
+    font-size: 0.9rem;
+    color: $main_font_color;
+    letter-spacing: 1px;
+    font-weight: 500;
+    @include flexBox(nowrap, row, center, center);
+  }
+  .commentary_footer_box {
+    // border: 1px solid;
+    height: 40px;
+    width: 100%;
+    padding: 0 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $main_font_color;
+    font-style: italic;
+    @include flexBox(nowrap, row, end, center);
+    @media screen and (max-width: 480px) {
+      font-size: 0.7rem;
+      padding: 0 6px;
+    }
+  }
+  @media screen and (max-width: 700px) {
+    max-width: 550px;
+  }
+  @media screen and (max-width: 560px) {
+    max-width: 460px;
+  }
+  @media screen and (max-width: 480px) {
+    max-width: 400px;
+  }
+  @media screen and (max-width: 410px) {
+    max-width: 350px;
+    padding: 0 8px;
+  }
+}
