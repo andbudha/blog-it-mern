@@ -11,8 +11,8 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { notificationToast } from '../../assets/toasts/notificationToast';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { BlogEditForm } from '../../components/Forms/BlogEditForm/BlogEditForm';
-import { Commentary } from '../../components/Commentary/Commentray';
 import { CommentaryTextarea } from '../../components/Forms/CommentaryTextarea/CommentaryTextarea';
+import { CommentaryBand } from '../../components/CommentaryBand/CommentaryBand';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
@@ -30,7 +30,11 @@ export const DetailedBlog = () => {
     setDisplayPopupWindowStatus,
   } = useContext(DataContext);
 
-  const blog = blogs?.find((blog) => blog._id === blogID);
+  let blog;
+  if (blogs) {
+    blog = blogs.find((blog) => blog._id === blogID);
+  }
+
   const date = new Date(blog?.createdAt!).toLocaleDateString();
   const time = new Date(blog?.createdAt!).toLocaleTimeString();
   const liked = blog?.likes.filter((userID) => userID === user?.userID);
@@ -172,30 +176,11 @@ export const DetailedBlog = () => {
       )}
 
       <div className={styles.main_commentary_text_area_box}>
+        {authLoaderStatus === 'adding' && <AuthLoader />}
         <CommentaryTextarea />
-        {/* <div
-          className={styles.display_textarea_button}
-          onClick={displayTextareaHandler}
-        >
-          <h4>leave commentary</h4>
-          {displayTextareaStatus ? (
-            <FaChevronUp className={styles.chevron_icon} />
-          ) : (
-            <FaChevronDown className={styles.chevron_icon} />
-          )}
-        </div>
-        {displayTextareaStatus && (
-          <>
-            <textarea
-              className={styles.comment_text_area}
-              placeholder="Feel free to leave a commentary..."
-            />
-            <button className={styles.post_comment_button}>post</button>
-          </>
-        )} */}
       </div>
       <div className={styles.commentary_band_box}>
-        <Commentary blog={blog} />
+        <CommentaryBand commentaries={blog ? blog.comments : []} />
       </div>
     </div>
   );
