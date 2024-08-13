@@ -4,6 +4,7 @@ import {
   BlogLikingValues,
   BlogPostingValues,
   BlogResponse,
+  CommentaryValues,
   EditBlogPostingValues,
 } from '../types/common_types';
 import axios from 'axios';
@@ -27,6 +28,8 @@ type DataContextType = {
   editBlogTitleInputValue: string;
   editBlogKeyWordInputValue: string;
   editBlogContentInputValue: string;
+  commentaryTextareaValue: string;
+  displayTextareaStatus: boolean;
   setDataLoaderStatus: (newStatus: boolean) => void;
   setCustomSelectStatus: (newStatus: boolean) => void;
   setAddBlogFormStatus: (newStatus: boolean) => void;
@@ -46,6 +49,9 @@ type DataContextType = {
   setEditBlogKeyWordInputValue: (newValue: string) => void;
   setEditBlogContentInputValue: (newValue: string) => void;
   editBlog: (newBlogValues: EditBlogPostingValues) => Promise<void>;
+  setCommentrayTextareaValue: (newValue: string) => void;
+  postCommentary: (newCommentary: CommentaryValues) => Promise<void>;
+  setDisplayTextAreaStatus: (newStatus: boolean) => void;
 };
 const initialDataContextState = {
   blogs: null,
@@ -63,6 +69,8 @@ const initialDataContextState = {
   editBlogTitleInputValue: '',
   editBlogKeyWordInputValue: '',
   editBlogContentInputValue: '',
+  commentaryTextareaValue: '',
+  displayTextareaStatus: false,
   setDataLoaderStatus: (newStatus: boolean) => newStatus,
   setCustomSelectStatus: (newStatus: boolean) => newStatus,
   setAddBlogFormStatus: (newStatus: boolean) => newStatus,
@@ -82,6 +90,9 @@ const initialDataContextState = {
   setEditBlogKeyWordInputValue: (newValue: string) => newValue,
   setEditBlogContentInputValue: (newValue: string) => newValue,
   editBlog: () => Promise.resolve(),
+  setCommentrayTextareaValue: (newValue: string) => newValue,
+  postCommentary: () => Promise.resolve(),
+  setDisplayTextAreaStatus: (newStatus: boolean) => newStatus,
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
@@ -115,6 +126,10 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   const [favoriteBlogs, setFavoriteBlogs] = useState<null | BlogResponse[]>(
     null
   );
+  const [commentaryTextareaValue, setCommentrayTextareaValue] =
+    useState<string>('');
+  const [displayTextareaStatus, setDisplayTextAreaStatus] =
+    useState<boolean>(false);
 
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
@@ -213,6 +228,26 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       }
     } catch (error) {}
   };
+
+  const postCommentary = async (newCommentary: CommentaryValues) => {
+    setAuthLoaderStatus('adding');
+    try {
+      const response = await axios.post(
+        `${baseUrl}/blogs/post-commentary`,
+        newCommentary
+      );
+      if (response) {
+        setAuthLoaderStatus('idle');
+        fetchBlogs();
+        setCommentrayTextareaValue('');
+        console.log(response.data.blog.comments);
+      }
+    } catch (error) {
+    } finally {
+      setAuthLoaderStatus('idle');
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -231,6 +266,8 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         editBlogTitleInputValue,
         editBlogKeyWordInputValue,
         editBlogContentInputValue,
+        commentaryTextareaValue,
+        displayTextareaStatus,
         setDataLoaderStatus,
         setCustomSelectStatus,
         setAddBlogFormStatus,
@@ -250,6 +287,9 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setEditBlogKeyWordInputValue,
         setEditBlogContentInputValue,
         editBlog,
+        setCommentrayTextareaValue,
+        postCommentary,
+        setDisplayTextAreaStatus,
       }}
     >
       {children}
