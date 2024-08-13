@@ -107,7 +107,23 @@ const editBlog = async (req, res) => {
     });
   }
 };
+const postCommentary = async (req, res) => {
+  console.log(req.body);
 
+  try {
+    const blog = await BlogModel.findByIdAndUpdate(
+      { _id: req.body.blogID },
+      { $push: { comments: { ...req.body } } },
+      { new: true }
+    );
+    res.status(200).json({ message: 'Commentary successfully posted!', blog });
+  } catch (error) {
+    es.status(500).json({
+      error,
+      message: 'Commentary posting failed. Try again later, please!',
+    });
+  }
+};
 export {
   addBlog,
   getBlogs,
@@ -115,4 +131,5 @@ export {
   getFavoriteBlogs,
   deleteBlog,
   editBlog,
+  postCommentary,
 };
