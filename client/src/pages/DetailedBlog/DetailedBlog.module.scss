@@ -181,7 +181,7 @@
           height: 60px;
           width: 60px;
           background-color: $app_background;
-          box-shadow: $secondary_font_color 0px 0px 6px 0px;
+          box-shadow: $main_font_color 0px 0px 6px 0px;
           @include flexBox(nowrap, column, center, center);
           .user_profile_image {
             height: 50px;
@@ -270,7 +270,6 @@
     }
   }
   .comment_text_area_box {
-    border-bottom: 2px solid $main_font_color;
     height: auto;
     max-width: 700px;
     @include flexBox(nowrap, column, center, center);
@@ -278,6 +277,7 @@
       border-top: 2px solid $main_font_color;
       height: 40px;
       width: 700px;
+      margin-bottom: 20px;
       color: $main_font_color;
       cursor: pointer;
       @include flexBox(nowrap, row, center, center);
@@ -336,7 +336,7 @@
       letter-spacing: 1px;
       font-weight: 600;
       font-size: 1rem;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       color: $app_background;
       cursor: pointer;
       background-color: $main_font_color;
@@ -360,5 +360,12 @@
         max-width: 320px;
       }
     }
+  }
+
+  .commentary_band_box {
+    // border: 1px solid;
+    width: auto;
+    height: auto;
+    @include flexBox(nowrap, column, center, center);
   }
 }

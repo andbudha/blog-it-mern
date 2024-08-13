@@ -12,6 +12,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { notificationToast } from '../../assets/toasts/notificationToast';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { BlogEditForm } from '../../components/Forms/BlogEditForm/BlogEditForm';
+import { Commentary } from '../../components/Commentary/Commentray';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
@@ -197,6 +198,9 @@ export const DetailedBlog = () => {
             <button className={styles.post_comment_button}>post</button>
           </>
         )}
+      </div>
+      <div className={styles.commentary_band_box}>
+        <Commentary blog={blog} />
       </div>
     </div>
   );
