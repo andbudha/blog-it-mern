@@ -11,7 +11,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { notificationToast } from '../../assets/toasts/notificationToast';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { BlogEditForm } from '../../components/Forms/BlogEditForm/BlogEditForm';
-import { CommentaryTextarea } from '../../components/Forms/CommentaryTextarea/CommentaryTextarea';
+import { AddCommentaryTextarea } from '../../components/Forms/AddCommentaryTextarea/AddCommentaryTextarea';
 import { CommentaryBand } from '../../components/CommentaryBand/CommentaryBand';
 
 export const DetailedBlog = () => {
@@ -177,7 +177,7 @@ export const DetailedBlog = () => {
 
       <div className={styles.main_commentary_text_area_box}>
         {authLoaderStatus === 'adding' && <AuthLoader />}
-        <CommentaryTextarea />
+        <AddCommentaryTextarea />
       </div>
       <div className={styles.commentary_band_box}>
         <CommentaryBand commentaries={blog ? blog.comments : []} />
