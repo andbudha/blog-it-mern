@@ -67,8 +67,10 @@
       height: 60px;
       width: 100px;
       @include flexBox(nowrap, row, space-between, start);
-      .edit_commentary_button_box,
-      .remove_commentary_button_box {
+      .edit_commentary_button,
+      .remove_commentary_button,
+      .save_commentary_changes_button,
+      .discard_commentary_changes_button {
         border: none;
         box-shadow: $main_font_color 0px 0px 6px 0px;
         height: 40px;

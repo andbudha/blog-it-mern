@@ -7,6 +7,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
 import { AuthLoader } from '../Loaders/AuthLoader/AuthLoader';
 import { EditCommentaryTextarea } from '../Forms/EditCommentaryTextarea/EditCommentaryTextArea';
+import { notificationToast } from '../../assets/toasts/notificationToast';
 
 type CommentaryProps = {
   commentary: CommentaryValues;
@@ -24,6 +25,13 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
   };
   const deleteCommentaryHandler = (blogID: string, commentaryID: string) => {
     deleteCommentary(blogID, commentaryID);
+  };
+
+  const saveCommentaryChangesHandler = () => {
+    notificationToast('Changes saved!');
+  };
+  const discardCommentaryChangesHandler = () => {
+    setShowEditTextarea(false);
   };
   return (
     <div className={styles.main_commentary_box}>
@@ -45,33 +53,43 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
         </div>
         {commentary.userID === user?.userID && (
           <div className={styles.commentary_manage_box}>
-            <button className={styles.edit_commentary_button_box}>
-              {showEditTextarea ? (
+            {showEditTextarea ? (
+              <button
+                className={styles.save_commentary_changes_button}
+                onClick={saveCommentaryChangesHandler}
+              >
                 <FiCheck className={styles.save_changes_icon} />
-              ) : (
+              </button>
+            ) : (
+              <button className={styles.edit_commentary_button}>
                 <FiEdit3
                   className={styles.edit_icon}
                   onClick={changeEditTextareaStatusHandler}
                 />
-              )}
-            </button>
-            <button className={styles.remove_commentary_button_box}>
-              {showEditTextarea ? (
+              </button>
+            )}
+            {showEditTextarea ? (
+              <button
+                className={styles.discard_commentary_changes_button}
+                onClick={discardCommentaryChangesHandler}
+              >
                 <FiX className={styles.discard_changes_icon} />
-              ) : (
+              </button>
+            ) : (
+              <button className={styles.remove_commentary_button}>
                 <MdOutlineDelete
                   className={styles.remove_icon}
                   onClick={() =>
                     deleteCommentaryHandler(commentary.blogID, commentary._id!)
                   }
                 />
-              )}
-            </button>
+              </button>
+            )}
           </div>
         )}
       </div>
       {showEditTextarea ? (
-        <EditCommentaryTextarea />
+        <EditCommentaryTextarea commentary={commentary} />
       ) : (
         <div className={styles.commentary_body_box}>
           <p className={styles.commentary_body}>{commentary.commentary}</p>
