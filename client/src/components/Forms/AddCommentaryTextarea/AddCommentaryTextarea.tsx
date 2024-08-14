@@ -1,12 +1,12 @@
 import { ChangeEvent, useContext } from 'react';
-import styles from './CommentaryTextarea.module.scss';
+import styles from './AddCommentaryTextarea.module.scss';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { DataContext } from '../../../contexts/DataContext';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { useParams } from 'react-router';
 import { notificationToast } from '../../../assets/toasts/notificationToast';
 
-export const CommentaryTextarea = () => {
+export const AddCommentaryTextarea = () => {
   const {
     displayTextareaStatus,
     commentaryTextareaValue,
