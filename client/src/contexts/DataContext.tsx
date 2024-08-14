@@ -11,6 +11,7 @@ import axios from 'axios';
 import { baseUrl } from '../assets/base_url';
 import { successfulToast } from '../assets/toasts/successfulToast';
 import { AuthContext } from './AuthContext';
+import { notificationToast } from '../assets/toasts/notificationToast';
 
 type DataContextType = {
   blogs: null | BlogResponse[];
@@ -52,6 +53,7 @@ type DataContextType = {
   setCommentrayTextareaValue: (newValue: string) => void;
   postCommentary: (newCommentary: CommentaryValues) => Promise<void>;
   setDisplayTextAreaStatus: (newStatus: boolean) => void;
+  deleteCommentary: (blogID: string, commentaryID: string) => void;
 };
 const initialDataContextState = {
   blogs: null,
@@ -93,6 +95,7 @@ const initialDataContextState = {
   setCommentrayTextareaValue: (newValue: string) => newValue,
   postCommentary: () => Promise.resolve(),
   setDisplayTextAreaStatus: (newStatus: boolean) => newStatus,
+  deleteCommentary: () => Promise.resolve(),
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
@@ -130,7 +133,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     useState<string>('');
   const [displayTextareaStatus, setDisplayTextAreaStatus] =
     useState<boolean>(false);
-
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
     const newRandomImage =
@@ -240,6 +242,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setAuthLoaderStatus('idle');
         fetchBlogs();
         setCommentrayTextareaValue('');
+        notificationToast(response.data.message);
         console.log(response.data.blog.comments);
       }
     } catch (error) {
@@ -248,6 +251,20 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     }
   };
 
+  const deleteCommentary = async (blogID: string, commentaryID: string) => {
+    setAuthLoaderStatus('deleting');
+    try {
+      const response = await axios.post(`${baseUrl}/blogs/delete-commentary`, {
+        blogID,
+        commentaryID,
+      });
+      if (response) {
+        fetchBlogs();
+        setAuthLoaderStatus('idle');
+        notificationToast(response.data.message);
+      }
+    } catch (error) {}
+  };
   return (
     <DataContext.Provider
       value={{
@@ -290,6 +307,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setCommentrayTextareaValue,
         postCommentary,
         setDisplayTextAreaStatus,
+        deleteCommentary,
       }}
     >
       {children}
