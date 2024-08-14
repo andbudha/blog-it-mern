@@ -1,0 +1,21 @@
+@import '../../../assets/sass/mixinns.scss';
+@import '../../../assets/sass/variables.scss';
+
+.main_textarea_box {
+  // border: 1px solid;
+  height: 80px;
+  width: 100%;
+  @include flexBox(nowrap, column, center, center);
+  .textarea_box {
+    border: 3px solid $main_font_color;
+    height: 80px;
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    color: $secondary_font_color;
+    letter-spacing: 1px;
+    font-weight: 500;
+    outline: none;
+    resize: none;
+  }
+}
