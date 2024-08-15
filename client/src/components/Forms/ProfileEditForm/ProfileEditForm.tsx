@@ -185,6 +185,12 @@ export const ProfileEditForm = () => {
               >
                 married
               </div>
+              <div
+                className={styles.select_option}
+                onClick={() => changeMaritalStatusHandler('confidential')}
+              >
+                confidential
+              </div>
             </div>
           )}
         </div>

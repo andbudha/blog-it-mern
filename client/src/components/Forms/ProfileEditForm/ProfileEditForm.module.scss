@@ -84,7 +84,7 @@
       .select_option_box {
         border: 0.5px solid $main_font_color;
         z-index: 10;
-        height: 72px;
+        height: 108px;
         width: 100%;
         color: $secondary_font_color;
         background-color: $app_background;
@@ -107,7 +107,7 @@
       }
     }
     .active_edit_profile_custom_select {
-      bottom: -72px;
+      bottom: -108px;
     }
   }
   .edit_form_button_box {
