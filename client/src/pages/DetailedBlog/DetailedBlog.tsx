@@ -174,7 +174,6 @@ export const DetailedBlog = () => {
           )}
         </div>
       )}
-
       <div className={styles.main_commentary_text_area_box}>
         {authLoaderStatus === 'adding' && <AuthLoader />}
         <AddCommentaryTextarea />

@@ -10,9 +10,8 @@
   .main_popup_box {
     position: fixed;
     top: 0;
-    right: 0;
     bottom: 0;
-    left: 0;
+    width: 1600px;
     z-index: 10;
     background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
@@ -67,7 +66,7 @@
       object-fit: cover;
       mask-image: linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 1) 70%,
+        rgba(0, 0, 0, 1) 25%,
         transparent 100%
       );
       .blog_image {
