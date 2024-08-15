@@ -6,6 +6,7 @@ import {
   BlogResponse,
   CommentaryValues,
   EditBlogPostingValues,
+  EditCommentaryValues,
 } from '../types/common_types';
 import axios from 'axios';
 import { baseUrl } from '../assets/base_url';
@@ -54,6 +55,7 @@ type DataContextType = {
   postCommentary: (newCommentary: CommentaryValues) => Promise<void>;
   setDisplayTextAreaStatus: (newStatus: boolean) => void;
   deleteCommentary: (blogID: string, commentaryID: string) => void;
+  editCommentary: (editedCommentary: EditCommentaryValues) => Promise<void>;
 };
 const initialDataContextState = {
   blogs: null,
@@ -73,6 +75,7 @@ const initialDataContextState = {
   editBlogContentInputValue: '',
   commentaryTextareaValue: '',
   displayTextareaStatus: false,
+  showEditTextarea: false,
   setDataLoaderStatus: (newStatus: boolean) => newStatus,
   setCustomSelectStatus: (newStatus: boolean) => newStatus,
   setAddBlogFormStatus: (newStatus: boolean) => newStatus,
@@ -96,6 +99,7 @@ const initialDataContextState = {
   postCommentary: () => Promise.resolve(),
   setDisplayTextAreaStatus: (newStatus: boolean) => newStatus,
   deleteCommentary: () => Promise.resolve(),
+  editCommentary: () => Promise.resolve(),
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
@@ -265,6 +269,22 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       }
     } catch (error) {}
   };
+
+  const editCommentary = async (editedCommentaryBody: EditCommentaryValues) => {
+    setAuthLoaderStatus('editing');
+    try {
+      const response = await axios.post(
+        `${baseUrl}/blogs/edit-commentary`,
+        editedCommentaryBody
+      );
+      if (response) {
+        setAuthLoaderStatus('idle');
+        fetchBlogs();
+        notificationToast('Commentary successfully updated!');
+      }
+    } catch (error) {}
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -308,6 +328,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         postCommentary,
         setDisplayTextAreaStatus,
         deleteCommentary,
+        editCommentary,
       }}
     >
       {children}
