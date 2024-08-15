@@ -47,6 +47,12 @@ export type CommentaryValues = {
   createdAt?: Date;
 };
 
+export type EditCommentaryValues = {
+  blogID: string;
+  commentaryID: string;
+  newCommentary: string;
+};
+
 export type MainLoaderStatus =
   | 'idle'
   | 'registering'
