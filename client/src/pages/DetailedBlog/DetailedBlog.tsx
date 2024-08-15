@@ -72,7 +72,7 @@ export const DetailedBlog = () => {
           <div className={styles.popup_window}>
             {authLoaderStatus === 'deleting' && <AuthLoader />}
             <div className={styles.info_text_box}>
-              <h3>This blog will be deleted!</h3>
+              <h3>Blog will be deleted!</h3>
             </div>
             <div className={styles.popup_window_button_box}>
               <div

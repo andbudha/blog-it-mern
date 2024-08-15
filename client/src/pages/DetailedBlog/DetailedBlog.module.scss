@@ -2,7 +2,6 @@
 @import '../../assets/sass/variables.scss';
 
 .main_detailed_blog_box {
-  // border: 1px solid;
   min-height: calc(100vh - 230px);
   width: 100%;
   color: $secondary_font_color;
@@ -14,7 +13,7 @@
     width: 1600px;
     z-index: 10;
     background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.3); /* Black w/ opacity */
     @include flexBox(nowrap, column, center, center);
     .popup_window {
       position: relative;
