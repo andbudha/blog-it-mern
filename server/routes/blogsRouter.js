@@ -8,6 +8,7 @@ import {
   editBlog,
   postCommentary,
   deleteCommentary,
+  editCommentary,
 } from '../controllers/blogsController.js';
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.post('/delete-blog', deleteBlog);
 router.post('/edit-blog', editBlog);
 router.post('/post-commentary', postCommentary);
 router.post('/delete-commentary', deleteCommentary);
+router.post('/edit-commentary', editCommentary);
 
 export default router;

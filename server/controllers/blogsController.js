@@ -108,8 +108,6 @@ const editBlog = async (req, res) => {
   }
 };
 const postCommentary = async (req, res) => {
-  console.log(req.body);
-
   try {
     const blog = await BlogModel.findByIdAndUpdate(
       { _id: req.body.blogID },
@@ -139,6 +137,33 @@ const deleteCommentary = async (req, res) => {
     });
   }
 };
+
+const editCommentary = async (req, res) => {
+  console.log(req.body);
+
+  try {
+    const blog = await BlogModel.findByIdAndUpdate(
+      {
+        _id: req.body.blogID,
+      },
+      {
+        $set: {
+          'comments.$[outer].commentary': req.body.newCommentary,
+        },
+      },
+      {
+        arrayFilters: [{ 'outer._id': req.body.commentaryID }],
+        new: true,
+      }
+    );
+    res.status(200).json({ message: 'Commentary successfully edited!', blog });
+  } catch (error) {
+    res.status(500).json({
+      error,
+      message: 'Editing commentary failed. Try again later, please!',
+    });
+  }
+};
 export {
   addBlog,
   getBlogs,
@@ -148,4 +173,5 @@ export {
   editBlog,
   postCommentary,
   deleteCommentary,
+  editCommentary,
 };
