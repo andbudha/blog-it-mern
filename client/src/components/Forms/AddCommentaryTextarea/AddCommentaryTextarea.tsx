@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import styles from './AddCommentaryTextarea.module.scss';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { DataContext } from '../../../contexts/DataContext';
@@ -8,14 +8,14 @@ import { notificationToast } from '../../../assets/toasts/notificationToast';
 
 export const AddCommentaryTextarea = () => {
   const {
-    displayTextareaStatus,
     commentaryTextareaValue,
     setCommentrayTextareaValue,
     postCommentary,
-    setDisplayTextAreaStatus,
   } = useContext(DataContext);
   const { user } = useContext(AuthContext);
   const { blogID } = useParams();
+  const [displayTextareaStatus, setDisplayTextAreaStatus] =
+    useState<boolean>(false);
 
   const displayTextareaHandler = () => {
     if (user) {
