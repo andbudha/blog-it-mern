@@ -98,16 +98,42 @@
       }
     }
   }
+
   .commentary_body_box {
     // border: 1px solid;
     min-height: 50px;
     width: 100%;
-    padding: 0px 16px;
+    padding: 0px 10px;
     font-size: 0.9rem;
     color: $secondary_font_color;
     letter-spacing: 1px;
     font-weight: 500;
     @include flexBox(nowrap, row, start, center);
+    .main_textarea_box {
+      // border: 1px solid;
+      border: none;
+      box-shadow: $main_font_color 0px 0px 6px 0px;
+      min-height: 50px;
+      width: 100%;
+      @include flexBox(nowrap, column, center, center);
+      .textarea_box {
+        border: none;
+        min-height: 50px;
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+        color: $secondary_font_color;
+        letter-spacing: 1px;
+        font-weight: 500;
+        outline: none;
+        resize: none;
+      }
+    }
+    .commentary_box {
+      min-height: 50px;
+      width: 100%;
+      padding: 10px;
+    }
   }
   .commentary_footer_box {
     // border: 1px solid;
