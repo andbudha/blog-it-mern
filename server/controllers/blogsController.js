@@ -124,13 +124,17 @@ const postCommentary = async (req, res) => {
 };
 const deleteCommentary = async (req, res) => {
   try {
-    const blog = await BlogModel.findByIdAndUpdate(
+    await BlogModel.findByIdAndUpdate(
       { _id: req.body.blogID },
       { $pull: { comments: { _id: req.body.commentaryID } } },
       { new: true }
     );
-    res.status(200).json({ message: 'Commentary successfully deleted!', blog });
+    return res
+      .status(200)
+      .json({ message: 'Commentary successfully deleted!' });
   } catch (error) {
+    console.log('error deleting comment:::', error);
+
     res.status(500).json({
       error,
       message: 'Deleting commentary failed. Try again later, please!',

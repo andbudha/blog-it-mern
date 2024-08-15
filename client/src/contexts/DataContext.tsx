@@ -13,6 +13,8 @@ import { baseUrl } from '../assets/base_url';
 import { successfulToast } from '../assets/toasts/successfulToast';
 import { AuthContext } from './AuthContext';
 import { notificationToast } from '../assets/toasts/notificationToast';
+import { failureToast } from '../assets/toasts/failureToast';
+import { getToken } from '../assets/utils/tokenServices';
 
 type DataContextType = {
   blogs: null | BlogResponse[];
@@ -31,7 +33,7 @@ type DataContextType = {
   editBlogKeyWordInputValue: string;
   editBlogContentInputValue: string;
   commentaryTextareaValue: string;
-  displayTextareaStatus: boolean;
+  deleteCommentaryPopupWindowStatus: boolean;
   setDataLoaderStatus: (newStatus: boolean) => void;
   setCustomSelectStatus: (newStatus: boolean) => void;
   setAddBlogFormStatus: (newStatus: boolean) => void;
@@ -53,9 +55,9 @@ type DataContextType = {
   editBlog: (newBlogValues: EditBlogPostingValues) => Promise<void>;
   setCommentrayTextareaValue: (newValue: string) => void;
   postCommentary: (newCommentary: CommentaryValues) => Promise<void>;
-  setDisplayTextAreaStatus: (newStatus: boolean) => void;
   deleteCommentary: (blogID: string, commentaryID: string) => void;
   editCommentary: (editedCommentary: EditCommentaryValues) => Promise<void>;
+  setDeleteCommentaryPopupWindowStatus: (newStatus: boolean) => void;
 };
 const initialDataContextState = {
   blogs: null,
@@ -74,8 +76,7 @@ const initialDataContextState = {
   editBlogKeyWordInputValue: '',
   editBlogContentInputValue: '',
   commentaryTextareaValue: '',
-  displayTextareaStatus: false,
-  showEditTextarea: false,
+  deleteCommentaryPopupWindowStatus: false,
   setDataLoaderStatus: (newStatus: boolean) => newStatus,
   setCustomSelectStatus: (newStatus: boolean) => newStatus,
   setAddBlogFormStatus: (newStatus: boolean) => newStatus,
@@ -97,9 +98,9 @@ const initialDataContextState = {
   editBlog: () => Promise.resolve(),
   setCommentrayTextareaValue: (newValue: string) => newValue,
   postCommentary: () => Promise.resolve(),
-  setDisplayTextAreaStatus: (newStatus: boolean) => newStatus,
   deleteCommentary: () => Promise.resolve(),
   editCommentary: () => Promise.resolve(),
+  setDeleteCommentaryPopupWindowStatus: (newStatus: boolean) => newStatus,
 } as DataContextType;
 export const DataContext = createContext(initialDataContextState);
 
@@ -135,8 +136,11 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   );
   const [commentaryTextareaValue, setCommentrayTextareaValue] =
     useState<string>('');
-  const [displayTextareaStatus, setDisplayTextAreaStatus] =
-    useState<boolean>(false);
+  const [
+    deleteCommentaryPopupWindowStatus,
+    setDeleteCommentaryPopupWindowStatus,
+  ] = useState<boolean>(false);
+
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
     const newRandomImage =
@@ -247,7 +251,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         fetchBlogs();
         setCommentrayTextareaValue('');
         notificationToast(response.data.message);
-        console.log(response.data.blog.comments);
       }
     } catch (error) {
     } finally {
@@ -257,17 +260,43 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
   const deleteCommentary = async (blogID: string, commentaryID: string) => {
     setAuthLoaderStatus('deleting');
-    try {
-      const response = await axios.post(`${baseUrl}/blogs/delete-commentary`, {
-        blogID,
-        commentaryID,
+    const token = getToken();
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${token}`);
+      const body = new URLSearchParams({
+        blogID: blogID,
+        commentaryID: commentaryID,
       });
-      if (response) {
-        fetchBlogs();
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: body,
+      };
+
+      try {
+        // const response = await axios.post(
+        //   `${baseUrl}/blogs/delete-commentary`,
+        //   { blogID, commentaryID },
+        //   { headers: customHeaders }
+        // );
+
+        const response = await fetch(
+          `${baseUrl}/blogs/delete-commentary`,
+          requestOptions
+        );
+        if (response) {
+          fetchBlogs();
+          setDeleteCommentaryPopupWindowStatus(false);
+          setAuthLoaderStatus('idle');
+          notificationToast('Commentary successfully deleted!');
+        }
+      } catch (err) {
+        const error = err as Error;
+        failureToast(error.message);
         setAuthLoaderStatus('idle');
-        notificationToast(response.data.message);
       }
-    } catch (error) {}
+    }
   };
 
   const editCommentary = async (editedCommentaryBody: EditCommentaryValues) => {
@@ -304,7 +333,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         editBlogKeyWordInputValue,
         editBlogContentInputValue,
         commentaryTextareaValue,
-        displayTextareaStatus,
+        deleteCommentaryPopupWindowStatus,
         setDataLoaderStatus,
         setCustomSelectStatus,
         setAddBlogFormStatus,
@@ -326,9 +355,9 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         editBlog,
         setCommentrayTextareaValue,
         postCommentary,
-        setDisplayTextAreaStatus,
         deleteCommentary,
         editCommentary,
+        setDeleteCommentaryPopupWindowStatus,
       }}
     >
       {children}
