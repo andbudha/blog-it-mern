@@ -18,7 +18,11 @@ export const AddCommentaryTextarea = () => {
   const { blogID } = useParams();
 
   const displayTextareaHandler = () => {
-    setDisplayTextAreaStatus(!displayTextareaStatus);
+    if (user) {
+      setDisplayTextAreaStatus(!displayTextareaStatus);
+    } else {
+      notificationToast('Log in first, please!');
+    }
   };
 
   const catchTextareaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -45,7 +49,7 @@ export const AddCommentaryTextarea = () => {
         className={styles.display_textarea_button}
         onClick={displayTextareaHandler}
       >
-        <h4>leave commentary</h4>
+        <h4>share your mind</h4>
         {displayTextareaStatus ? (
           <FaChevronUp className={styles.chevron_icon} />
         ) : (
