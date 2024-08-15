@@ -2,8 +2,6 @@
 @import '../../assets/sass/variables.scss';
 
 .main_commentary_box {
-  // border: 1px solid;
-  position: relative;
   min-height: 150px;
   width: 600px;
   border-radius: 40px 0 40px 0;
@@ -11,6 +9,53 @@
   background-color: $app_background;
   box-shadow: $main_font_color 0px 0px 6px 0px;
   @include flexBox(nowrap, column, center, center);
+  .main_popup_box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 1600px;
+    z-index: 10;
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.2); /* Black w/ opacity */
+    @include flexBox(nowrap, column, center, center);
+    .popup_window {
+      position: relative;
+      height: 180px;
+      width: 340px;
+      background: #fff;
+      @include flexBox(nowrap, column, space-between, center);
+      .info_text_box {
+        height: 140px;
+        width: 100%;
+        letter-spacing: 1px;
+        @include flexBox(nowrap, column, center, center);
+      }
+      .popup_window_button_box {
+        height: 60px;
+        width: 100%;
+        @include flexBox(nowrap, row, space-around, center);
+        .delete_blog_button,
+        .cancel_delete_blog_button {
+          width: 150px;
+          height: 40px;
+          letter-spacing: 1px;
+          font-weight: 600;
+          font-size: 1rem;
+          color: $app_background;
+          cursor: pointer;
+          background-color: $main_font_color;
+          @include flexBox(nowrap, column, center, center);
+          &:hover {
+            background-color: $button_background_hover_color;
+            transition: 0.4s;
+          }
+          &:not(:hover) {
+            transition: 0.5s;
+          }
+        }
+      }
+    }
+  }
   .secondary_commentary_author_box {
     // border: 1px solid;
     height: 80px;
@@ -40,6 +85,11 @@
             height: 40px;
             width: 40px;
           }
+        }
+        .user_icon {
+          color: $main_font_color;
+          height: 40px;
+          width: 40px;
         }
         @media screen and (max-width: 410px) {
           height: 50px;

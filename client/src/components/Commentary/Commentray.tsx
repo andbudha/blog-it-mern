@@ -7,20 +7,26 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
 import { AuthLoader } from '../Loaders/AuthLoader/AuthLoader';
 import { notificationToast } from '../../assets/toasts/notificationToast';
+import { PiUserLight } from 'react-icons/pi';
 
 type CommentaryProps = {
   commentary: CommentaryValues;
 };
 export const Commentary = ({ commentary }: CommentaryProps) => {
   const { user, authLoaderStatus } = useContext(AuthContext);
-  const { deleteCommentary, editCommentary } = useContext(DataContext);
+  const {
+    deleteCommentaryPopupWindowStatus,
+    setDeleteCommentaryPopupWindowStatus,
+    deleteCommentary,
+    editCommentary,
+  } = useContext(DataContext);
   const [showEditTextarea, setShowEditTextarea] = useState<boolean>(false);
   const [editCommentaryTextareaValue, setEditCommentaryTextareaValue] =
     useState<string>(commentary.commentary);
   const date = new Date(commentary.createdAt!).toLocaleDateString();
   const time = new Date(commentary.createdAt!).toLocaleTimeString();
 
-  const changeEditTextareaStatusHandler = (commentaryID: string) => {
+  const changeEditTextareaStatusHandler = () => {
     setShowEditTextarea(!showEditTextarea);
   };
   const deleteCommentaryHandler = (blogID: string, commentaryID: string) => {
@@ -51,21 +57,54 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
     setShowEditTextarea(!showEditTextarea);
     setEditCommentaryTextareaValue(commentary.commentary);
   };
+
+  const displayPopupWindowHandler = () => {
+    setDeleteCommentaryPopupWindowStatus(!deleteCommentaryPopupWindowStatus);
+  };
   return (
     <div className={styles.main_commentary_box}>
-      {(user?.userID === commentary.userID &&
-        authLoaderStatus === 'deleting' && <AuthLoader />) ||
-        (user?.userID === commentary.userID &&
-          authLoaderStatus === 'editing' && <AuthLoader />)}
+      {deleteCommentaryPopupWindowStatus && (
+        <div className={styles.main_popup_box}>
+          <div className={styles.popup_window}>
+            {authLoaderStatus === 'deleting' && <AuthLoader />}
+            <div className={styles.info_text_box}>
+              <h3>Commentary will be deleted!</h3>
+            </div>
+            <div className={styles.popup_window_button_box}>
+              <div
+                className={styles.delete_blog_button}
+                onClick={() =>
+                  deleteCommentaryHandler(commentary.blogID, commentary._id!)
+                }
+              >
+                delete
+              </div>
+              <div
+                className={styles.cancel_delete_blog_button}
+                onClick={displayPopupWindowHandler}
+              >
+                cancel
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {user?.userID === commentary.userID && authLoaderStatus === 'editing' && (
+        <AuthLoader />
+      )}
 
       <div className={styles.secondary_commentary_author_box}>
         <div className={styles.commentary_author_box}>
           <div className={styles.author_image_box}>
-            <img
-              className={styles.author_image}
-              src={commentary.profileImage}
-              alt="author image"
-            />
+            {commentary.profileImage ? (
+              <img
+                className={styles.author_image}
+                src={commentary.profileImage}
+                alt="author image"
+              />
+            ) : (
+              <PiUserLight className={styles.user_icon} />
+            )}
           </div>
           <div className={styles.author_full_name_box}>
             <p>{commentary.firstName}</p>
@@ -89,7 +128,7 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
             ) : (
               <button
                 className={styles.edit_commentary_button}
-                onClick={() => changeEditTextareaStatusHandler(commentary._id!)}
+                onClick={changeEditTextareaStatusHandler}
               >
                 <FiEdit3 className={styles.edit_icon} />
               </button>
@@ -102,13 +141,11 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
                 <FiX className={styles.discard_changes_icon} />
               </button>
             ) : (
-              <button className={styles.remove_commentary_button}>
-                <MdOutlineDelete
-                  className={styles.remove_icon}
-                  onClick={() =>
-                    deleteCommentaryHandler(commentary.blogID, commentary._id!)
-                  }
-                />
+              <button
+                className={styles.remove_commentary_button}
+                onClick={displayPopupWindowHandler}
+              >
+                <MdOutlineDelete className={styles.remove_icon} />
               </button>
             )}
           </div>
@@ -126,9 +163,9 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
         ) : (
           <div className={styles.commentary_box}>
             {' '}
-            <pre className={styles.commentary}>
+            <p className={styles.commentary}>
               {editCommentaryTextareaValue || commentary.commentary}
-            </pre>
+            </p>
           </div>
         )}
       </div>
