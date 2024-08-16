@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import {
   CommonEditProfileFormValues,
   CommonLoginValues,
@@ -7,11 +7,12 @@ import {
   MainLoaderStatus,
   UserResponse,
 } from '../types/common_types';
-import { successfulToast } from '../assets/toasts/successfulToast';
 import axios, { AxiosError } from 'axios';
 import { failureToast } from '../assets/toasts/failureToast';
 import { baseUrl } from '../assets/base_url';
 import { getToken, removeToken } from '../assets/utils/tokenServices';
+import { notificationToast } from '../assets/toasts/notificationToast';
+import { DataContext } from './DataContext';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
@@ -103,6 +104,7 @@ export const AuthContext = createContext(initialAuthContextState);
 type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const { fetchBlogs } = useContext(DataContext);
   const [user, setUser] = useState<null | LoggedinUserResponseType>(null);
   const [allUsers, setAllUsers] = useState<null | UserResponse[]>(null);
   const [authLoaderStatus, setAuthLoaderStatus] =
@@ -139,7 +141,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (response) {
         setSignUpStatus(true);
         setAuthLoaderStatus('idle');
-        successfulToast(response.data.message);
+        notificationToast(response.data.message);
         setSignupEmailValue('');
         setSignupFirstNameValue('');
         setSignupLastNameValue('');
@@ -162,7 +164,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
       if (response) {
         setAuthLoaderStatus('idle');
-        successfulToast(response.data.message);
+        notificationToast(response.data.message);
         setUser(response.data.user);
         setLoginEmailValue('');
         setLoginPasswordValue('');
@@ -208,7 +210,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       removeToken();
       setUser(null);
-      successfulToast('You have successfully logged out!');
+      notificationToast('You have successfully logged out!');
     } catch (error) {}
   };
 
@@ -238,7 +240,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (response) {
         setUpdateProfileImageButtonStatus(false);
         getUserProfile();
-        console.log(response);
+        getUsers();
+        fetchBlogs();
       }
     } catch (error) {
       if (error instanceof AxiosError)

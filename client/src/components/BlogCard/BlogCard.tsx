@@ -4,12 +4,19 @@ import { NavLink } from 'react-router-dom';
 import { BlogResponse } from '../../types/common_types';
 import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 import { RiThumbUpLine } from 'react-icons/ri';
+import { useContext, useEffect } from 'react';
+import { DataContext } from '../../contexts/DataContext';
 
 type BlogCardProps = {
   blog: BlogResponse;
 };
 export const BlogCard = ({ blog }: BlogCardProps) => {
-  const splitBlogCardContent = blog.content.slice(0, 220);
+  const { fetchBlogs } = useContext(DataContext);
+  const splitBlogCardContent = blog.content.slice(0, 200);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
   return (
     <NavLink className={styles.main_blog_card_box} to={`/blog/${blog._id}`}>
       <div className={styles.blog_card_image_box}>
@@ -23,9 +30,11 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
           <h4 className={styles.blog_card_title}>{blog.title}</h4>
         </div>
         <div className={styles.blog_card_author_box}>
-          <h5 className={styles.blog_card_author}>
-            by {blog.user.firstName} {blog.user.lastName}
-          </h5>
+          {blog.user.firstName && blog.user.lastName && (
+            <h5 className={styles.blog_card_author}>
+              by {blog.user.firstName} {blog.user.lastName}
+            </h5>
+          )}
         </div>
         <div className={styles.blog_card_text_body_box}>
           <p className={styles.blog_card_text_body}>

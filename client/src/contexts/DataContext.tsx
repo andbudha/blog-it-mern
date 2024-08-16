@@ -151,10 +151,12 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   };
 
   const fetchBlogs = async () => {
+    setAuthLoaderStatus('fetching');
     try {
       const response = await axios.get(`${baseUrl}/blogs/getblogs`);
       if (response) {
         setBlogs(response.data.blogs);
+        setAuthLoaderStatus('idle');
       }
     } catch (error) {}
   };

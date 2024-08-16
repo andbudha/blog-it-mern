@@ -171,13 +171,13 @@ export const BlogForm = () => {
           </div>
           <div className={styles.blog_form_button_box}>
             <div className={styles.post_blog_button} onClick={postBlogHandler}>
-              post blog
+              post
             </div>
             <div
               className={styles.discard_changes_button}
               onClick={discardAddBlogFormValuesHandler}
             >
-              discard blog
+              discard
             </div>
           </div>
         </div>

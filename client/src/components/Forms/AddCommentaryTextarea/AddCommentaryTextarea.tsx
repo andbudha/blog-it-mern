@@ -61,7 +61,7 @@ export const AddCommentaryTextarea = () => {
           <textarea
             value={commentaryTextareaValue}
             className={styles.comment_text_area}
-            placeholder="Feel free to leave a commentary..."
+            placeholder="Share your mind..."
             onChange={catchTextareaHandler}
           />
           <button

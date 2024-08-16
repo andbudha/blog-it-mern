@@ -13,7 +13,7 @@ type CommentaryProps = {
   commentary: CommentaryValues;
 };
 export const Commentary = ({ commentary }: CommentaryProps) => {
-  const { user, authLoaderStatus } = useContext(AuthContext);
+  const { user, allUsers, authLoaderStatus } = useContext(AuthContext);
   const {
     deleteCommentaryPopupWindowStatus,
     setDeleteCommentaryPopupWindowStatus,
@@ -23,8 +23,13 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
   const [showEditTextarea, setShowEditTextarea] = useState<boolean>(false);
   const [editCommentaryTextareaValue, setEditCommentaryTextareaValue] =
     useState<string>(commentary.commentary);
+
   const date = new Date(commentary.createdAt!).toLocaleDateString();
   const time = new Date(commentary.createdAt!).toLocaleTimeString();
+  const profile = allUsers?.find(
+    (profile) => profile._id === commentary.userID
+  );
+  console.log(profile);
 
   const changeEditTextareaStatusHandler = () => {
     setShowEditTextarea(!showEditTextarea);
@@ -96,10 +101,10 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
       <div className={styles.secondary_commentary_author_box}>
         <div className={styles.commentary_author_box}>
           <div className={styles.author_image_box}>
-            {commentary.profileImage ? (
+            {profile?.profileImage ? (
               <img
                 className={styles.author_image}
-                src={commentary.profileImage}
+                src={profile?.profileImage}
                 alt="author image"
               />
             ) : (
