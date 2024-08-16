@@ -1,7 +1,19 @@
 @import '../../assets/sass/mixinns.scss';
 @import '../../assets/sass/variables.scss';
 .main_blogs_box {
-  max-height: 100%;
+  height: 100%;
   width: 100%;
-  @include flexBox(wrap, row, center, center);
+  @include flexBox(nowrap, column, space-between, center);
+  .blogs_box {
+    // border: 1px solid;
+    min-height: calc(100vh - 290px);
+    width: 100%;
+    @include flexBox(wrap, row, center, center);
+  }
+  .paginator_box {
+    // border: 1px solid;
+    height: 50px;
+    width: 100%;
+    @include flexBox(nowrap, column, center, center);
+  }
 }
