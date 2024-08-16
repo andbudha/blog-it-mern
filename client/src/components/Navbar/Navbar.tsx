@@ -50,7 +50,7 @@ export const Navbar = () => {
                 }`}
                 to={'/myblogs'}
               >
-                <h3 className={styles.link_text}>my-blogs</h3>
+                <h3 className={styles.link_text}>my_blogs</h3>
               </NavLink>
               <NavLink
                 className={`${styles.link_box} ${
@@ -58,7 +58,7 @@ export const Navbar = () => {
                 }`}
                 to={'/myfavorites'}
               >
-                <h3 className={styles.link_text}>my-favorites</h3>
+                <h3 className={styles.link_text}>my_favorites</h3>
               </NavLink>
               <NavLink
                 className={`${styles.link_box} ${
