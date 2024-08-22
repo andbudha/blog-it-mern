@@ -8,7 +8,6 @@
   letter-spacing: 1px;
   @include flexBox(wrap, row, center, center);
   .my_blogs_info_box {
-    // border: 1px solid;
     min-height: 150px;
     @include flexBox(nowrap, column, space-between, center);
   }

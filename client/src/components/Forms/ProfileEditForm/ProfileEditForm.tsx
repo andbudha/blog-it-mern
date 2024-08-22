@@ -45,15 +45,6 @@ export const ProfileEditForm = () => {
     if (!values.lastName) {
       errors.lastName = 'Last-name is required!';
     }
-    // if (!values.age) {
-    //   errors.age = 'Age is required!';
-    // } else if (isNaN(Number(values.age))) {
-    //   errors.age = 'Must be a number!';
-    // } else if (Number(values.age) < 18) {
-    //   errors.age = 'Must be a number, 18+!';
-    // } else if (typeof values.age === 'string') {
-    //   errors.age = 'only numbers please!!';
-    // }
     if (!values.age) {
       errors.age = 'Age is required!';
     }

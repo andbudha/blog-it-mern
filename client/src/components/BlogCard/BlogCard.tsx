@@ -17,6 +17,7 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
   useEffect(() => {
     fetchBlogs();
   }, []);
+
   return (
     <NavLink className={styles.main_blog_card_box} to={`/blog/${blog._id}`}>
       <div className={styles.blog_card_image_box}>

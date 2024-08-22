@@ -62,7 +62,6 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
     setShowEditTextarea(!showEditTextarea);
     setEditCommentaryTextareaValue(commentary.commentary);
   };
-
   const displayPopupWindowHandler = () => {
     setDeleteCommentaryPopupWindowStatus(!deleteCommentaryPopupWindowStatus);
   };

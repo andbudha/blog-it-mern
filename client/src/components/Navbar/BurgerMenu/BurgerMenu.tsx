@@ -32,7 +32,6 @@ export const BurgerMenu = () => {
         <div className={styles.links_box}>
           {user ? (
             <>
-              {' '}
               <NavLink
                 className={`${styles.link_box} ${
                   path.pathname === '/' && styles.active_link

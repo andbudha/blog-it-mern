@@ -42,17 +42,3 @@ export const PaginationProvider = ({ children }: PaginationProviderProps) => {
     </PaginationContext.Provider>
   );
 };
-
-// type PaginationContextType = {};
-// const initialPaginationContextState = {} as PaginationContextType;
-// export const PaginationContext = createContext(initialPaginationContextState);
-
-// type PaginationProviderProps = { children: ReactNode };
-
-// export const PaginationProvider = ({ children }: PaginationProviderProps) => {
-//   return (
-//     <PaginationContext.Provider value={{}}>
-//       {children}
-//     </PaginationContext.Provider>
-//   );
-// };

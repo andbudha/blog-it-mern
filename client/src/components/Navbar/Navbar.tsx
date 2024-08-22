@@ -11,9 +11,9 @@ export const Navbar = () => {
   const { user, burgerMenuStatus, logUserOut, setBurgerMenuStatus } =
     useContext(AuthContext);
   const { dataLoaderStatus } = useContext(DataContext);
-
   const path = useLocation();
   const time = new Date().getHours();
+
   const greeting = () => {
     if (time < 6 || time === 0) {
       return `Hello, ${user?.firstName}.`;

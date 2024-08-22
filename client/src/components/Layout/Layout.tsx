@@ -20,7 +20,6 @@ export const Layout = () => {
       <BurgerMenu />
       <Navbar />
       <div className={styles.main_outlet_box}>
-        {' '}
         <Outlet />
       </div>
       <Footer />

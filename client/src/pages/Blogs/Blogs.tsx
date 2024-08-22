@@ -3,12 +3,10 @@ import { BlogCard } from '../../components/BlogCard/BlogCard';
 import styles from './Blogs.module.scss';
 import { PaginationContext } from '../../contexts/PaginationContext';
 import { Paginator } from '../../components/Paginator/Paginator';
-import { AuthContext } from '../../contexts/AuthContext';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 
 export const Blogs = () => {
   const { blogsToDisplayPerPage } = useContext(PaginationContext);
-  const { authLoaderStatus } = useContext(AuthContext);
 
   const blogGrid = blogsToDisplayPerPage?.map((blog) => (
     <BlogCard key={blog._id} blog={blog} />
