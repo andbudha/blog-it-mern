@@ -8,7 +8,7 @@ import {
   EditBlogPostingValues,
   EditCommentaryValues,
 } from '../types/common_types';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../assets/base_url';
 import { successfulToast } from '../assets/toasts/successfulToast';
 import { AuthContext } from './AuthContext';
@@ -154,11 +154,19 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     setAuthLoaderStatus('fetching');
     try {
       const response = await axios.get(`${baseUrl}/blogs/getblogs`);
+      console.log(response);
+
       if (response) {
         setBlogs(response.data.blogs);
         setAuthLoaderStatus('idle');
       }
-    } catch (error) {}
+    } catch (error) {
+      if (error as AxiosError) {
+        failureToast(
+          'Unexpected error occurred while fetching blogs. Try again later, please!'
+        );
+      }
+    }
   };
 
   const fetchFavorites = async (userID: string) => {
