@@ -161,7 +161,9 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setAuthLoaderStatus('idle');
       }
     } catch (error) {
-      if (error as AxiosError) {
+      if (error instanceof AxiosError) {
+        console.log(error);
+
         failureToast(
           'Unexpected error occurred while fetching blogs. Try again later, please!'
         );

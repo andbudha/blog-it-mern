@@ -8,7 +8,7 @@ const getBlogs = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error,
-      message: 'Fetching blogs failed. Try again late, please!',
+      message: 'Connecting to database failed. Try again later, please!',
     });
   }
 };
@@ -20,8 +20,8 @@ const getFavoriteBlogs = async (req, res) => {
     const favoriteBlogs = user.favoriteBlogList;
     res.status(200).json({ message: 'Favorite blogs fetched!', favoriteBlogs });
   } catch (error) {
-    res.status(400).json({
-      message: 'Fetching favorite blogs failed. Try again late, please!',
+    res.status(500).json({
+      message: 'Connecting to database failed. Try again later, please!',
     });
   }
 };
