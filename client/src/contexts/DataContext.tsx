@@ -14,7 +14,6 @@ import { AuthContext } from './AuthContext';
 import { notificationToast } from '../assets/toasts/notificationToast';
 import { failureToast } from '../assets/toasts/failureToast';
 import { getToken } from '../assets/utils/tokenServices';
-import { PaginationContext } from './PaginationContext';
 
 type DataContextType = {
   blogs: null | BlogResponse[];
