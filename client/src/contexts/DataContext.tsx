@@ -10,11 +10,11 @@ import {
 } from '../types/common_types';
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../assets/base_url';
-import { successfulToast } from '../assets/toasts/successfulToast';
 import { AuthContext } from './AuthContext';
 import { notificationToast } from '../assets/toasts/notificationToast';
 import { failureToast } from '../assets/toasts/failureToast';
 import { getToken } from '../assets/utils/tokenServices';
+import { PaginationContext } from './PaginationContext';
 
 type DataContextType = {
   blogs: null | BlogResponse[];
@@ -151,22 +151,21 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   };
 
   const fetchBlogs = async () => {
-    setAuthLoaderStatus('fetching');
     try {
+      setAuthLoaderStatus('fetching');
       const response = await axios.get(`${baseUrl}/blogs/getblogs`);
-      console.log(response);
-
       if (response) {
         setBlogs(response.data.blogs);
         setAuthLoaderStatus('idle');
+        fetchFavorites(user!.userID);
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
+      setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
         console.log(error);
-
-        failureToast(
-          'Unexpected error occurred while fetching blogs. Try again later, please!'
-        );
+        failureToast(error.response?.data.message);
       }
     }
   };
@@ -180,9 +179,16 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       if (response) {
         setAuthLoaderStatus('idle');
         setFavoriteBlogs(response.data.favoriteBlogs);
-        fetchBlogs();
       }
-    } catch (error) {}
+    } catch (error) {
+      setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
+        console.log(error);
+        failureToast(error.response?.data.message);
+      }
+    }
   };
 
   const postBlog = async (newBlogValues: BlogPostingValues) => {
@@ -193,7 +199,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         newBlogValues
       );
       if (response) {
-        successfulToast(response.data.message);
+        notificationToast(response.data.message);
         setAddBlogFormStatus(false);
         setAddBlogTitleInputValue('');
         setAddBlogKeyWordInputValue('');
@@ -202,7 +208,17 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setAuthLoaderStatus('idle');
         fetchBlogs();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+
+      setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
+        console.log(error);
+        failureToast(error.response?.data.message);
+      }
+    }
   };
 
   const toggleBlogLiking = async (blogLikingRequestBody: BlogLikingValues) => {
@@ -214,8 +230,16 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       if (response) {
         fetchBlogs();
         fetchFavorites(user!.userID);
+        notificationToast(response.data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
+        console.log(error);
+        failureToast(error.response?.data.message);
+      }
+    }
   };
 
   const deleteBlog = async (blogID: string) => {
@@ -231,8 +255,17 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         fetchBlogs();
         setEditBlogTitleInputValue('');
         setEditBlogContentInputValue('');
+        notificationToast(response.data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
+        console.log(error);
+        failureToast(error.response?.data.message);
+      }
+    }
   };
 
   const editBlog = async (newBlogValues: EditBlogPostingValues) => {
@@ -247,8 +280,17 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         fetchBlogs();
         setAuthLoaderStatus('idle');
         setDisplayBlogEditFormStatus(false);
+        notificationToast(response.data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
+        console.log(error);
+        failureToast(error.response?.data.message);
+      }
+    }
   };
 
   const postCommentary = async (newCommentary: CommentaryValues) => {
@@ -265,8 +307,13 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         notificationToast(response.data.message);
       }
     } catch (error) {
-    } finally {
       setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
+        console.log(error);
+        failureToast(error.response?.data.message);
+      }
     }
   };
 
@@ -287,17 +334,13 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       };
 
       try {
-        // const response = await axios.post(
-        //   `${baseUrl}/blogs/delete-commentary`,
-        //   { blogID, commentaryID },
-        //   { headers: customHeaders }
-        // );
-
         const response = await fetch(
           `${baseUrl}/blogs/delete-commentary`,
           requestOptions
         );
         if (response) {
+          console.log(response);
+
           fetchBlogs();
           setDeleteCommentaryPopupWindowStatus(false);
           setAuthLoaderStatus('idle');
@@ -321,9 +364,17 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       if (response) {
         setAuthLoaderStatus('idle');
         fetchBlogs();
-        notificationToast('Commentary successfully updated!');
+        notificationToast(response.data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError && error.request.status === 404) {
+        failureToast('Unexpected error occurred. Try again later, please!');
+      } else if (error instanceof AxiosError && error.request.status === 500) {
+        console.log(error);
+        failureToast(error.response?.data.message);
+      }
+    }
   };
 
   return (

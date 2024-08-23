@@ -34,7 +34,7 @@ const addBlog = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error,
-      message: 'Adding new blog failed. Try again late, please!',
+      message: 'Adding blog failed. Try again later, please!',
     });
   }
 };
@@ -57,7 +57,7 @@ const toggleBlogLiking = async (req, res) => {
         },
         { new: true }
       );
-      res.status(200).json({ message: 'You dislike this blog!', blog, user });
+      res.status(200).json({ message: 'Thank you!', blog, user });
     } else if (liked.length === 0) {
       const blog = await BlogModel.findByIdAndUpdate(
         { _id: req.body.blogID },
@@ -71,12 +71,12 @@ const toggleBlogLiking = async (req, res) => {
         },
         { new: true }
       );
-      res.status(200).json({ message: 'You like this blog!', blog, user });
+      res.status(200).json({ message: 'Thank you!', blog, user });
     }
   } catch (error) {
     res.status(500).json({
       error,
-      message: 'Disliking failed. Try again late, please!',
+      message: 'Connecting to database failed. Try again later, please!',
     });
   }
 };
@@ -133,8 +133,6 @@ const deleteCommentary = async (req, res) => {
       .status(200)
       .json({ message: 'Commentary successfully deleted!' });
   } catch (error) {
-    console.log('error deleting comment:::', error);
-
     res.status(500).json({
       error,
       message: 'Deleting commentary failed. Try again later, please!',
@@ -143,8 +141,6 @@ const deleteCommentary = async (req, res) => {
 };
 
 const editCommentary = async (req, res) => {
-  console.log(req.body);
-
   try {
     const blog = await BlogModel.findByIdAndUpdate(
       {
