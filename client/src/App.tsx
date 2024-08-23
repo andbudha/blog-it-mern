@@ -68,7 +68,7 @@ function App() {
   );
   return (
     <div className={styles.main_app_box}>
-      <Toaster position="bottom-center" />
+      <Toaster />
       <div className={styles.app_box}>
         <RouterProvider router={router} />
       </div>

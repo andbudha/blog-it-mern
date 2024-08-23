@@ -13,10 +13,12 @@ import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { BlogEditForm } from '../../components/Forms/BlogEditForm/BlogEditForm';
 import { AddCommentaryTextarea } from '../../components/Forms/AddCommentaryTextarea/AddCommentaryTextarea';
 import { CommentaryBand } from '../../components/CommentaryBand/CommentaryBand';
+import { PaginationContext } from '../../contexts/PaginationContext';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
   const { user, authLoaderStatus } = useContext(AuthContext);
+  const { setCurrentPage } = useContext(PaginationContext);
   const {
     displayBlogEditFormStatus,
     displayPopupWindowStatus,
@@ -57,6 +59,7 @@ export const DetailedBlog = () => {
 
   const deleteBlogHandler = (blogID: string) => {
     deleteBlog(blogID);
+    setCurrentPage(1);
   };
 
   const displayBlogEditFormHandler = () => {
