@@ -29,7 +29,6 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
   const profile = allUsers?.find(
     (profile) => profile._id === commentary.userID
   );
-  console.log(profile);
 
   const changeEditTextareaStatusHandler = () => {
     setShowEditTextarea(!showEditTextarea);
