@@ -10,7 +10,6 @@ import { AuthLoader } from '../../Loaders/AuthLoader/AuthLoader';
 
 export const BlogForm = () => {
   const { user, authLoaderStatus } = useContext(AuthContext);
-  console.log(authLoaderStatus);
 
   const {
     addBlogTitleInputValue,
