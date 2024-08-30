@@ -35,6 +35,7 @@ export const DetailedBlog = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    setDisplayBlogEditFormStatus(false);
   }, [pathname]);
   let blog;
   if (blogs) {
