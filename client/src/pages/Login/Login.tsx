@@ -79,7 +79,14 @@ export const Login = () => {
       setLoginPasswordInputError(false);
     }
   };
-
+  const loginAsGuestHandler = () => {
+    const guestLoginValues: CommonLoginValues = {
+      email: import.meta.env.VITE_GUEST_EMAIL,
+      password: import.meta.env.VITE_GUEST_PASS,
+    };
+    logUserIn(guestLoginValues);
+    console.log(guestLoginValues);
+  };
   if (user) {
     return <Navigate to={'/'} />;
   }
@@ -130,11 +137,20 @@ export const Login = () => {
           </div>
           <div className={styles.info_box}>
             <p>
-              Don't have an account?
+              Don't have an account? Either
               <NavLink className={styles.login_link} to={'/signup'}>
                 signup
               </NavLink>
             </p>
+            <p>or login as guest.</p>
+          </div>
+          <div className={styles.guest_login_button_box}>
+            <div
+              className={styles.guest_login_button}
+              onClick={loginAsGuestHandler}
+            >
+              guest
+            </div>
           </div>
         </form>
       </div>
