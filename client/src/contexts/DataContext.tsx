@@ -28,9 +28,6 @@ type DataContextType = {
   informStatus: boolean;
   displayPopupWindowStatus: boolean;
   displayBlogEditFormStatus: boolean;
-  editBlogTitleInputValue: string;
-  editBlogKeyWordInputValue: string;
-  editBlogContentInputValue: string;
   commentaryTextareaValue: string;
   deleteCommentaryPopupWindowStatus: boolean;
   setDataLoaderStatus: (newStatus: boolean) => void;
@@ -48,9 +45,6 @@ type DataContextType = {
   setInformStatus: (newStatus: boolean) => void;
   setDisplayPopupWindowStatus: (newStatus: boolean) => void;
   setDisplayBlogEditFormStatus: (newStatus: boolean) => void;
-  setEditBlogTitleInputValue: (newValue: string) => void;
-  setEditBlogKeyWordInputValue: (newValue: string) => void;
-  setEditBlogContentInputValue: (newValue: string) => void;
   editBlog: (newBlogValues: EditBlogPostingValues) => Promise<void>;
   setCommentrayTextareaValue: (newValue: string) => void;
   postCommentary: (newCommentary: CommentaryValues) => Promise<void>;
@@ -71,9 +65,6 @@ const initialDataContextState = {
   informStatus: false,
   displayPopupWindowStatus: false,
   displayBlogEditFormStatus: false,
-  editBlogTitleInputValue: '',
-  editBlogKeyWordInputValue: '',
-  editBlogContentInputValue: '',
   commentaryTextareaValue: '',
   deleteCommentaryPopupWindowStatus: false,
   setDataLoaderStatus: (newStatus: boolean) => newStatus,
@@ -91,9 +82,6 @@ const initialDataContextState = {
   deleteBlog: () => Promise.resolve(),
   setDisplayPopupWindowStatus: (newStatus: boolean) => newStatus,
   setDisplayBlogEditFormStatus: (newStatus: boolean) => newStatus,
-  setEditBlogTitleInputValue: (newValue: string) => newValue,
-  setEditBlogKeyWordInputValue: (newValue: string) => newValue,
-  setEditBlogContentInputValue: (newValue: string) => newValue,
   editBlog: () => Promise.resolve(),
   setCommentrayTextareaValue: (newValue: string) => newValue,
   postCommentary: () => Promise.resolve(),
@@ -120,13 +108,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   const [addBlogKeyWordInputValue, setAddBlogKeyWordInputValue] =
     useState<string>('');
   const [addBlogContentInputValue, setAddBlogContentInputValue] =
-    useState<string>('');
-
-  const [editBlogTitleInputValue, setEditBlogTitleInputValue] =
-    useState<string>('');
-  const [editBlogKeyWordInputValue, setEditBlogKeyWordInputValue] =
-    useState<string>('');
-  const [editBlogContentInputValue, setEditBlogContentInputValue] =
     useState<string>('');
   const [randomlyFetchedImage, setRandomlyFetchedImage] = useState<string>('');
   const [blogs, setBlogs] = useState<null | BlogResponse[]>(null);
@@ -252,8 +233,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setDisplayPopupWindowStatus(false);
         setInformStatus(true);
         fetchBlogs();
-        setEditBlogTitleInputValue('');
-        setEditBlogContentInputValue('');
         notificationToast(response.data.message);
       }
     } catch (error) {
@@ -391,9 +370,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         informStatus,
         displayPopupWindowStatus,
         displayBlogEditFormStatus,
-        editBlogTitleInputValue,
-        editBlogKeyWordInputValue,
-        editBlogContentInputValue,
         commentaryTextareaValue,
         deleteCommentaryPopupWindowStatus,
         setDataLoaderStatus,
@@ -411,9 +387,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setInformStatus,
         setDisplayPopupWindowStatus,
         setDisplayBlogEditFormStatus,
-        setEditBlogTitleInputValue,
-        setEditBlogKeyWordInputValue,
-        setEditBlogContentInputValue,
         editBlog,
         setCommentrayTextareaValue,
         postCommentary,

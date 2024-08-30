@@ -14,15 +14,13 @@ type BlogEditFormProps = {
   blog: BlogResponse | undefined;
 };
 export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
+  const [editBlogTitleInputValue, setEditBlogTitleInputValue] =
+    useState<string>('');
+  const [editBlogContentInputValue, setEditBlogContentInputValue] =
+    useState<string>('');
+
   const { authLoaderStatus } = useContext(AuthContext);
-  const {
-    editBlogTitleInputValue,
-    editBlogContentInputValue,
-    setDisplayBlogEditFormStatus,
-    setEditBlogTitleInputValue,
-    setEditBlogContentInputValue,
-    editBlog,
-  } = useContext(DataContext);
+  const { setDisplayBlogEditFormStatus, editBlog } = useContext(DataContext);
 
   const { pathname } = useLocation();
 
