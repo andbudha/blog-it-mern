@@ -8,6 +8,7 @@ import {
 } from '../../../types/common_types';
 import styles from './BlogEditForm.module.scss';
 import { AuthLoader } from '../../Loaders/AuthLoader/AuthLoader';
+import { useLocation } from 'react-router';
 
 type BlogEditFormProps = {
   blog: BlogResponse | undefined;
@@ -23,10 +24,13 @@ export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
     editBlog,
   } = useContext(DataContext);
 
+  const { pathname } = useLocation();
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     setEditBlogTitleInputValue(blog!.title);
     setEditBlogContentInputValue(blog!.content);
-  }, []);
+  }, [pathname]);
   const [titleInputError, setTitleInputError] = useState<boolean>(false);
   const [contentInputError, setContentInputError] = useState<boolean>(false);
 
@@ -87,6 +91,7 @@ export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
     setDisplayBlogEditFormStatus(false);
     setEditBlogTitleInputValue('');
     setEditBlogContentInputValue('');
+    window.scrollTo(0, 0);
   };
 
   return (
