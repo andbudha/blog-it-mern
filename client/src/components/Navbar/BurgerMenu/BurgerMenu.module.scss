@@ -2,9 +2,9 @@
 @import '../../../assets/sass/variables.scss';
 
 .active_burger_menu {
-  position: absolute;
+  position: fixed;
   z-index: 100;
-  height: calc(100% + 150px);
+  height: calc(100%);
   width: 100%;
   left: 0;
   background-color: rgb(0, 0, 0); /* Fallback color */

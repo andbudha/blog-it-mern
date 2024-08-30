@@ -21,6 +21,7 @@ export const BurgerMenu = () => {
       className={`${styles.active_burger_menu} ${
         !burgerMenuStatus && styles.inactive_burger_menu
       }`}
+      onClick={toggleBurgerMenuHandler}
     >
       <div className={styles.main_links_box}>
         <div className={styles.close_burger_menu_icon_box}>

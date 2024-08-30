@@ -66,6 +66,9 @@
       }
     }
     .burger_menu_icon {
+      border: 1px solid $app_main_box_background;
+      position: fixed;
+      right: 32px;
       height: 32px;
       width: 32px;
       color: $main_font_color;
