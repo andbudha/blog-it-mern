@@ -3,18 +3,20 @@ import styles from './MyFavorites.module.scss';
 import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
 import { BlogCard } from '../../components/BlogCard/BlogCard';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export const MyFavorites = () => {
   const { user } = useContext(AuthContext);
   const { favoriteBlogs, fetchFavorites } = useContext(DataContext);
+  const { pathname } = useLocation();
 
   const favoriteBlogsGrid = favoriteBlogs?.map((blog) => (
     <BlogCard key={blog._id} blog={blog} />
   ));
   useEffect(() => {
     fetchFavorites(user!.userID);
-  }, []);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className={styles.main_myfavorites_box}>

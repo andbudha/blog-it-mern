@@ -1,15 +1,21 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import styles from './MyBlogs.module.scss';
 import { DataContext } from '../../contexts/DataContext';
 import { BlogForm } from '../../components/Forms/BlogForm/BlogForm';
 import { BlogCard } from '../../components/BlogCard/BlogCard';
 import { AuthContext } from '../../contexts/AuthContext';
 import { IoAdd } from 'react-icons/io5';
+import { useLocation } from 'react-router';
 
 export const MyBlogs = () => {
   const { user } = useContext(AuthContext);
   const { blogs, addBlogFormStatus, setAddBlogFormStatus } =
     useContext(DataContext);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   const filteredBlogs = blogs?.filter((blog) => blog.user._id === user?.userID);
   const myBlogs = filteredBlogs?.map((blog) => (
     <BlogCard key={blog._id} blog={blog} />

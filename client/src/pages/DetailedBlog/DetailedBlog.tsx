@@ -1,6 +1,6 @@
-import { Navigate, useParams } from 'react-router';
+import { Navigate, useLocation, useParams } from 'react-router';
 import styles from './DetailedBlog.module.scss';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { DataContext } from '../../contexts/DataContext';
 import { PiUserLight } from 'react-icons/pi';
 import { RiThumbUpLine, RiThumbUpFill } from 'react-icons/ri';
@@ -32,6 +32,10 @@ export const DetailedBlog = () => {
     setDisplayPopupWindowStatus,
   } = useContext(DataContext);
 
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   let blog;
   if (blogs) {
     blog = blogs.find((blog) => blog._id === blogID);

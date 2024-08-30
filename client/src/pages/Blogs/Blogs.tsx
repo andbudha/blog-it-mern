@@ -5,13 +5,17 @@ import { PaginationContext } from '../../contexts/PaginationContext';
 import { Paginator } from '../../components/Paginator/Paginator';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { DataContext } from '../../contexts/DataContext';
+import { useLocation } from 'react-router';
 
 export const Blogs = () => {
   const { blogsToDisplayPerPage } = useContext(PaginationContext);
   const { setInformStatus } = useContext(DataContext);
+  const { pathname } = useLocation();
+
   useEffect(() => {
     setInformStatus(false);
-  }, []);
+    window.scrollTo(0, 0);
+  }, [pathname]);
   const blogGrid = blogsToDisplayPerPage?.map((blog) => (
     <BlogCard key={blog._id} blog={blog} />
   ));

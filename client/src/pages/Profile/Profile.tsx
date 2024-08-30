@@ -1,12 +1,18 @@
-import { ChangeEvent, useContext, useRef, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './Profile.module.scss';
 import { PiUserLight } from 'react-icons/pi';
 import { ProfileEditForm } from '../../components/Forms/ProfileEditForm/ProfileEditForm';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
+import { useLocation } from 'react-router';
 
 export const Profile = () => {
   const [temporaryImageUrl, setTemporaryImageUrl] = useState<string>('');
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   const {
     user,
     activeEditForm,
@@ -22,6 +28,7 @@ export const Profile = () => {
     uploadProfileImage,
   } = useContext(AuthContext);
   const selectedProfileImage = useRef<File | null>(null);
+
   const activateEditProfileFormHandler = () => {
     setActiveEditForm(true);
     setFirstNameEditProfileFormValue(user!.firstName);
