@@ -66,6 +66,7 @@
       }
     }
     .burger_menu_icon {
+      z-index: 1000;
       border: 1px solid $app_main_box_background;
       position: fixed;
       right: 32px;
