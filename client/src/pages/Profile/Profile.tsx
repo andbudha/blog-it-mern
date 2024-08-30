@@ -12,6 +12,7 @@ export const Profile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setActiveEditForm(false);
   }, [pathname]);
   const {
     user,
