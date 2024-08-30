@@ -98,7 +98,7 @@ export const DetailedBlog = () => {
           </div>
         </div>
       )}
-      {displayBlogEditFormStatus ? (
+      {displayBlogEditFormStatus && user?.userID === blog?.user._id ? (
         <BlogEditForm blog={blog} />
       ) : (
         <div className={styles.detailed_blog_box}>
