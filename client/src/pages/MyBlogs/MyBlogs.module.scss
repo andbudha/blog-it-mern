@@ -46,6 +46,9 @@
       width: 60px;
       color: $main_font_color;
     }
+    @media screen and (max-width: 360px) {
+      width: 320px;
+    }
   }
   .my_blogs_grid_box {
     height: 100%;

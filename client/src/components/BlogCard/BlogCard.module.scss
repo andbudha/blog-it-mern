@@ -102,4 +102,7 @@
   &:not(:hover) {
     transition: 0.5s;
   }
+  @media screen and (max-width: 410px) {
+    width: 350px;
+  }
 }
