@@ -148,8 +148,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setSignupPasswordValue('');
       }
     } catch (error) {
-      if (error instanceof AxiosError)
+      setAuthLoaderStatus('idle');
+      if (error instanceof AxiosError) {
         failureToast(`${error.response?.data.errorMessage}`);
+        console.log(error);
+      }
     } finally {
       setAuthLoaderStatus('idle');
     }
@@ -171,10 +174,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
-        console.log(error.message);
-        failureToast(
-          `Status 404. The server cannot find the requested resource.`
-        );
+        console.log(error.response?.data.errorMessage);
+        failureToast(error.response?.data.errorMessage);
       }
     } finally {
       setAuthLoaderStatus('idle');

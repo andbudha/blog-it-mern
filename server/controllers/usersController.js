@@ -64,34 +64,50 @@ const loginUser = async (req, res) => {
     });
     if (!existingUser) {
       res.status(401).json({
-        errorMessage:
-          'Either the user does not exist or the entered credentials are invalid!',
+        errorMessage: 'Either the entered email or password is incorrect!',
       });
+      return;
     }
-    const token = generateToken(existingUser._id);
-    if (!token) {
-      console.log('Token geretation error"');
-      res.status(401).json({
-        message: 'Token generation failed. Try again later, please!',
-      });
-    }
-    if (token) {
-      res.status(200).json({
-        message: 'You have successfully logged in!',
-        user: {
-          userID: existingUser._id,
-          email: existingUser.email,
-          firstName: existingUser.firstName,
-          lastName: existingUser.lastName,
-          profileImage: existingUser.profileImage,
-          age: existingUser.age || 'confidential',
-          maritalStatus: existingUser.maritalStatus || 'confidential',
-        },
-        token,
-      });
+    if (existingUser) {
+      const isPasswordCorrect = await verifyPassword(
+        req.body.password,
+        existingUser.password
+      );
+      if (isPasswordCorrect) {
+        const token = generateToken(existingUser._id);
+        if (!token) {
+          res.status(401).json({
+            message: 'Token generation failed. Try again later, please!',
+          });
+        }
+        if (token) {
+          res.status(200).json({
+            message: 'You have successfully logged in!',
+            user: {
+              userID: existingUser._id,
+              email: existingUser.email,
+              firstName: existingUser.firstName,
+              lastName: existingUser.lastName,
+              profileImage: existingUser.profileImage,
+              age: existingUser.age || 'confidential',
+              maritalStatus: existingUser.maritalStatus || 'confidential',
+            },
+            token,
+          });
+        }
+        return;
+      }
+      if (!isPasswordCorrect) {
+        res.status(401).json({
+          errorMessage: 'Either the entered email or password is incorrect!',
+        });
+      }
+      return;
     }
   } catch (error) {
-    res.status(404).json({ errorMessage: 'Server error. User login failed!' });
+    res.status(404).json({
+      errorMessage: 'Server error. User login failed. Try later, please!',
+    });
   }
 };
 
