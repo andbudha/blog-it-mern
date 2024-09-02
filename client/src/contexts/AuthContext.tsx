@@ -242,6 +242,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         profileImageUpdate
       );
       if (response) {
+        successfulToast(response.data.message);
         setUpdateProfileImageButtonStatus(false);
         getUserProfile();
         getUsers();
