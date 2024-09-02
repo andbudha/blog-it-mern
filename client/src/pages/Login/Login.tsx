@@ -4,13 +4,15 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { CommonLoginValues } from '../../types/common_types';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
 import { Navigate, NavLink } from 'react-router-dom';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export const Login = () => {
   const [loginEmailInputError, setLoginEmailInputError] =
     useState<boolean>(false);
   const [loginPasswordInputError, setLoginPasswordInputError] =
     useState<boolean>(false);
-
+  const [displayPasswordStatus, setDisplayPasswordStatus] =
+    useState<boolean>(false);
   const {
     user,
     loginEmailValue,
@@ -87,6 +89,10 @@ export const Login = () => {
     logUserIn(guestLoginValues);
     console.log(guestLoginValues);
   };
+
+  const toggleDisplayPasswordStatusHandler = () => {
+    setDisplayPasswordStatus(!displayPasswordStatus);
+  };
   if (user) {
     return <Navigate to={'/'} />;
   }
@@ -106,7 +112,7 @@ export const Login = () => {
             <input
               value={loginEmailValue}
               type="email"
-              className={styles.input}
+              className={styles.email_input}
               placeholder="your email..."
               onChange={catchSignupEmailValueHandler}
             />
@@ -119,13 +125,26 @@ export const Login = () => {
             ) : (
               <label className={styles.label}>Password:</label>
             )}
-            <input
-              value={loginPasswordValue}
-              type="password"
-              className={styles.input}
-              placeholder="your password..."
-              onChange={catchPasswordValueHandler}
-            />
+            <div className={styles.password_input_box}>
+              <input
+                value={loginPasswordValue}
+                type={displayPasswordStatus ? `text` : `password`}
+                className={styles.password_input}
+                placeholder="your password..."
+                onChange={catchPasswordValueHandler}
+              />
+              {displayPasswordStatus ? (
+                <AiOutlineEyeInvisible
+                  className={styles.closed_eye_icon}
+                  onClick={toggleDisplayPasswordStatusHandler}
+                />
+              ) : (
+                <AiOutlineEye
+                  className={styles.open_eye_icon}
+                  onClick={toggleDisplayPasswordStatusHandler}
+                />
+              )}
+            </div>
           </div>
           <div className={styles.login_button_box}>
             <div
