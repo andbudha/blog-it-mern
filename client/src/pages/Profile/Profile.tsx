@@ -35,7 +35,7 @@ export const Profile = () => {
     setFirstNameEditProfileFormValue(user!.firstName);
     setLastNameEditProfileFormValue(user!.lastName);
     setAgeEditProfileFormValue(user!.age ? user!.age : 'confidential');
-    setEditProfileFormMaritalStatusValue('confidential');
+    setEditProfileFormMaritalStatusValue(user?.maritalStatus || 'confidential');
   };
   const changeProfileImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setAuthLoaderStatus('uploading-profile-image');
