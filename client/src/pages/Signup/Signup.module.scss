@@ -35,7 +35,9 @@
           padding: 0 4px;
           color: $secondary_font_color;
         }
-        .input {
+        .email_input,
+        .first_name_input,
+        .last_name_input {
           border: none;
           border-bottom: 1px solid $main_font_color;
           outline: none;
@@ -51,6 +53,42 @@
             opacity: 0.5;
             font-style: oblique;
             color: $secondary_font_color;
+          }
+        }
+        .password_input_box {
+          position: relative;
+          width: 100%;
+          height: 36px;
+          color: $secondary_font_color;
+          @include flexBox(nowrap, row, center, center);
+          .password_input {
+            position: relative;
+            border: none;
+            border-bottom: 1px solid $main_font_color;
+            outline: none;
+            width: 100%;
+            height: 36px;
+            padding: 0 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1.4px;
+            color: $secondary_font_color;
+            &::placeholder {
+              font-size: 0.9rem;
+              opacity: 0.5;
+              font-style: oblique;
+              color: $secondary_font_color;
+            }
+          }
+          .open_eye_icon,
+          .closed_eye_icon {
+            position: absolute;
+            right: 1px;
+            height: 26px;
+            width: 26px;
+            color: $main_font_color;
+            cursor: pointer;
+            background-color: $app_background;
           }
         }
       }

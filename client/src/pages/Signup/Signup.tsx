@@ -4,6 +4,7 @@ import { ChangeEvent, useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CommonSignupValues } from '../../types/common_types';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export const Signup = () => {
   const [signupEmailInputError, setSignupEmailInputError] =
@@ -13,6 +14,8 @@ export const Signup = () => {
   const [signupFirstNameInputError, setSignupFirstNameInputError] =
     useState<boolean>(false);
   const [signupSecondNameInputError, setSignupLastNameInputError] =
+    useState<boolean>(false);
+  const [displayPasswordStatus, setDisplayPasswordStatus] =
     useState<boolean>(false);
   const {
     signUpStatus,
@@ -133,6 +136,9 @@ export const Signup = () => {
     }
   };
 
+  const toggleDisplayPasswordStatusHandler = () => {
+    setDisplayPasswordStatus(!displayPasswordStatus);
+  };
   if (signUpStatus) {
     return <Navigate to={'/login'} />;
   }
@@ -152,7 +158,7 @@ export const Signup = () => {
             <input
               value={signupEmailValue}
               type="text"
-              className={styles.input}
+              className={styles.email_input}
               placeholder="your email..."
               onChange={catchSignupEmailValueHandler}
             />
@@ -170,7 +176,7 @@ export const Signup = () => {
             <input
               value={signupFirstNameValue}
               type="text"
-              className={styles.input}
+              className={styles.first_name_input}
               placeholder="your first-name..."
               onChange={catchSignupFirstNameValueHandler}
             />
@@ -186,7 +192,7 @@ export const Signup = () => {
             <input
               value={signupLastNameValue}
               type="text"
-              className={styles.input}
+              className={styles.last_name_input}
               placeholder="your last-name..."
               onChange={catchSignupLastNameValueHandler}
             />
@@ -199,14 +205,27 @@ export const Signup = () => {
             ) : (
               <label className={styles.label}>Password:</label>
             )}
-
-            <input
-              value={signupPasswordValue}
-              type="password"
-              className={styles.input}
-              placeholder="your password..."
-              onChange={catchPasswordValueHandler}
-            />
+            <div className={styles.password_input_box}>
+              {' '}
+              <input
+                value={signupPasswordValue}
+                type={displayPasswordStatus ? `text` : `password`}
+                className={styles.password_input}
+                placeholder="your password..."
+                onChange={catchPasswordValueHandler}
+              />
+              {displayPasswordStatus ? (
+                <AiOutlineEyeInvisible
+                  className={styles.closed_eye_icon}
+                  onClick={toggleDisplayPasswordStatusHandler}
+                />
+              ) : (
+                <AiOutlineEye
+                  className={styles.open_eye_icon}
+                  onClick={toggleDisplayPasswordStatusHandler}
+                />
+              )}
+            </div>
           </div>
           <div className={styles.signup_button_box}>
             <div
