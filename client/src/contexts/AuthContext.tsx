@@ -13,6 +13,7 @@ import { baseUrl } from '../assets/base_url';
 import { getToken, removeToken } from '../assets/utils/tokenServices';
 import { notificationToast } from '../assets/toasts/notificationToast';
 import { DataContext } from './DataContext';
+import { successfulToast } from '../assets/toasts/successfulToast';
 
 type AuthContextType = {
   user: null | LoggedinUserResponseType;
@@ -223,10 +224,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       );
       if (response) {
         setActiveEditForm(false);
+        successfulToast(response.data.message);
         getUserProfile();
       }
     } catch (error) {
-    } finally {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.errorMessage);
+        failureToast(error.response?.data.errorMessage);
+      }
     }
   };
 
@@ -254,7 +259,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (response) {
         setAllUsers(response.data.users);
       }
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error);
+
+        console.log(error.response?.data.errorMessage);
+        failureToast(error.response?.data.errorMessage);
+      }
+    } finally {
+    }
   };
 
   return (

@@ -191,9 +191,9 @@ const uploadProfileImage = async (req, res) => {
       user: updatedUser,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ errorMessage: 'Server error. Updating profile image failed!' });
+    res.status(500).json({
+      errorMessage: 'Updating profile image failed.  Try again later, please!',
+    });
   } finally {
     removeTempFile(req.file);
   }

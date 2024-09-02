@@ -9,11 +9,6 @@ import { useLocation } from 'react-router';
 export const Profile = () => {
   const [temporaryImageUrl, setTemporaryImageUrl] = useState<string>('');
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setActiveEditForm(false);
-  }, [pathname]);
   const {
     user,
     activeEditForm,
@@ -29,6 +24,11 @@ export const Profile = () => {
     uploadProfileImage,
   } = useContext(AuthContext);
   const selectedProfileImage = useRef<File | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setActiveEditForm(false);
+  }, [pathname]);
 
   const activateEditProfileFormHandler = () => {
     setActiveEditForm(true);
@@ -132,7 +132,7 @@ export const Profile = () => {
                   type="file"
                   id="image-input"
                   className={styles.profile_image_input}
-                  title="chnage image"
+                  title="change image"
                   onChange={changeProfileImageHandler}
                 />
               </div>
