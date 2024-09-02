@@ -1,6 +1,6 @@
 import { Navigate, useLocation, useParams } from 'react-router';
 import styles from './DetailedBlog.module.scss';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../../contexts/DataContext';
 import { PiUserLight } from 'react-icons/pi';
 import { RiThumbUpLine, RiThumbUpFill } from 'react-icons/ri';
@@ -29,6 +29,11 @@ export const DetailedBlog = () => {
     setDisplayBlogEditFormStatus,
     setDisplayPopupWindowStatus,
   } = useContext(DataContext);
+
+  const [editBlogTitleInputValue, setEditBlogTitleInputValue] =
+    useState<string>('');
+  const [editBlogContentInputValue, setEditBlogContentInputValue] =
+    useState<string>('');
 
   const { pathname } = useLocation();
   useEffect(() => {
@@ -98,7 +103,13 @@ export const DetailedBlog = () => {
         </div>
       )}
       {displayBlogEditFormStatus && user?.userID === blog?.user._id ? (
-        <BlogEditForm blog={blog} />
+        <BlogEditForm
+          blog={blog}
+          editBlogTitleInputValue={editBlogTitleInputValue}
+          editBlogContentInputValue={editBlogContentInputValue}
+          setEditBlogTitleInputValue={setEditBlogTitleInputValue}
+          setEditBlogContentInputValue={setEditBlogContentInputValue}
+        />
       ) : (
         <div className={styles.detailed_blog_box}>
           <div className={styles.blog_image_box}>
@@ -110,10 +121,10 @@ export const DetailedBlog = () => {
           </div>
 
           <div className={styles.blog_title_box}>
-            <h2>{blog?.title}</h2>
+            <h2>{editBlogTitleInputValue || blog?.title}</h2>
           </div>
           <div className={styles.blog_content_box}>
-            <p>{blog?.content}</p>
+            <p>{editBlogContentInputValue || blog?.content}</p>
           </div>
           <div className={styles.blog_footer_box}>
             <div className={styles.footer_likes_box}>

@@ -12,13 +12,18 @@ import { useLocation } from 'react-router';
 
 type BlogEditFormProps = {
   blog: BlogResponse | undefined;
+  editBlogTitleInputValue: string;
+  editBlogContentInputValue: string;
+  setEditBlogTitleInputValue: (updatedTitle: string) => void;
+  setEditBlogContentInputValue: (updatedContent: string) => void;
 };
-export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
-  const [editBlogTitleInputValue, setEditBlogTitleInputValue] =
-    useState<string>('');
-  const [editBlogContentInputValue, setEditBlogContentInputValue] =
-    useState<string>('');
-
+export const BlogEditForm = ({
+  blog,
+  editBlogContentInputValue,
+  editBlogTitleInputValue,
+  setEditBlogTitleInputValue,
+  setEditBlogContentInputValue,
+}: BlogEditFormProps) => {
   const { authLoaderStatus } = useContext(AuthContext);
   const { setDisplayBlogEditFormStatus, editBlog } = useContext(DataContext);
 
