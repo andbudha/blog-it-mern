@@ -1,0 +1,12 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_blog_card_box {
+  margin: 20px;
+  height: 440px;
+  width: 380px;
+  text-decoration: none;
+  background-color: $app_background;
+  box-shadow: $secondary_font_color 0px 0px 0.5px 0px;
+  @include flexBox(nowrap, column, center, center);
+}
