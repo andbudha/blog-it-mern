@@ -8,24 +8,26 @@ import { removeTempFile } from '../utils/temporaryFileServices.js';
 import { generateToken } from '../utils/tokenServices.js';
 
 const registerNewUser = async (req, res) => {
+  console.log(req.body);
+
   try {
     const existingEmail = await UserModel.findOne({ email: req.body.email });
     const existingFirstName = await UserModel.findOne({
       firstName: req.body.firstName,
     });
     const existingLastName = await UserModel.findOne({
-      secondName: req.body.lastName,
+      lastName: req.body.lastName,
     });
     if (existingEmail) {
-      res.status(500).json({
+      res.status(409).json({
         errorMessage: 'Email already in use. Pick another email, please!',
       });
       return;
     }
     if (existingFirstName && existingLastName) {
-      res.status(500).json({
+      res.status(409).json({
         errorMessage:
-          'User under the entered first-name and second-name already registered. Pick other names, please!',
+          'User under the entered full-name already registered. Pick another name, please!',
       });
       return;
     }
@@ -51,8 +53,7 @@ const registerNewUser = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({
-      message:
-        'Server error. New user has not been registered. Try again, please!',
+      errorMessage: 'User registration failed. Try again later, please!',
     });
   }
 };
@@ -105,8 +106,8 @@ const loginUser = async (req, res) => {
       return;
     }
   } catch (error) {
-    res.status(404).json({
-      errorMessage: 'Server error. User login failed. Try later, please!',
+    res.status(500).json({
+      errorMessage: 'Login failed. Try again later, please!',
     });
   }
 };
@@ -139,7 +140,7 @@ const getAllUsers = async (req, res) => {
 
     res.status(200).json({ message: 'Users fetched!', users });
   } catch (error) {
-    res.status(400).json({ message: 'Something went wrong!' });
+    res.status(500).json({ errorMessage: 'Something went wrong!' });
   }
 };
 
@@ -162,9 +163,9 @@ const updateProfileDetails = async (req, res) => {
       updatedUser,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ errorMessage: 'Server error. Updating profile failed!' });
+    res.status(500).json({
+      errorMessage: 'Updating profile failed. Try again later, please!',
+    });
   }
 };
 

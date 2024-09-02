@@ -148,10 +148,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setSignupPasswordValue('');
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
       if (error instanceof AxiosError) {
         failureToast(`${error.response?.data.errorMessage}`);
-        console.log(error);
       }
     } finally {
       setAuthLoaderStatus('idle');
