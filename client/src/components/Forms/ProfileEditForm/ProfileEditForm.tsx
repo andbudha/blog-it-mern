@@ -47,6 +47,10 @@ export const ProfileEditForm = () => {
     }
     if (!values.age) {
       errors.age = 'Age is required!';
+    } else if (parseInt(values.age) < 18) {
+      errors.age = 'Must be 18+!';
+    } else if (parseInt(values.age) > 99) {
+      errors.age = 'Are you in earnest?';
     }
 
     return errors;
@@ -76,8 +80,8 @@ export const ProfileEditForm = () => {
   };
   const editProfileAgeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setAgeEditProfileFormValue(e.currentTarget.value);
-    const age = +e.currentTarget.value;
-    console.log('typeof age', typeof age);
+    const age = e.currentTarget.value;
+    console.log(typeof age);
 
     if (validation.age.length === 0) {
       setAgeInputError(true);
