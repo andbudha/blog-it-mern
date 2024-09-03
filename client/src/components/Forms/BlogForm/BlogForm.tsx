@@ -88,15 +88,15 @@ export const BlogForm = () => {
       image: randomlyFetchedImage,
       content: addBlogContentInputValue,
     };
-    if (validation.title) {
+    if (validation.content && validation.keyWord && validation.title) {
+      setTitleInputError(true);
+      setKeyWordInputError(true);
+      setContentInputError(true);
+    } else if (validation.title) {
       setTitleInputError(true);
     } else if (validation.keyWord) {
       setKeyWordInputError(true);
     } else if (validation.content) {
-      setContentInputError(true);
-    } else if (validation.content && validation.keyWord && validation.title) {
-      setTitleInputError(true);
-      setKeyWordInputError(true);
       setContentInputError(true);
     } else if (
       !validation.title &&
