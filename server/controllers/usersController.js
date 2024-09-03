@@ -31,7 +31,7 @@ const registerNewUser = async (req, res) => {
       });
       return;
     }
-    if (!existingEmail && !existingFirstName && !existingLastName) {
+    if (!existingEmail) {
       try {
         const encryptedPassword = await encryptPassword(req.body.password);
         if (encryptPassword) {
