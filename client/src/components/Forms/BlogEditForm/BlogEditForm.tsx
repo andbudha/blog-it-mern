@@ -9,6 +9,8 @@ import {
 import styles from './BlogEditForm.module.scss';
 import { AuthLoader } from '../../Loaders/AuthLoader/AuthLoader';
 import { useLocation } from 'react-router';
+import JoditEditor from 'jodit-react';
+import { joditConfig } from '../../../assets/jodit_config';
 
 type BlogEditFormProps = {
   blog: BlogResponse | undefined;
@@ -64,10 +66,8 @@ export const BlogEditForm = ({
       setTitleInputError(true);
     }
   };
-  const catchingTextAreaValueHandler = (
-    e: ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setEditBlogContentInputValue(e.currentTarget.value);
+  const catchJoditValueHandler = (newContent: string) => {
+    setEditBlogContentInputValue(newContent);
     if (validation.content.length === 0) {
       setContentInputError(true);
     }
@@ -124,11 +124,10 @@ export const BlogEditForm = ({
         ) : (
           <label className={styles.label}>Blog content</label>
         )}
-        <textarea
+        <JoditEditor
           value={editBlogContentInputValue}
-          onChange={catchingTextAreaValueHandler}
-          placeholder="Blog content..."
-          className={styles.blog_form_text_area}
+          config={joditConfig().config}
+          onChange={(newContent) => catchJoditValueHandler(newContent)}
         />
       </div>
       <div className={styles.blog_form_button_box}>

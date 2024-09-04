@@ -4,7 +4,7 @@
 .blog_form_box {
   position: relative;
   min-height: 500px;
-  width: 600px;
+  width: 500px;
   @include flexBox(nowrap, column, center, center);
   .blog_form_input_box {
     margin-top: 14px;
@@ -45,6 +45,7 @@
     }
   }
   .blog_form_text_area_box {
+    border-bottom: 2px solid $main_font_color;
     margin-top: 14px;
     width: 100%;
     min-height: 70px;
@@ -62,28 +63,6 @@
       font-weight: 400;
       padding: 0 6px;
       color: $secondary_font_color;
-    }
-    .blog_form_text_area {
-      border: none;
-      border-bottom: 2px solid $main_font_color;
-      height: 300px;
-      width: 100%;
-      outline: none;
-      padding: 8px;
-      color: $secondary_font_color;
-      font-size: 1rem;
-      font-weight: 500;
-      letter-spacing: 1.2px;
-      resize: none;
-      &::placeholder {
-        font-size: 1rem;
-        opacity: 0.5;
-        font-style: oblique;
-        color: $secondary_font_color;
-      }
-      @media screen and (max-width: 600px) {
-        height: 300px;
-      }
     }
   }
   .blog_form_button_box {
