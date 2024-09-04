@@ -7,6 +7,8 @@ import {
 } from '../../../types/common_types';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { AuthLoader } from '../../Loaders/AuthLoader/AuthLoader';
+import JoditEditor from 'jodit-react';
+import { joditConfig } from '../../../assets/jodit_config';
 
 export const BlogForm = () => {
   const { user, authLoaderStatus } = useContext(AuthContext);
@@ -73,10 +75,8 @@ export const BlogForm = () => {
       fetchRandomImage(addBlogKeyWordInputValue);
     }
   };
-  const catchingTextAreaValueHandler = (
-    e: ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setAddBlogContentInputValue(e.currentTarget.value);
+  const catchJoditValueHandler = (newContent: string) => {
+    setAddBlogContentInputValue(newContent);
     if (validation.content.length === 0) {
       setContentInputError(true);
     }
@@ -161,11 +161,10 @@ export const BlogForm = () => {
             ) : (
               <label className={styles.label}>Blog content</label>
             )}
-            <textarea
+            <JoditEditor
               value={addBlogContentInputValue}
-              onChange={catchingTextAreaValueHandler}
-              placeholder="Blog content..."
-              className={styles.blog_form_text_area}
+              config={joditConfig().config}
+              onChange={(newContent) => catchJoditValueHandler(newContent)}
             />
           </div>
           <div className={styles.blog_form_button_box}>
