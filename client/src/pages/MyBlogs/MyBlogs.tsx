@@ -9,12 +9,22 @@ import { useLocation } from 'react-router';
 
 export const MyBlogs = () => {
   const { user } = useContext(AuthContext);
-  const { blogs, addBlogFormStatus, setAddBlogFormStatus } =
-    useContext(DataContext);
+  const {
+    blogs,
+    addBlogFormStatus,
+    setAddBlogFormStatus,
+    setAddBlogTitleInputValue,
+    setAddBlogKeyWordInputValue,
+    setAddBlogContentInputValue,
+  } = useContext(DataContext);
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setAddBlogTitleInputValue('');
+    setAddBlogKeyWordInputValue('');
+    setAddBlogContentInputValue('');
+    setAddBlogFormStatus(false);
   }, [pathname]);
   const filteredBlogs = blogs?.filter((blog) => blog.user._id === user?.userID);
   const myBlogs = filteredBlogs?.map((blog) => (
