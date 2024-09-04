@@ -6,13 +6,16 @@ import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 import { RiThumbUpLine } from 'react-icons/ri';
 import { useContext, useEffect } from 'react';
 import { DataContext } from '../../contexts/DataContext';
+import HTMLReactParser from 'html-react-parser/lib/index';
 
 type BlogCardProps = {
   blog: BlogResponse;
 };
 export const BlogCard = ({ blog }: BlogCardProps) => {
   const { fetchBlogs } = useContext(DataContext);
-  const splitBlogCardContent = blog.content.slice(0, 200);
+  const splitBlogCardContent = HTMLReactParser(
+    `${blog.content.slice(0, 200)}...`
+  );
 
   useEffect(() => {
     fetchBlogs();
@@ -38,9 +41,9 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
           )}
         </div>
         <div className={styles.blog_card_text_body_box}>
-          <p className={styles.blog_card_text_body}>
-            {splitBlogCardContent}...
-          </p>
+          <div className={styles.blog_card_text_body}>
+            {splitBlogCardContent}
+          </div>
         </div>
       </div>
       <div className={styles.blog_card_bottom_box}>

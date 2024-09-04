@@ -14,6 +14,7 @@ import { BlogEditForm } from '../../components/Forms/BlogEditForm/BlogEditForm';
 import { AddCommentaryTextarea } from '../../components/Forms/AddCommentaryTextarea/AddCommentaryTextarea';
 import { CommentaryBand } from '../../components/CommentaryBand/CommentaryBand';
 import { PaginationContext } from '../../contexts/PaginationContext';
+import HTMLReactParser from 'html-react-parser/lib/index';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
@@ -124,7 +125,11 @@ export const DetailedBlog = () => {
             <h2>{editBlogTitleInputValue || blog?.title}</h2>
           </div>
           <div className={styles.blog_content_box}>
-            <p>{editBlogContentInputValue || blog?.content}</p>
+            <>
+              {(editBlogContentInputValue &&
+                HTMLReactParser(editBlogContentInputValue)) ||
+                (blog && HTMLReactParser(blog?.content))}
+            </>
           </div>
           <div className={styles.blog_footer_box}>
             <div className={styles.footer_likes_box}>

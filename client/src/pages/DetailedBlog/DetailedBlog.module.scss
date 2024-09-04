@@ -93,7 +93,7 @@
       margin: 0 0 20px 0;
       font-weight: 600;
       text-align: justify;
-      @include flexBox(nowrap, column, center, start);
+      @include flexBox(nowrap, column, start, start);
     }
     .blog_footer_box {
       height: 80px;
