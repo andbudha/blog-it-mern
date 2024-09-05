@@ -110,8 +110,8 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
             )}
           </div>
           <div className={styles.author_full_name_box}>
-            <p>{commentary.firstName}</p>
-            <p>{commentary.lastName}</p>
+            <p>{profile?.firstName}</p>
+            <p>{profile?.lastName}</p>
           </div>
         </div>
         {commentary.userID === user?.userID && (
