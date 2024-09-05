@@ -16,7 +16,8 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
   const splitBlogCardContent = HTMLReactParser(
     `${blog.content.slice(0, 200)}...`
   );
-
+  const splitBlogCardTitle =
+    blog.title.length < 34 ? blog.title : `${blog.title.slice(0, 34)}...`;
   useEffect(() => {
     fetchBlogs();
   }, []);
@@ -31,7 +32,7 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
       </div>
       <div className={styles.blog_card_details_box}>
         <div className={styles.blog_card_title_box}>
-          <h4 className={styles.blog_card_title}>{blog.title}</h4>
+          <h4 className={styles.blog_card_title}>{splitBlogCardTitle}</h4>
         </div>
         <div className={styles.blog_card_author_box}>
           {blog.user.firstName && blog.user.lastName && (
