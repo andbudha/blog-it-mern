@@ -9,8 +9,8 @@ export const BlogSkeleton = () => {
         width={380}
         height={440}
         viewBox="0 0 380 440"
-        backgroundColor="#f3f3f3"
-        foregroundColor="#ecebeb"
+        backgroundColor="#ededed"
+        foregroundColor="#ece7e4"
       >
         <rect x="11" y="404" rx="0" ry="0" width="50" height="26" />
         <rect x="310" y="404" rx="0" ry="0" width="50" height="26" />
