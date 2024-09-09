@@ -120,7 +120,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     deleteCommentaryPopupWindowStatus,
     setDeleteCommentaryPopupWindowStatus,
   ] = useState<boolean>(false);
-
+  // const [dataLoaderStatus, setDataLoaderStatus]=useState<string>('idle')
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
     const newRandomImage =
@@ -179,6 +179,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         newBlogValues
       );
       if (response) {
+        fetchBlogs();
         notificationToast(response.data.message);
         setAddBlogFormStatus(false);
         setAddBlogTitleInputValue('');
@@ -186,16 +187,12 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setAddBlogContentInputValue('');
         setRandomlyFetchedImage('');
         setAuthLoaderStatus('idle');
-        fetchBlogs();
       }
     } catch (error) {
-      console.log(error);
-
       setAuthLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
-        console.log(error);
         failureToast(error.response?.data.message);
       }
     }
@@ -247,7 +244,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   };
 
   const editBlog = async (newBlogValues: EditBlogPostingValues) => {
-    console.log(newBlogValues);
     setAuthLoaderStatus('editing');
     try {
       const response = await axios.post(

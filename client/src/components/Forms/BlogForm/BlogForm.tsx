@@ -11,6 +11,9 @@ import JoditEditor from 'jodit-react';
 import { joditConfig } from '../../../assets/jodit_config';
 
 export const BlogForm = () => {
+  const [titleInputError, setTitleInputError] = useState<boolean>(false);
+  const [keyWordInputError, setKeyWordInputError] = useState<boolean>(false);
+  const [contentInputError, setContentInputError] = useState<boolean>(false);
   const { user, authLoaderStatus } = useContext(AuthContext);
 
   const {
@@ -25,10 +28,6 @@ export const BlogForm = () => {
     fetchRandomImage,
     postBlog,
   } = useContext(DataContext);
-
-  const [titleInputError, setTitleInputError] = useState<boolean>(false);
-  const [keyWordInputError, setKeyWordInputError] = useState<boolean>(false);
-  const [contentInputError, setContentInputError] = useState<boolean>(false);
 
   const blogFormValues: CommonBlogFormValues = {
     title: addBlogTitleInputValue,
@@ -116,70 +115,68 @@ export const BlogForm = () => {
 
   return (
     <div className={styles.main_blog_form_box}>
-      {authLoaderStatus === 'adding' ? (
-        <AuthLoader />
-      ) : (
-        <div className={styles.blog_form_box}>
-          <div className={styles.blog_form_input_box}>
-            {titleInputError && validation.title ? (
-              <div className={styles.error_text_box}>
-                <span className={styles.error_text}>{validation.title}</span>
-              </div>
-            ) : (
-              <label className={styles.label}>Blog title</label>
-            )}
-            <input
-              value={addBlogTitleInputValue}
-              onChange={catchingTitleInputValueHandler}
-              type="text"
-              placeholder="Blog title..."
-              className={styles.blog_form_input}
-            />
-          </div>{' '}
-          <div className={styles.blog_form_input_box}>
-            {keyWordInputError && validation.keyWord ? (
-              <div className={styles.error_text_box}>
-                <span className={styles.error_text}>{validation.keyWord}</span>
-              </div>
-            ) : (
-              <label className={styles.label}>Blog key-word</label>
-            )}
-            <input
-              value={addBlogKeyWordInputValue}
-              onChange={catchingKeyWordInputValueHandler}
-              onBlur={catchingKeyWordOnBlurHandler}
-              type="text"
-              placeholder="Blog key-word..."
-              className={styles.blog_form_input}
-            />
-          </div>
-          <div className={styles.blog_form_text_area_box}>
-            {contentInputError && validation.content ? (
-              <div className={styles.error_text_box}>
-                <span className={styles.error_text}>{validation.content}</span>
-              </div>
-            ) : (
-              <label className={styles.label}>Blog content</label>
-            )}
-            <JoditEditor
-              value={addBlogContentInputValue}
-              config={joditConfig().config}
-              onChange={(newContent) => catchJoditValueHandler(newContent)}
-            />
-          </div>
-          <div className={styles.blog_form_button_box}>
-            <div className={styles.post_blog_button} onClick={postBlogHandler}>
-              post
+      {/* {(authLoaderStatus === 'adding' && <AuthLoader />) || ( */}
+      <div className={styles.blog_form_box}>
+        <div className={styles.blog_form_input_box}>
+          {titleInputError && validation.title ? (
+            <div className={styles.error_text_box}>
+              <span className={styles.error_text}>{validation.title}</span>
             </div>
-            <div
-              className={styles.discard_changes_button}
-              onClick={discardAddBlogFormValuesHandler}
-            >
-              discard
+          ) : (
+            <label className={styles.label}>Blog title</label>
+          )}
+          <input
+            value={addBlogTitleInputValue}
+            onChange={catchingTitleInputValueHandler}
+            type="text"
+            placeholder="Blog title..."
+            className={styles.blog_form_input}
+          />
+        </div>{' '}
+        <div className={styles.blog_form_input_box}>
+          {keyWordInputError && validation.keyWord ? (
+            <div className={styles.error_text_box}>
+              <span className={styles.error_text}>{validation.keyWord}</span>
             </div>
+          ) : (
+            <label className={styles.label}>Blog key-word</label>
+          )}
+          <input
+            value={addBlogKeyWordInputValue}
+            onChange={catchingKeyWordInputValueHandler}
+            onBlur={catchingKeyWordOnBlurHandler}
+            type="text"
+            placeholder="Blog key-word..."
+            className={styles.blog_form_input}
+          />
+        </div>
+        <div className={styles.blog_form_text_area_box}>
+          {contentInputError && validation.content ? (
+            <div className={styles.error_text_box}>
+              <span className={styles.error_text}>{validation.content}</span>
+            </div>
+          ) : (
+            <label className={styles.label}>Blog content</label>
+          )}
+          <JoditEditor
+            value={addBlogContentInputValue}
+            config={joditConfig().config}
+            onChange={(newContent) => catchJoditValueHandler(newContent)}
+          />
+        </div>
+        <div className={styles.blog_form_button_box}>
+          <div className={styles.post_blog_button} onClick={postBlogHandler}>
+            post
+          </div>
+          <div
+            className={styles.discard_changes_button}
+            onClick={discardAddBlogFormValuesHandler}
+          >
+            discard
           </div>
         </div>
-      )}
+      </div>
+      {/* )} */}
     </div>
   );
 };
