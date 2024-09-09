@@ -6,7 +6,6 @@ import {
   CommonBlogFormValues,
 } from '../../../types/common_types';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { AuthLoader } from '../../Loaders/AuthLoader/AuthLoader';
 import JoditEditor from 'jodit-react';
 import { joditConfig } from '../../../assets/jodit_config';
 
@@ -14,7 +13,7 @@ export const BlogForm = () => {
   const [titleInputError, setTitleInputError] = useState<boolean>(false);
   const [keyWordInputError, setKeyWordInputError] = useState<boolean>(false);
   const [contentInputError, setContentInputError] = useState<boolean>(false);
-  const { user, authLoaderStatus } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const {
     addBlogTitleInputValue,
@@ -115,7 +114,6 @@ export const BlogForm = () => {
 
   return (
     <div className={styles.main_blog_form_box}>
-      {/* {(authLoaderStatus === 'adding' && <AuthLoader />) || ( */}
       <div className={styles.blog_form_box}>
         <div className={styles.blog_form_input_box}>
           {titleInputError && validation.title ? (
@@ -176,7 +174,6 @@ export const BlogForm = () => {
           </div>
         </div>
       </div>
-      {/* )} */}
     </div>
   );
 };

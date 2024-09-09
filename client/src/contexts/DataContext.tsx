@@ -120,7 +120,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     deleteCommentaryPopupWindowStatus,
     setDeleteCommentaryPopupWindowStatus,
   ] = useState<boolean>(false);
-  // const [dataLoaderStatus, setDataLoaderStatus]=useState<string>('idle')
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
     const newRandomImage =
