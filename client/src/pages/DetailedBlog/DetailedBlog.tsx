@@ -18,7 +18,7 @@ import HTMLReactParser from 'html-react-parser/lib/index';
 
 export const DetailedBlog = () => {
   const { blogID } = useParams();
-  const { user, authLoaderStatus } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { setCurrentPage } = useContext(PaginationContext);
   const {
     displayBlogEditFormStatus,
@@ -83,7 +83,7 @@ export const DetailedBlog = () => {
       {displayPopupWindowStatus && (
         <div className={styles.main_popup_box}>
           <div className={styles.popup_window}>
-            {authLoaderStatus === 'deleting' && <AuthLoader />}
+            {dataLoaderStatus === 'deleting' && <AuthLoader />}
             <div className={styles.info_text_box}>
               <h3>Blog will be deleted!</h3>
             </div>
@@ -199,7 +199,7 @@ export const DetailedBlog = () => {
         </div>
       )}
       <div className={styles.main_commentary_text_area_box}>
-        {authLoaderStatus === 'adding' && <AuthLoader />}
+        {dataLoaderStatus === 'posting' && <AuthLoader />}
         <AddCommentaryTextarea />
       </div>
       <div className={styles.commentary_band_box}>

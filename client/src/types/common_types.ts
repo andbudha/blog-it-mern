@@ -59,10 +59,6 @@ export type MainLoaderStatus =
   | 'logging-in'
   | 'loading-profile'
   | 'uploading-profile-image'
-  | 'creating'
-  | 'editing'
-  | 'adding'
-  | 'deleting'
   | 'fetching';
 
 export type DataLoaderStatus =

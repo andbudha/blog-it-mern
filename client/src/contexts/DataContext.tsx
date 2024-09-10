@@ -95,7 +95,7 @@ export const DataContext = createContext(initialDataContextState);
 type DataProviderProps = { children: ReactNode };
 
 export const DataProvider = ({ children }: DataProviderProps) => {
-  const { user, setAuthLoaderStatus } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [dataLoaderStatus, setDataLoaderStatus] =
     useState<DataLoaderStatus>('idle');
   const [informStatus, setInformStatus] = useState<boolean>(false);
@@ -218,31 +218,31 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   };
 
   const deleteBlog = async (blogID: string) => {
-    setAuthLoaderStatus('deleting');
+    setDataLoaderStatus('deleting');
     try {
       const response = await axios.post(`${baseUrl}/blogs/delete-blog`, {
         blogID,
       });
       if (response) {
-        setAuthLoaderStatus('idle');
         setDisplayPopupWindowStatus(false);
         setInformStatus(true);
         fetchBlogs();
         notificationToast(response.data.message);
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
         console.log(error);
         failureToast(error.response?.data.message);
       }
+    } finally {
+      setDataLoaderStatus('idle');
     }
   };
 
   const editBlog = async (newBlogValues: EditBlogPostingValues) => {
-    setAuthLoaderStatus('editing');
+    setDataLoaderStatus('editing');
     try {
       const response = await axios.post(
         `${baseUrl}/blogs/edit-blog`,
@@ -250,47 +250,47 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       );
       if (response) {
         fetchBlogs();
-        setAuthLoaderStatus('idle');
         setDisplayBlogEditFormStatus(false);
         notificationToast(response.data.message);
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
         console.log(error);
         failureToast(error.response?.data.message);
       }
+    } finally {
+      setDataLoaderStatus('idle');
     }
   };
 
   const postCommentary = async (newCommentary: CommentaryValues) => {
-    setAuthLoaderStatus('adding');
+    setDataLoaderStatus('posting');
     try {
       const response = await axios.post(
         `${baseUrl}/blogs/post-commentary`,
         newCommentary
       );
       if (response) {
-        setAuthLoaderStatus('idle');
         fetchBlogs();
         setCommentrayTextareaValue('');
         notificationToast(response.data.message);
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
         console.log(error);
         failureToast(error.response?.data.message);
       }
+    } finally {
+      setDataLoaderStatus('idle');
     }
   };
 
   const deleteCommentary = async (blogID: string, commentaryID: string) => {
-    setAuthLoaderStatus('deleting');
+    setDataLoaderStatus('deleting');
     const token = getToken();
     if (token) {
       const myHeaders = new Headers();
@@ -311,41 +311,39 @@ export const DataProvider = ({ children }: DataProviderProps) => {
           requestOptions
         );
         if (response) {
-          console.log(response);
-
           fetchBlogs();
           setDeleteCommentaryPopupWindowStatus(false);
-          setAuthLoaderStatus('idle');
           notificationToast('Commentary successfully deleted!');
         }
       } catch (err) {
         const error = err as Error;
         failureToast(error.message);
-        setAuthLoaderStatus('idle');
+      } finally {
+        setDataLoaderStatus('idle');
       }
     }
   };
 
   const editCommentary = async (editedCommentaryBody: EditCommentaryValues) => {
-    setAuthLoaderStatus('editing');
+    setDataLoaderStatus('editing');
     try {
       const response = await axios.post(
         `${baseUrl}/blogs/edit-commentary`,
         editedCommentaryBody
       );
       if (response) {
-        setAuthLoaderStatus('idle');
         fetchBlogs();
         notificationToast(response.data.message);
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
         console.log(error);
         failureToast(error.response?.data.message);
       }
+    } finally {
+      setDataLoaderStatus('idle');
     }
   };
 

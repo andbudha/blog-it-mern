@@ -1,5 +1,4 @@
 import { useContext, useState, ChangeEvent, useEffect } from 'react';
-import { AuthContext } from '../../../contexts/AuthContext';
 import { DataContext } from '../../../contexts/DataContext';
 import {
   CommonBlogFormValues,
@@ -26,8 +25,8 @@ export const BlogEditForm = ({
   setEditBlogTitleInputValue,
   setEditBlogContentInputValue,
 }: BlogEditFormProps) => {
-  const { authLoaderStatus } = useContext(AuthContext);
-  const { setDisplayBlogEditFormStatus, editBlog } = useContext(DataContext);
+  const { dataLoaderStatus, setDisplayBlogEditFormStatus, editBlog } =
+    useContext(DataContext);
 
   const { pathname } = useLocation();
 
@@ -99,7 +98,7 @@ export const BlogEditForm = ({
 
   return (
     <div className={styles.blog_form_box}>
-      {authLoaderStatus === 'editing' && <AuthLoader />}
+      {dataLoaderStatus === 'editing' && <AuthLoader />}
       <div className={styles.blog_form_input_box}>
         {titleInputError && validation.title ? (
           <div className={styles.error_text_box}>

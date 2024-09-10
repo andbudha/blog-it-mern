@@ -13,9 +13,10 @@ type CommentaryProps = {
   commentary: CommentaryValues;
 };
 export const Commentary = ({ commentary }: CommentaryProps) => {
-  const { user, allUsers, authLoaderStatus } = useContext(AuthContext);
+  const { user, allUsers } = useContext(AuthContext);
   const {
     deleteCommentaryPopupWindowStatus,
+    dataLoaderStatus,
     setDeleteCommentaryPopupWindowStatus,
     deleteCommentary,
     editCommentary,
@@ -69,7 +70,7 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
       {deleteCommentaryPopupWindowStatus && (
         <div className={styles.main_popup_box}>
           <div className={styles.popup_window}>
-            {authLoaderStatus === 'deleting' && <AuthLoader />}
+            {dataLoaderStatus === 'deleting' && <AuthLoader />}
             <div className={styles.info_text_box}>
               <h3>Commentary will be deleted!</h3>
             </div>
@@ -92,7 +93,7 @@ export const Commentary = ({ commentary }: CommentaryProps) => {
           </div>
         </div>
       )}
-      {user?.userID === commentary.userID && authLoaderStatus === 'editing' && (
+      {user?.userID === commentary.userID && dataLoaderStatus === 'editing' && (
         <AuthLoader />
       )}
 
