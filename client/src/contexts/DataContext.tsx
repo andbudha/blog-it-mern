@@ -5,6 +5,7 @@ import {
   BlogPostingValues,
   BlogResponse,
   CommentaryValues,
+  DataLoaderStatus,
   EditBlogPostingValues,
   EditCommentaryValues,
 } from '../types/common_types';
@@ -18,7 +19,7 @@ import { getToken } from '../assets/utils/tokenServices';
 type DataContextType = {
   blogs: null | BlogResponse[];
   favoriteBlogs: null | BlogResponse[];
-  dataLoaderStatus: boolean;
+  dataLoaderStatus: DataLoaderStatus;
   customSelectStatus: boolean;
   addBlogFormStatus: boolean;
   addBlogTitleInputValue: string;
@@ -30,7 +31,7 @@ type DataContextType = {
   displayBlogEditFormStatus: boolean;
   commentaryTextareaValue: string;
   deleteCommentaryPopupWindowStatus: boolean;
-  setDataLoaderStatus: (newStatus: boolean) => void;
+  setDataLoaderStatus: (newStatus: DataLoaderStatus) => void;
   setCustomSelectStatus: (newStatus: boolean) => void;
   setAddBlogFormStatus: (newStatus: boolean) => void;
   setAddBlogTitleInputValue: (newValue: string) => void;
@@ -55,7 +56,7 @@ type DataContextType = {
 const initialDataContextState = {
   blogs: null,
   favoriteBlogs: null,
-  dataLoaderStatus: false,
+  dataLoaderStatus: 'idle',
   customSelectStatus: false,
   addBlogFormStatus: false,
   addBlogTitleInputValue: '',
@@ -67,7 +68,7 @@ const initialDataContextState = {
   displayBlogEditFormStatus: false,
   commentaryTextareaValue: '',
   deleteCommentaryPopupWindowStatus: false,
-  setDataLoaderStatus: (newStatus: boolean) => newStatus,
+  setDataLoaderStatus: (newStatus: DataLoaderStatus) => newStatus,
   setCustomSelectStatus: (newStatus: boolean) => newStatus,
   setAddBlogFormStatus: (newStatus: boolean) => newStatus,
   setAddBlogTitleInputValue: (newValue: string) => newValue,
@@ -95,7 +96,8 @@ type DataProviderProps = { children: ReactNode };
 
 export const DataProvider = ({ children }: DataProviderProps) => {
   const { user, setAuthLoaderStatus } = useContext(AuthContext);
-  const [dataLoaderStatus, setDataLoaderStatus] = useState<boolean>(false);
+  const [dataLoaderStatus, setDataLoaderStatus] =
+    useState<DataLoaderStatus>('idle');
   const [informStatus, setInformStatus] = useState<boolean>(false);
   const [displayPopupWindowStatus, setDisplayPopupWindowStatus] =
     useState<boolean>(false);
@@ -120,6 +122,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     deleteCommentaryPopupWindowStatus,
     setDeleteCommentaryPopupWindowStatus,
   ] = useState<boolean>(false);
+
   const fetchRandomImage = async (term: string) => {
     const res = await randomImageAPI.fetchImage(term);
     const newRandomImage =
@@ -131,36 +134,28 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
   const fetchBlogs = async () => {
     try {
-      setAuthLoaderStatus('fetching');
       const response = await axios.get(`${baseUrl}/blogs/getblogs`);
       if (response) {
         setBlogs(response.data.blogs);
-        setAuthLoaderStatus('idle');
-        fetchFavorites(user!.userID);
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
-        console.log(error);
         failureToast(error.response?.data.message);
       }
     }
   };
 
   const fetchFavorites = async (userID: string) => {
-    setAuthLoaderStatus('fetching');
     try {
       const response = await axios.get(
         `${baseUrl}/blogs/getfavorites?userID=${userID}`
       );
       if (response) {
-        setAuthLoaderStatus('idle');
         setFavoriteBlogs(response.data.favoriteBlogs);
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
@@ -171,7 +166,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   };
 
   const postBlog = async (newBlogValues: BlogPostingValues) => {
-    setAuthLoaderStatus('adding');
+    setDataLoaderStatus('posting');
     try {
       const response = await axios.post(
         `${baseUrl}/blogs/addblog`,
@@ -185,10 +180,10 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setAddBlogKeyWordInputValue('');
         setAddBlogContentInputValue('');
         setRandomlyFetchedImage('');
-        setAuthLoaderStatus('idle');
+        setDataLoaderStatus('idle');
       }
     } catch (error) {
-      setAuthLoaderStatus('idle');
+      setDataLoaderStatus('idle');
       if (error instanceof AxiosError && error.request.status === 404) {
         failureToast('Unexpected error occurred. Try again later, please!');
       } else if (error instanceof AxiosError && error.request.status === 500) {
