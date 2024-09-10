@@ -2,6 +2,7 @@
 @import '../../assets/sass/variables.scss';
 
 .main_detailed_blog_box {
+  position: relative;
   min-height: calc(100vh - 230px);
   width: 100%;
   color: $secondary_font_color;

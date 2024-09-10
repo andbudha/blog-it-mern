@@ -114,6 +114,7 @@ export const DetailedBlog = () => {
         />
       ) : (
         <div className={styles.detailed_blog_box}>
+          {dataLoaderStatus === 'editing' && <AuthLoader />}
           <div className={styles.blog_image_box}>
             <img
               className={styles.blog_image}
