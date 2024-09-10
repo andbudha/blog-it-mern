@@ -16,6 +16,7 @@ export const MyBlogs = () => {
     setAddBlogTitleInputValue,
     setAddBlogKeyWordInputValue,
     setAddBlogContentInputValue,
+    setInformStatus,
   } = useContext(DataContext);
   const { pathname } = useLocation();
 
@@ -25,6 +26,7 @@ export const MyBlogs = () => {
     setAddBlogKeyWordInputValue('');
     setAddBlogContentInputValue('');
     setAddBlogFormStatus(false);
+    setInformStatus(false);
   }, [pathname]);
   const filteredBlogs = blogs?.filter((blog) => blog.user._id === user?.userID);
   const myBlogs = filteredBlogs?.map((blog) => (

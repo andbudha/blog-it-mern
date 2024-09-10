@@ -75,7 +75,7 @@ export const DetailedBlog = () => {
     setDisplayBlogEditFormStatus(!displayBlogEditFormStatus);
   };
   if (informStatus) {
-    return <Navigate to={'/'} />;
+    return <Navigate to={'/myblogs'} />;
   }
   return (
     <div className={styles.main_detailed_blog_box}>
