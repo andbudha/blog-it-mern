@@ -103,7 +103,7 @@ export const Navbar = () => {
         )}
       </div>
       <div className={styles.main_greeting_box}>{user && greeting()}</div>
-      {dataLoaderStatus ? (
+      {dataLoaderStatus === 'fetching' || dataLoaderStatus === 'posting' ? (
         <DataLoader />
       ) : (
         <div className={styles.secondary_loader_placeholder}></div>
