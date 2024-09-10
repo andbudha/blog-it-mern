@@ -65,6 +65,14 @@ export type MainLoaderStatus =
   | 'deleting'
   | 'fetching';
 
+export type DataLoaderStatus =
+  | 'idle'
+  | 'posting'
+  | 'fetching'
+  | 'loading'
+  | 'deleting'
+  | 'editing';
+
 //Response Types
 export type LoggedinUserResponseType = {
   userID: string;
