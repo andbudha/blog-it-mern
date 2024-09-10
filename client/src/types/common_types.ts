@@ -71,7 +71,8 @@ export type DataLoaderStatus =
   | 'fetching'
   | 'loading'
   | 'deleting'
-  | 'editing';
+  | 'editing'
+  | 'rating';
 
 //Response Types
 export type LoggedinUserResponseType = {

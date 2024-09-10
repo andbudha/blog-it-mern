@@ -180,7 +180,6 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         setAddBlogKeyWordInputValue('');
         setAddBlogContentInputValue('');
         setRandomlyFetchedImage('');
-        setDataLoaderStatus('idle');
       }
     } catch (error) {
       setDataLoaderStatus('idle');
@@ -189,10 +188,13 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       } else if (error instanceof AxiosError && error.request.status === 500) {
         failureToast(error.response?.data.message);
       }
+    } finally {
+      setDataLoaderStatus('idle');
     }
   };
 
   const toggleBlogLiking = async (blogLikingRequestBody: BlogLikingValues) => {
+    setDataLoaderStatus('rating');
     try {
       const response = await axios.post(
         `${baseUrl}/blogs/liking`,
@@ -210,6 +212,8 @@ export const DataProvider = ({ children }: DataProviderProps) => {
         console.log(error);
         failureToast(error.response?.data.message);
       }
+    } finally {
+      setDataLoaderStatus('idle');
     }
   };
 

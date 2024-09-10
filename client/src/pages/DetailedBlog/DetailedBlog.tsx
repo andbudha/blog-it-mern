@@ -24,6 +24,7 @@ export const DetailedBlog = () => {
     displayBlogEditFormStatus,
     displayPopupWindowStatus,
     informStatus,
+    dataLoaderStatus,
     blogs,
     toggleBlogLiking,
     deleteBlog,
@@ -133,6 +134,7 @@ export const DetailedBlog = () => {
           </div>
           <div className={styles.blog_footer_box}>
             <div className={styles.footer_likes_box}>
+              {dataLoaderStatus === 'rating' && <AuthLoader />}
               <div className={styles.thumb_up_icon_box}>
                 {liked?.length === 1 ? (
                   <RiThumbUpFill
