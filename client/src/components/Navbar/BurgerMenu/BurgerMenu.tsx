@@ -38,9 +38,16 @@ export const BurgerMenu = () => {
                   path.pathname === '/' && styles.active_link
                 }`}
                 to={'/'}
-                onClick={toggleBurgerMenuHandler}
               >
-                <h3 className={styles.link_text}>main</h3>
+                <h3 className={styles.link_text}>about</h3>
+              </NavLink>
+              <NavLink
+                className={`${styles.link_box} ${
+                  path.pathname === '/blogs' && styles.active_link
+                }`}
+                to={'/blogs'}
+              >
+                <h3 className={styles.link_text}>blogs</h3>
               </NavLink>
               <NavLink
                 className={`${styles.link_box} ${
@@ -77,6 +84,22 @@ export const BurgerMenu = () => {
             </>
           ) : (
             <>
+              <NavLink
+                className={`${styles.link_box} ${
+                  path.pathname === '/' && styles.active_link
+                }`}
+                to={'/'}
+              >
+                <h3 className={styles.link_text}>about</h3>
+              </NavLink>
+              <NavLink
+                className={`${styles.link_box} ${
+                  path.pathname === '/blogs' && styles.active_link
+                }`}
+                to={'/blogs'}
+              >
+                <h3 className={styles.link_text}>blogs</h3>
+              </NavLink>
               <NavLink
                 className={`${styles.link_box} ${
                   path.pathname === '/login' && styles.active_link
