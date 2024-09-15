@@ -87,7 +87,6 @@ export const Login = () => {
       password: import.meta.env.VITE_GUEST_PASS,
     };
     logUserIn(guestLoginValues);
-    console.log(guestLoginValues);
   };
 
   const toggleDisplayPasswordStatusHandler = () => {

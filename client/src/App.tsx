@@ -19,6 +19,7 @@ import { PaginationProvider } from './contexts/PaginationContext';
 import { Toaster } from 'react-hot-toast';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { DetailedBlog } from './pages/DetailedBlog/DetailedBlog';
+import { About } from './pages/About/About';
 
 function App() {
   const router = createBrowserRouter(
@@ -34,7 +35,8 @@ function App() {
           </AuthProvider>
         }
       >
-        <Route index element={<Blogs />} />
+        <Route index element={<About />} />
+        <Route path="blogs" element={<Blogs />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route
