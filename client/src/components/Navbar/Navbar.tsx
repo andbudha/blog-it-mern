@@ -46,6 +46,22 @@ export const Navbar = () => {
             <div className={styles.active_user_link_box}>
               <NavLink
                 className={`${styles.link_box} ${
+                  path.pathname === '/' && styles.active_link
+                }`}
+                to={'/'}
+              >
+                <h3 className={styles.link_text}>about</h3>
+              </NavLink>
+              <NavLink
+                className={`${styles.link_box} ${
+                  path.pathname === '/blogs' && styles.active_link
+                }`}
+                to={'/blogs'}
+              >
+                <h3 className={styles.link_text}>blogs</h3>
+              </NavLink>
+              <NavLink
+                className={`${styles.link_box} ${
                   path.pathname === '/myblogs' && styles.active_link
                 }`}
                 to={'/myblogs'}
@@ -76,6 +92,22 @@ export const Navbar = () => {
             </div>
           ) : (
             <div className={styles.inactive_user_link_box}>
+              <NavLink
+                className={`${styles.link_box} ${
+                  path.pathname === '/' && styles.active_link
+                }`}
+                to={'/'}
+              >
+                <h3 className={styles.link_text}>about</h3>
+              </NavLink>
+              <NavLink
+                className={`${styles.link_box} ${
+                  path.pathname === '/blogs' && styles.active_link
+                }`}
+                to={'/blogs'}
+              >
+                <h3 className={styles.link_text}>blogs</h3>
+              </NavLink>
               <NavLink
                 className={`${styles.link_box} ${
                   path.pathname === '/login' && styles.active_link
