@@ -1,0 +1,10 @@
+@import '../../assets/sass/mixinns.scss';
+@import '../../assets/sass/variables.scss';
+
+.main_about_box {
+  height: 100%;
+  min-height: calc(100vh - 230px);
+  width: 100%;
+  color: $secondary_font_color;
+  @include flexBox(nowrap, column, center, center);
+}
