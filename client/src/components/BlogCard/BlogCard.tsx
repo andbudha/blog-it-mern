@@ -2,7 +2,7 @@ import styles from './BlogCard.module.scss';
 import { AiOutlineRead } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 import { BlogResponse } from '../../types/common_types';
-import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
+import blogAlternativeImage from '../../assets/images/blog.jpg';
 import { RiThumbUpLine } from 'react-icons/ri';
 import { useContext, useEffect } from 'react';
 import { DataContext } from '../../contexts/DataContext';

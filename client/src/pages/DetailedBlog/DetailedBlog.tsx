@@ -6,7 +6,7 @@ import { PiUserLight } from 'react-icons/pi';
 import { RiThumbUpLine, RiThumbUpFill } from 'react-icons/ri';
 import { FiEdit3 } from 'react-icons/fi';
 import { MdOutlineDelete } from 'react-icons/md';
-import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
+import blogAlternativeImage from '../../assets/images/blog.jpg';
 import { AuthContext } from '../../contexts/AuthContext';
 import { notificationToast } from '../../assets/toasts/notificationToast';
 import { AuthLoader } from '../../components/Loaders/AuthLoader/AuthLoader';
