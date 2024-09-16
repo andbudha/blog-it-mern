@@ -29,7 +29,7 @@ export const About = () => {
           <p className={styles.type_animation}>
             <TypeAnimation
               sequence={[
-                'welcome to blog_it website, a place where you can share your mind as blogs, go through blogs created by others, comment on blogs and add various blogs as your favorites.',
+                'welcome to blog_it website, a place where you can share your mind by creating blogs, go through blogs created by others, comment on blogs and add various blogs as your favorites.',
                 2500,
               ]}
               wrapper="span"
