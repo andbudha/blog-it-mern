@@ -39,7 +39,7 @@ export const About = () => {
           </p>
         </div>
         <div className={styles.blogs_button_box}>
-          <NavLink className={styles.blogs_button} to={'/blogs'}>
+          <NavLink className={styles.blogs_button} to={'/'}>
             blogs
           </NavLink>
         </div>

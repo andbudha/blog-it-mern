@@ -35,8 +35,8 @@ function App() {
           </AuthProvider>
         }
       >
-        <Route index element={<About />} />
-        <Route path="blogs" element={<Blogs />} />
+        <Route index element={<Blogs />} />
+        <Route path="about" element={<About />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route

@@ -35,17 +35,17 @@ export const BurgerMenu = () => {
             <>
               <NavLink
                 className={`${styles.link_box} ${
-                  path.pathname === '/' && styles.active_link
+                  path.pathname === '/about' && styles.active_link
                 }`}
-                to={'/'}
+                to={'/about'}
               >
                 <h3 className={styles.link_text}>about</h3>
               </NavLink>
               <NavLink
                 className={`${styles.link_box} ${
-                  path.pathname === '/blogs' && styles.active_link
+                  path.pathname === '/' && styles.active_link
                 }`}
-                to={'/blogs'}
+                to={'/'}
               >
                 <h3 className={styles.link_text}>blogs</h3>
               </NavLink>
@@ -86,17 +86,17 @@ export const BurgerMenu = () => {
             <>
               <NavLink
                 className={`${styles.link_box} ${
-                  path.pathname === '/' && styles.active_link
+                  path.pathname === '/about' && styles.active_link
                 }`}
-                to={'/'}
+                to={'/about'}
               >
                 <h3 className={styles.link_text}>about</h3>
               </NavLink>
               <NavLink
                 className={`${styles.link_box} ${
-                  path.pathname === '/blogs' && styles.active_link
+                  path.pathname === '/' && styles.active_link
                 }`}
-                to={'/blogs'}
+                to={'/'}
               >
                 <h3 className={styles.link_text}>blogs</h3>
               </NavLink>
