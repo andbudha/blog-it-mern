@@ -2,8 +2,9 @@ import { TypeAnimation } from 'react-type-animation';
 import styles from './About.module.scss';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
-import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
+// import { blogAlternativeImage } from '../../assets/utils/blogAlternativeImage';
 import { NavLink } from 'react-router-dom';
+import blogAlternativeImage from '../../assets/images/blog.jpg';
 
 export const About = () => {
   const { user } = useContext(AuthContext);
